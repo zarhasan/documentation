@@ -571,8 +571,9 @@ function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
             $documents[] = array(
                 'ID'       => $post_id,
                 'title'    => get_the_title($post_id),
-                'permalink' => get_the_permalink(),
+                'permalink' => get_the_permalink($post_id),
                 'children' => $children,
+                'headings' => getHeadingsFromContent($post->post_content),
                 // Add other fields you may need
             );
         }
@@ -608,4 +609,16 @@ function get_document_hierarchy() {
     wp_reset_postdata();
 
     return $document_hierarchy;
+};
+
+
+function getHeadingsFromContent($content) {
+    preg_match_all('/<h2[^>]*>(.*?)<\/h2>/si', $content, $matches);
+
+    $headings = array();
+    foreach ($matches[1] as $heading) {
+        $headings[] = strip_tags($heading);
+    }
+
+    return $headings;
 };
