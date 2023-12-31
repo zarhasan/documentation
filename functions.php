@@ -587,6 +587,7 @@ function get_document_hierarchy() {
         'post_type'      => 'document',
         'posts_per_page' => -1,
         'orderby'        => 'menu_order',
+        'order' => 'ASC',
     );
 
     $query = new WP_Query($args);

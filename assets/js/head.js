@@ -19,7 +19,7 @@ twind.install({
                 "md": "2.5rem",
                 "lg": "2.5rem",
                 "xl": "2.5rem",
-                "2xl": "10rem",
+                "2xl": "5vw",
             }
         },
         extend: {

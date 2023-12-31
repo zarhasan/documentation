@@ -9,8 +9,6 @@
 
 get_header(); 
 
-$documents = get_document_hierarchy();
-
 ?>
 
 <div id="primary" class="content-area">
@@ -19,28 +17,10 @@ $documents = get_document_hierarchy();
 <div class="flex flex-grow self-stretch mb-16">
   <div class="w-3/12 border-r-1 border-gray-300 border-solid min-h-screen p-10 prose">
 
-    <ul>
-        <?php foreach ($documents as $index => $document): ?>
-          <li>
-            <a href="<?php echo esc_attr($document['permalink']); ?>">
-              <?php echo esc_html($document['title']); ?>
-            </a>
-
-              <ul>
-                <?php foreach ($document['headings'] as $index => $heading): ?>
-                  <li>
-                    <a href="#<?php echo sanitize_title($heading); ?>">
-                      <?php echo esc_html($heading); ?>
-                    </a>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
-          </li>
-        <?php endforeach; ?>
-    </ul>
+    <?php get_template_part('template-parts/sidebar'); ?>
   </div>
 
-	<div class="container">
+	<div class="container pt-16">
     <div>
       <h1 class="text-6xl mb-4">
         <?php
