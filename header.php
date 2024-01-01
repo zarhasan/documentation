@@ -61,14 +61,27 @@
 			id="header"
 			x-data="header" 
 			role="banner" 
-			class="relative top-0 left-0 w-full h-32 z-[1001] md:py-4 flex justify-start bg-transparent border-1 border-b-1 border-solid items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
+			class="relative top-0 left-0 w-full h-20 z-[1001] md:py-4 flex justify-start bg-transparent border-1 border-b-1 border-solid items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
 			x-bind:class="[notTop ? '' : '']">
 			
 			<?php get_template_part('template-parts/skip-link'); ?>
 
-			<div class="container">
-				<div class="w-52 flex justify-center items-center when-sm:w-36">
+			<div class="container flex justify-between items-center">
+				<a href="<?php echo site_url(); ?>" class="h-10 flex justify-start items-center">
 					<?php get_template_part('template-parts/header-logo'); ?>
+				</a>
+
+				<form action="" class="w-1/2 h-12 border-1 border-gray-300 border-solid rounded-full flex justify-center items-center px-1 focus-within:outline-2 focus-within:border-gray-900">
+					<input placeholder="Search in documentation" class="w-full h-full outline-none !border-none bg-transparent" type="text">
+					<button class="h-10 w-10 p-2 flex justify-center items-center rounded-full text-gray-600 hover:bg-gray-100">
+						<?php echo documentation_svg('search'); ?>
+					</button>
+				</form>
+
+				<div>
+					<button>
+						<?php echo documentation_svg('moon'); ?>
+					</button>
 				</div>
 			</div>
 	</header>

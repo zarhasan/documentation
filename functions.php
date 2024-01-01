@@ -623,3 +623,52 @@ function getHeadingsFromContent($content) {
 
     return $headings;
 };
+
+function documentation_get_toc($content) {
+    // Match all heading elements (h1 to h6) in the content using a regular expression
+    $pattern = '/<(h[1-6])(.*?)>(.*?)<\/h[1-6]>/i';
+    preg_match_all($pattern, $content, $headings);
+
+    // Check if any headings were found
+    if (!empty($headings[0])) {
+        $toc_list = '<nav role="navigation" class="table-of-contents"><h2>On This Page</h2><ul>';
+        $heading_stack = array();
+
+        // Loop through each heading and add an ID attribute
+        for ($i = 0; $i < count($headings[0]); $i++) {
+            $tag = $headings[1][$i]; // The heading tag (e.g., 'h1', 'h2', etc.)
+            $attributes = $headings[2][$i]; // Any additional attributes in the heading tag
+            $heading_text = $headings[3][$i]; // The text inside the heading
+
+            // Generate an ID using the sanitize_title() function
+            $heading_id = sanitize_title($heading_text);
+
+            // Get the heading level (e.g., 1, 2, etc.)
+            $heading_level = intval(substr($tag, 1));
+
+            while (count($heading_stack) > 0 && end($heading_stack) >= $heading_level) {
+                $toc_list .= '</li></ul>';
+                array_pop($heading_stack);
+            }
+
+            $toc_list .= '<li><a href="#' . $heading_id . '">' . $heading_text . '</a>';
+
+            if (count($heading_stack) === 0 || end($heading_stack) < $heading_level) {
+                $toc_list .= '<ul>';
+                $heading_stack[] = $heading_level;
+            }
+        }
+
+        // Close any remaining nested lists
+        while (count($heading_stack) > 0) {
+            $toc_list .= '</li></ul>';
+            array_pop($heading_stack);
+        }
+
+        $toc_list .= '</ul></nav>';
+
+        return $toc_list;
+    }
+
+    return false;
+};

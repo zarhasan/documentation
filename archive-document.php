@@ -11,16 +11,10 @@ get_header();
 
 ?>
 
-<div id="primary" class="content-area">
-<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
+<div class="container grid grid-cols-12 gap-4 mt-16">
+  <?php get_template_part('template-parts/sidebar'); ?>
 
-<div class="flex flex-grow self-stretch mb-16">
-  <div class="w-3/12 border-r-1 border-gray-300 border-solid min-h-screen p-10 prose">
-
-    <?php get_template_part('template-parts/sidebar'); ?>
-  </div>
-
-	<div class="container pt-16">
+	<div class="col-span-9 pl-8">
     <div>
       <h1 class="text-6xl mb-4">
         <?php
@@ -47,33 +41,32 @@ get_header();
     </div>
     
     <?php if (have_posts()): ?>
-    <div class="posts flex flex-col gap-12 my-12">
+      <div class="flex flex-col gap-12 my-12">
+        <?php 
+          global $wp_query;
 
-      <?php 
-        global $wp_query;
+          while (have_posts()): the_post();
 
-        while (have_posts()): the_post();
+          get_template_part('template-parts/document-item');
 
-        get_template_part('template-parts/post-card', $card_type.get_post_format());
+          endwhile;
+        ?>
+        
+        </div>
 
-        endwhile;
-      ?>
-      
+        <?php if($wp_query->max_num_pages > 1): ?>
+          <?php get_template_part('template-parts/pagination'); ?>
+        <?php endif; ?> 
+
+        <?php 
+          else:
+
+          get_template_part( 'template-parts/content/none');
+        ?>
+
       </div>
 
-      <?php if($wp_query->max_num_pages > 1): ?>
-        <?php get_template_part('template-parts/pagination'); ?>
-      <?php 
-        endif; 
-
-        else:
-
-        get_template_part( 'template-parts/content/none');
-
-        endif;
-      ?>
-
-    </div>
+    <?php endif; ?>
   </div>
 </div>
 

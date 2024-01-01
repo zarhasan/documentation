@@ -12,7 +12,7 @@ $posts_page_id = get_option('page_for_posts');
 <div id="primary" class="content-area">
 	<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
 
-    <div class="container flex-grow self-stretch mb-16">
+    <div class="max-w-2xl mx-auto flex-grow self-stretch mb-16">
 
         <?php if (is_home()): ?>
             <div class="text-center mt-16">
