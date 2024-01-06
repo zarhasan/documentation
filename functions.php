@@ -1,6 +1,7 @@
 <?php
 
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
+require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
 define('PIVOTAL_ACCESSIBILITY_VERSION', '0.0.2');
 
@@ -573,7 +574,7 @@ function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
                 'title'    => get_the_title($post_id),
                 'permalink' => get_the_permalink($post_id),
                 'children' => $children,
-                'headings' => getHeadingsFromContent($post->post_content),
+                'headings' => documentation_get_headings($post->post_content),
                 // Add other fields you may need
             );
         }
@@ -584,7 +585,7 @@ function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
 
 function get_document_hierarchy() {
     $args = array(
-        'post_type'      => 'document',
+        'post_type'      => 'docs',
         'posts_per_page' => -1,
         'orderby'        => 'menu_order',
         'order' => 'ASC',
@@ -672,3 +673,92 @@ function documentation_get_toc($content) {
 
     return false;
 };
+
+
+function documentation_get_headings($content) {
+    $headings = array();
+
+    // Define the regex pattern for matching headings (h1 to h6)
+    $pattern = '/<h([1-6])[^>]*>(.*?)<\/h\1>/i';
+
+    // Perform the regex match
+    preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
+
+    // Iterate through the matches and add to the headings array
+    foreach ($matches as $match) {
+        $headingLevel = $match[1];
+        $headingText = strip_tags($match[2]); // Remove HTML tags from heading text
+        $sanitizedHeading = sanitize_title($headingText);
+        $headings[] = "$sanitizedHeading:$headingText";
+    }
+
+    return $headings;
+}
+
+
+
+if (!function_exists('documentation_get_breadcrumb')) {
+
+    function documentation_get_breadcrumb()
+    {
+        $args = array(
+            'container' => 'nav',
+            'before' => '',
+            'after' => '',
+            'browse_tag' => 'h2',
+            'list_tag' => 'ul',
+            'item_tag' => 'li',
+            'divider' => documentation_svg('chevron-right'),
+            'show_on_front' => true,
+            'network' => false,
+            'show_title' => true,
+            'show_browse' => false,
+            'labels' => array(
+                'browse' => esc_html__('Browse:', 'selleradise-lite'),
+                'aria_label' => esc_attr_x('Breadcrumbs', 'breadcrumbs aria label', 'selleradise-lite'),
+                'aria_label_home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
+                'home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
+                'error_404' => esc_html__('404 Not Found', 'selleradise-lite'),
+                'archives' => esc_html__('Archives', 'selleradise-lite'),
+                // Translators: %s is the search query.
+                'search' => esc_html__('Search results for: %s', 'selleradise-lite'),
+                // Translators: %s is the page number.
+                'paged' => esc_html__('Page %s', 'selleradise-lite'),
+                // Translators: %s is the page number.
+                'paged_comments' => esc_html__('Comment Page %s', 'selleradise-lite'),
+                // Translators: Minute archive title. %s is the minute time format.
+                'archive_minute' => esc_html__('Minute %s', 'selleradise-lite'),
+                // Translators: Weekly archive title. %s is the week date format.
+                'archive_week' => esc_html__('Week %s', 'selleradise-lite'),
+
+                // "%s" is replaced with the translated date/time format.
+                'archive_minute_hour' => '%s',
+                'archive_hour' => '%s',
+                'archive_day' => '%s',
+                'archive_month' => '%s',
+                'archive_year' => '%s',
+            ),
+            'post_taxonomy' => array(
+                // 'post'  => 'post_tag', // 'post' post type and 'post_tag' taxonomy
+                // 'book'  => 'genre',    // 'book' post type and 'genre' taxonomy
+            ),
+            'echo' => true,
+        );
+
+        $breadcrumb = new BreadcrumbsTrail;
+        $breadcrumb->register($args);
+
+        return $breadcrumb->trail();
+    }
+}
+
+
+add_filter('excerpt_length', function($length) {
+    if (is_post_type_archive('docs')) {
+        // Set the desired excerpt length for the 'docs' archive page
+        return 10; // Change this number to your desired length
+    } else {
+        // For other archives, use the default excerpt length
+        return $length;
+    }
+});

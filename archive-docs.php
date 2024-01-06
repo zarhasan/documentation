@@ -11,10 +11,12 @@ get_header();
 
 ?>
 
-<div class="container grid grid-cols-12 gap-4 mt-16">
+<?php get_template_part('template-parts/subheader', 'docs'); ?>
+
+<div class="w-full grid grid-cols-12 gap-4">
   <?php get_template_part('template-parts/sidebar'); ?>
 
-	<div class="col-span-9 pl-8">
+	<div class="col-span-6 pl-8 pt-16">
     <div>
       <h1 class="text-6xl mb-4">
         <?php
@@ -41,13 +43,13 @@ get_header();
     </div>
     
     <?php if (have_posts()): ?>
-      <div class="flex flex-col gap-12 my-12">
+      <div class="grid lg:grid-cols-2 gap-12 my-12">
         <?php 
           global $wp_query;
 
           while (have_posts()): the_post();
 
-          get_template_part('template-parts/document-item');
+          get_template_part('template-parts/docs-item');
 
           endwhile;
         ?>

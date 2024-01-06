@@ -135,8 +135,23 @@ jQuery(document).ready(() => {
         })
     });
 
+
+    function sanitizeTitle(title) {
+        return title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+    }
+
+    $('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
+        if (heading.textContent.trim() !== '') {
+            var slug = sanitizeTitle(heading.textContent);
+
+            heading.setAttribute('id', slug);
+        }
+    });
+
     handleDesktopMenu();
     handleEmbla();
+
+
 });
 
 function handleDesktopMenu() {

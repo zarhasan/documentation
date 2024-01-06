@@ -11,9 +11,9 @@ get_header();
 
 ?>
 
+<?php get_template_part('template-parts/subheader', 'docs'); ?>
 
-<div class="container grid grid-cols-12 gap-4 mt-16">
-
+<div class="w-full grid grid-cols-12 gap-4">
   <?php get_template_part('template-parts/sidebar'); ?>
 	
   <div id="primary" class="col-span-6 px-8">
@@ -22,7 +22,7 @@ get_header();
       while (have_posts()):
         the_post();
 
-        get_template_part( 'template-parts/content', 'document');
+        get_template_part( 'template-parts/content', 'docs');
 
         get_template_part( 'template-parts/document', 'navigation');
 
@@ -37,8 +37,6 @@ get_header();
   </div><!-- #primary -->
 
   <?php get_template_part('template-parts/toc'); ?>
-
-
 </div>
 
 

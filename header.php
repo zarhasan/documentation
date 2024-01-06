@@ -18,9 +18,8 @@
 	<style>
 		:root {
 			--color-primary: <?php echo esc_html(get_theme_mod("color_primary", "#826030")); ?>;
-			--color-primary-800: #8F7145;
-			--color-primary-50: #D9D9D933;
-			--color-primary-100: #E7E1D8;
+			--color-primary-50: <?php echo esc_html(get_theme_mod("color_primary", "#826030").'0d'); ?>;
+			--color-primary-100: <?php echo esc_html(get_theme_mod("color_primary", "#826030").'1a'); ?>;
 			--color-primary-900: <?php echo esc_html(get_theme_mod("color_primary", "#826030").'e6'); ?>;
 			--color-secondary: #A8DADC;
 			--color-accent: #E63946;
@@ -61,26 +60,30 @@
 			id="header"
 			x-data="header" 
 			role="banner" 
-			class="relative top-0 left-0 w-full h-20 z-[1001] md:py-4 flex justify-start bg-transparent border-1 border-b-1 border-solid items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
+			class="relative top-0 left-0 w-full h-24 z-[1001] md:py-4 flex justify-start bg-transparent border-gray-300 border-1 border-b-1 border-solid items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
 			x-bind:class="[notTop ? '' : '']">
 			
 			<?php get_template_part('template-parts/skip-link'); ?>
 
-			<div class="container flex justify-between items-center">
+			<div class="w-full px-10 flex justify-between items-center">
 				<a href="<?php echo site_url(); ?>" class="h-10 flex justify-start items-center">
 					<?php get_template_part('template-parts/header-logo'); ?>
 				</a>
 
-				<form action="" class="w-1/2 h-12 border-1 border-gray-300 border-solid rounded-full flex justify-center items-center px-1 focus-within:outline-2 focus-within:border-gray-900">
-					<input placeholder="Search in documentation" class="w-full h-full outline-none !border-none bg-transparent" type="text">
-					<button class="h-10 w-10 p-2 flex justify-center items-center rounded-full text-gray-600 hover:bg-gray-100">
+				<button class="w-1/2 h-14 bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
 						<?php echo documentation_svg('search'); ?>
-					</button>
-				</form>
+					</span>
+					<span>
+						<?php esc_attr_e('Search In Docs', 'documentation'); ?>
+					</span>
+				</button>
 
 				<div>
-					<button>
-						<?php echo documentation_svg('moon'); ?>
+					<button class="bg-gray-100 border-1 border-solid border-gray-300 w-14 h-14 inline-flex justify-center items-center text-gray-600 rounded-full">
+						<span class="inline-flex justify-center items-center w-6 h-6">
+							<?php echo documentation_svg('moon'); ?>
+						</span>
 					</button>
 				</div>
 			</div>
