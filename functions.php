@@ -113,6 +113,7 @@ function documentation_enqueue_scripts() {
     wp_enqueue_script('embla-autoplay', documentation_assets('js/embla-carousel-autoplay.umd.js'), array(), "8.0.0", true);
     wp_enqueue_script('embla', documentation_assets('js/embla-carousel.umd.js'), array(), "8.0.0", true);
     wp_enqueue_script('toastify', documentation_assets('js/toastify.js'), array(), "5.3.0", true);
+    wp_enqueue_script('uFuzzy', documentation_assets('js/uFuzzy.iife.min.js'), array(), '1.0.14', false);
 
     wp_enqueue_script('documentation-main', documentation_assets('js/main.js'), array('jquery'), documentation_get_version(), true);
     wp_enqueue_style('animxyz', documentation_assets('css/animxyz.min.css'), array(), "0.6.7", 'all');
@@ -122,8 +123,9 @@ function documentation_enqueue_scripts() {
     wp_localize_script('documentation-main', 'documentationData', [
         '_wpnonce' => wp_create_nonce('documentation_ajax'),
         'homeURL' => esc_url(home_url()),
-        'assetsURL' => esc_url(documentation_assets('/')),
-        'ajaxURL' => esc_url(admin_url('admin-ajax.php')),
+        'assetsURL' => documentation_assets('/'),
+        'ajaxURL' => admin_url('admin-ajax.php'),
+        'ajax_url' => admin_url('admin-ajax.php')
     ]);
 
     // Extra
@@ -674,7 +676,6 @@ function documentation_get_toc($content) {
     return false;
 };
 
-
 function documentation_get_headings($content) {
     $headings = array();
 
@@ -689,13 +690,68 @@ function documentation_get_headings($content) {
         $headingLevel = $match[1];
         $headingText = strip_tags($match[2]); // Remove HTML tags from heading text
         $sanitizedHeading = sanitize_title($headingText);
-        $headings[] = "$sanitizedHeading:$headingText";
+        $headings[] = "$headingText";
     }
 
     return $headings;
 }
 
 
+if(!function_exists('documentation_flatten_pages_list')) {
+    function documentation_flatten_pages_list($pages, $parent_title = null) {
+        $titles = [];
+        $paths = [];
+
+        foreach ($pages as $i => $page) {
+            $page_title = $page['title'];
+            $page_path = $page['permalink'];
+
+            if($parent_title != null) {
+                $page_title = $parent_title . ' ➜ ' . $page['title'];
+            }
+
+            $titles[] = $page_title;
+            $paths[] = $page_path;
+
+            if (!empty($page['headings'])) {
+                foreach ($page['headings'] as $j => $heading) {
+                    $titles[] = $page_title . ' ➜ ' . $heading;
+                    $paths[] = $page_path ."#". sanitize_title($heading);
+                };
+            };
+
+            if (!empty($page['children'])) {
+                $recursed = array_merge($titles, documentation_flatten_pages_list($page['children'], $page_title));
+
+                $titles = array_merge($titles, $recursed['titles']);
+                $paths = array_merge($paths, $recursed['paths']);
+            }
+        }
+
+        return [
+            'titles' => $titles,
+            'paths' => $paths
+        ];
+    }
+}
+
+
+add_action('wp_ajax_documentation_get_pages_list', 'documentation_get_pages_list_callback');
+add_action('wp_ajax_nopriv_documentation_get_pages_list', 'documentation_get_pages_list_callback');
+
+function documentation_get_pages_list_callback() {
+    // Ensure the request came from a valid source
+    check_ajax_referer('documentation_ajax', 'security');
+
+    // Your function to get data
+    $pages_list = documentation_flatten_pages_list(get_document_hierarchy());
+
+    // Return the data
+    wp_send_json($pages_list);
+
+    // Don't forget to exit
+    wp_die();
+}
 
 if (!function_exists('documentation_get_breadcrumb')) {
 

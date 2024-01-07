@@ -312,6 +312,22 @@ function announceToScreenReader(text, role, timeout = 1000, once = false) {
 
 
 document.addEventListener("alpine:init", () => {
+    Alpine.store('searchPanel', {
+        isVisible: false,
+
+        toggle() {
+            this.isVisible = !this.isVisible
+        },
+
+        show() {
+            this.isVisible = true
+        },
+
+        hide() {
+            this.isVisible = false
+        }
+    });
+
     Alpine.data("header", () => ({
         scroll: {
             x: 0,
@@ -435,6 +451,114 @@ document.addEventListener("alpine:init", () => {
                 this.focused = false
             }
         }
+    }));
+
+    let titles = [];
+    let paths = [];
+
+    Alpine.data("searchBox", (defaultValue) => ({
+        search: defaultValue || '',
+        resultsVisible: false,
+        searchResults: [],
+        activeResultIndex: -1,
+        selected: null,
+        paths: [],
+        fuzzy: new uFuzzy(),
+        initiating: false,
+
+        async init() {
+            this.initiating = true;
+
+            try {
+                // Perform fetch request when the document is ready
+                const response = await fetch(documentationData.ajax_url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        action: 'documentation_get_pages_list',
+                        security: documentationData._wpnonce, // Nonce value, change it as needed
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    titles = data.titles;
+                    paths = data.paths;
+                }
+
+            } catch (error) {
+                // Handle errors
+                console.error('Error:', error);
+            }
+
+
+            this.initiating = false;
+        },
+
+        searchDebounced() {
+            if (this.search.length < 2) {
+                this.resultsVisible = false;
+                this.searchResults = [];
+                return;
+            }
+
+            this.resultsVisible = true;
+
+            let indexes = this.fuzzy.filter(titles, this.search);
+
+            if (indexes) {
+                this.searchResults = indexes.slice(0, 6).map((idx) => titles[idx]);
+                this.paths = indexes.slice(0, 6).map((idx) => paths[idx]);
+            };
+        },
+
+        selectResult(result) {
+            if (result.tower) {
+                this.search = result.tower;
+            } else if (result.sub_community) {
+                this.search = result.sub_community;
+            } else if (result.community) {
+                this.search = result.community;
+            } else if (result.city) {
+                this.search = result.city;
+            }
+
+            this.resultsVisible = false;
+            this.selected = result
+        },
+
+        handleArrowNavigation(event) {
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (this.activeResultIndex < this.searchResults.length - 1) {
+                    this.activeResultIndex++;
+                }
+
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (this.activeResultIndex > 0) {
+                    this.activeResultIndex--;
+                }
+            }
+        },
+
+
+        isActive(index) {
+            return index === this.activeResultIndex;
+        },
+
+        selectResultWithEnter() {
+            const activeResult = this.searchResults[this.activeResultIndex];
+            if (activeResult) {
+                this.selectResult(activeResult);
+                this.activeResultIndex = -1;
+            } else {
+                this.$refs.form.submit();
+            }
+        },
+
     }));
 
     Alpine.magic('clipboard', () => {

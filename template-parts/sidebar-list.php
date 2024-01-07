@@ -16,7 +16,7 @@ if ($args) {
     <?php foreach ($documents as $index => $document): ?>
       <li>
         <a 
-          class="w-full block rounded-full border-1 hover:bg-gray-100 px-4 py-2 <?php echo get_the_ID() == $document['ID'] ? 'border-primary text-primary bg-primary-100' : 'text-gray-700 border-transparent' ?>" 
+          class="w-full block rounded-full border-1 hover:bg-gray-100 px-4 py-2 <?php echo is_singular('docs') && get_the_ID() === $document['ID'] ? 'border-primary text-primary bg-primary-100' : 'text-gray-700 border-transparent' ?>" 
           href="<?php echo esc_attr($document['permalink']); ?>">
           <?php echo esc_html($document['title']); ?>
         </a>

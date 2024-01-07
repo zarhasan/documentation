@@ -35,6 +35,7 @@ twind.install({
                 "136": "34rem",
                 "144": "36rem",
                 "152": "38rem",
+                "168": "42rem",
             },
             transitionTimingFunction: {
                 'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
