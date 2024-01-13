@@ -27,6 +27,7 @@ twind.install({
                 "primary": "var(--color-primary)",
                 "primary-50": "var(--color-primary-50)",
                 "primary-100": "var(--color-primary-100)",
+                "primary-300": "var(--color-primary-300)",
                 "primary-800": "var(--color-primary-800)",
             },
             spacing: {

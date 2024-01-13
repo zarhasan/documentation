@@ -17,10 +17,11 @@
 
 	<style>
 		:root {
-			--color-primary: <?php echo esc_html(get_theme_mod("color_primary", "#826030")); ?>;
-			--color-primary-50: <?php echo esc_html(get_theme_mod("color_primary", "#826030").'0d'); ?>;
-			--color-primary-100: <?php echo esc_html(get_theme_mod("color_primary", "#826030").'1a'); ?>;
-			--color-primary-900: <?php echo esc_html(get_theme_mod("color_primary", "#826030").'e6'); ?>;
+			--color-primary: <?php echo esc_html(get_theme_mod("color_primary", "#31358A")); ?>;
+			--color-primary-50: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'0d'); ?>;
+			--color-primary-100: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'1a'); ?>;
+			--color-primary-300: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'4D'); ?>;
+			--color-primary-900: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'e6'); ?>;
 			--color-secondary: #A8DADC;
 			--color-accent: #E63946;
 			--color-dark: #21262c;
@@ -50,7 +51,7 @@
 		
 </head>
 
-<body <?php body_class("bg-white bg-contain bg-center"); ?> style="background-image: url('<?php echo documentation_assets('images/background_pattern.png') ?>') ">
+<body <?php body_class(""); ?> >
 
 <?php wp_body_open(); ?>
 

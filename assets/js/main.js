@@ -136,21 +136,41 @@ jQuery(document).ready(() => {
     });
 
 
-    function sanitizeTitle(title) {
-        return title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+    function handleDocsHeadings() {
+
+        const handleTocAnchor = (hash) => {
+            if (hash) {
+                const currentActive = document.querySelector(`.documentation_toc a.active`);
+                const targetElement = document.querySelector(`.documentation_toc a[href="#${hash}"]`);
+
+                if (currentActive) {
+                    currentActive.classList.remove('active');
+                }
+
+                if (targetElement) {
+                    targetElement.classList.add('active'); // Add your desired class
+                }
+            }
+        };
+
+        const updateHash = entry => {
+            if (entry.isIntersecting) {
+                handleTocAnchor(entry.target.id)
+            }
+        };
+
+        const handleIntersection = (entries, observer) => entries.forEach(entry => updateHash(entry));
+
+        const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.5 });
+
+        $('.single-docs .entry-content').find('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
+            observer.observe(heading)
+        });
     }
-
-    $('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
-        if (heading.textContent.trim() !== '') {
-            var slug = sanitizeTitle(heading.textContent);
-
-            heading.setAttribute('id', slug);
-        }
-    });
 
     handleDesktopMenu();
     handleEmbla();
-
+    handleDocsHeadings();
 
 });
 
@@ -515,17 +535,14 @@ document.addEventListener("alpine:init", () => {
         },
 
         selectResult(result) {
-            if (result.tower) {
-                this.search = result.tower;
-            } else if (result.sub_community) {
-                this.search = result.sub_community;
-            } else if (result.community) {
-                this.search = result.community;
-            } else if (result.city) {
-                this.search = result.city;
-            }
+            // this.resultsVisible = false;
 
-            this.resultsVisible = false;
+            const anchors = this.$root.querySelectorAll('#search-results > li > a');
+
+            console.log(this.activeResultIndex, anchors[this.activeResultIndex]);
+
+            anchors[this.activeResultIndex].click();
+
             this.selected = result
         },
 

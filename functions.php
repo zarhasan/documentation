@@ -3,15 +3,23 @@
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('PIVOTAL_ACCESSIBILITY_VERSION', '0.0.2');
+define('DOCUMENTATION_VERSION', '1.0.2');
 
 // Actions
 add_action("after_setup_theme", "documentation_after_setup_theme");
 add_action("wp_enqueue_scripts", "documentation_enqueue_scripts");
 add_action('tgmpa_register', 'documentation_register_required_plugins');
 
+// Actions -> Ajax
+add_action('wp_ajax_documentation_get_pages_list', 'documentation_get_pages_list_callback');
+add_action('wp_ajax_nopriv_documentation_get_pages_list', 'documentation_get_pages_list_callback');
+
+
 // Filters
 add_filter("script_loader_tag", "documentation_add_defer_to_alpine_script", 10, 3);
+add_filter('the_content', 'documentation_add_ids_to_headings');
+
+// Filters -> ACF
 add_filter("acf/settings/save_json", "documentation_acf_json_save_point");
 add_filter("acf/settings/load_json", "documentation_acf_json_load_point");
 
@@ -73,7 +81,7 @@ function documentation_svg($filename, $class = "") {
 }
 
 function documentation_get_version() {
-    $version = PIVOTAL_ACCESSIBILITY_VERSION;
+    $version = DOCUMENTATION_VERSION;
 
     if (!function_exists('wp_get_environment_type')) {
         return $version;
@@ -117,8 +125,9 @@ function documentation_enqueue_scripts() {
 
     wp_enqueue_script('documentation-main', documentation_assets('js/main.js'), array('jquery'), documentation_get_version(), true);
     wp_enqueue_style('animxyz', documentation_assets('css/animxyz.min.css'), array(), "0.6.7", 'all');
+    wp_register_style('documentation-prose', get_template_directory_uri(). '/assets/css/prose.css', array(), documentation_get_version(), 'all');
     wp_enqueue_style('documentation-style', documentation_assets('css/style.css'), array(), documentation_get_version(), 'all');
-   
+    
     // Localize
     wp_localize_script('documentation-main', 'documentationData', [
         '_wpnonce' => wp_create_nonce('documentation_ajax'),
@@ -129,6 +138,10 @@ function documentation_enqueue_scripts() {
     ]);
 
     // Extra
+    if(is_singular()) {
+        wp_enqueue_style('documentation-prose');
+    }
+
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
     }
@@ -696,6 +709,29 @@ function documentation_get_headings($content) {
     return $headings;
 }
 
+function documentation_sanitize_heading_callback($matches) {
+    // Extract the heading level and text
+    $heading_level = $matches[1];
+    $heading_text = strip_tags($matches[2]); // Strip HTML tags from heading text
+
+    // Sanitize the heading text to create a valid ID
+    $sanitized_heading_text = sanitize_title($heading_text);
+
+    // Generate the ID by combining the heading level and sanitized text
+    $heading_id = $sanitized_heading_text;
+
+    // Return the original heading with the added ID
+    return "<h$heading_level id=\"$heading_id\">$matches[2]</h$heading_level>";
+}
+
+function documentation_add_ids_to_headings($content) {
+    $content = preg_replace_callback('/<h([1-6])>(.*?)<\/h\1>/', 'documentation_sanitize_heading_callback', $content);
+
+    return $content;
+}
+
+
+
 
 if(!function_exists('documentation_flatten_pages_list')) {
     function documentation_flatten_pages_list($pages, $parent_title = null) {
@@ -735,9 +771,6 @@ if(!function_exists('documentation_flatten_pages_list')) {
     }
 }
 
-
-add_action('wp_ajax_documentation_get_pages_list', 'documentation_get_pages_list_callback');
-add_action('wp_ajax_nopriv_documentation_get_pages_list', 'documentation_get_pages_list_callback');
 
 function documentation_get_pages_list_callback() {
     // Ensure the request came from a valid source

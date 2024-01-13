@@ -43,6 +43,7 @@ if ($args) {
         aria-autocomplete="list"
         aria-controls="search-results"
         autocomplete="off"
+        style="outline: none !important;"
       >
       <button 
         class="shrink-0 bg-gray-200 text-gray-900 p-2 text-xs font-semibold rounded ml-auto"
@@ -71,11 +72,11 @@ if ($args) {
             x-show="result" 
           > 
             <span class="flex justify-center items-center bg-gray-200 text-gray-700 rounded p-2 mr-4 w-8 h-8">
-              <span x-cloak x-show="paths[index].includes('#')">
+              <span x-cloak x-show="paths[index] && paths[index].includes('#')">
                 <?php echo documentation_svg('hash'); ?>
               </span>
 
-              <span x-show="!paths[index].includes('#')">
+              <span x-show="paths[index] && !paths[index].includes('#')">
                 <?php echo documentation_svg('link'); ?>
               </span>
             </span>
@@ -91,7 +92,7 @@ if ($args) {
       </template>
     </ul>
 
-    <div class="w-full h-auto text-center p-10 text-gray-600 text-sm" x-show="!resultsVisible">
+    <div class="w-full h-auto text-center p-10 text-gray-600 text-sm" x-show="!resultsVisible || searchResults.length < 1">
       <?php esc_html_e('Enter search term to find documents', 'documentation'); ?>
     </div>
 
