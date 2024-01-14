@@ -11,8 +11,8 @@
 
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('mt-4'); ?> >
-	<div class="mt-8">
-		<h1 class="entry-title leading-snug when-sm:text-5xl"><?php the_title(); ?></h1>
+	<div class="mt-8 mb-16">
+		<h1 class="text-7xl entry-title leading-snug"><?php the_title(); ?></h1>
 	</div>
 
 	<?php if(get_post_thumbnail_id()): ?>
@@ -22,9 +22,6 @@
 			</div>
 		</div>
 	<?php endif; ?>
-
-	
-	
 	
 	<div class="entry-content prose">
 		<?php

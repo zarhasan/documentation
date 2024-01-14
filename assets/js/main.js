@@ -544,6 +544,8 @@ document.addEventListener("alpine:init", () => {
             anchors[this.activeResultIndex].click();
 
             this.selected = result
+
+            this.$store.searchPanel.hide()
         },
 
         handleArrowNavigation(event) {

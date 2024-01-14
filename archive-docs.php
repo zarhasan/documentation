@@ -9,16 +9,21 @@
 
 get_header(); 
 
+$documents = get_document_hierarchy();
+
 ?>
 
-<?php get_template_part('template-parts/subheader', 'docs'); ?>
+<?php get_template_part('template-parts/subheader'); ?>
 
-<div class="w-full grid grid-cols-12 gap-4">
-  <?php get_template_part('template-parts/sidebar'); ?>
+<div class="w-full">
 
-	<div class="col-span-6 pl-8 pt-16">
+  <div class="container py-20 grid">
+    <h1 class="text-8xl"><?php esc_html_e( 'Welcome to our comprehensive documentation', 'documentation' ); ?></h1>
+  </div>
+
+	<div class="mt-16 container">
     <div>
-      <h1 class="text-6xl mb-4">
+      <h2 class="text-6xl mb-4">
         <?php
           $archive_title = 'Archive';
           if (is_category()) {
@@ -39,36 +44,16 @@ get_header();
         ?>
 
         <?php echo wp_kses_post($archive_title); ?>
-      </h1>
+      </h2>
     </div>
-    
-    <?php if (have_posts()): ?>
-      <div class="grid lg:grid-cols-2 gap-12 my-12">
-        <?php 
-          global $wp_query;
 
-          while (have_posts()): the_post();
-
-          get_template_part('template-parts/docs-item');
-
-          endwhile;
-        ?>
-        
+    <div class="grid lg:grid-cols-3 gap-8">
+      <?php foreach ($documents as $index => $document): ?>
+        <div class="mt-3">
+          <?php get_template_part('template-parts/docs-item', null, ['document' => $document]); ?>
         </div>
-
-        <?php if($wp_query->max_num_pages > 1): ?>
-          <?php get_template_part('template-parts/pagination'); ?>
-        <?php endif; ?> 
-
-        <?php 
-          else:
-
-          get_template_part( 'template-parts/content/none');
-        ?>
-
-      </div>
-
-    <?php endif; ?>
+      <?php endforeach; ?>
+    </div>
   </div>
 </div>
 

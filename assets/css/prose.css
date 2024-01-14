@@ -388,7 +388,7 @@ a .prose code {
 .prose pre[class*="language-"],
 .prose code[class*="language-"] {
   color: #24292f;
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 500;
   text-shadow: none;
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;

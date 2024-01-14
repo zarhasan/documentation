@@ -10,13 +10,11 @@ if ($args) {
 
 $documents = get_document_hierarchy();
 
-// documentation_dd(documentation_flatten_pages_list($documents));
-
 ?>
 
 
 
-<div x-data class="sticky top-0 col-span-3 border-gray-300 border-solid h-screen pt-16 p-10 self-start">
+<div x-data class="sticky top-0 col-span-3 border-gray-300 border-solid h-screen pt-16 pr-10 self-start when-sm:hidden">
   <button x-on:click="$store.searchPanel.show()" class="inline-flex justify-start items-center px-6 w-full bg-gray-100 border-1 border-gray-300 border-solid h-16 rounded-full">
     <span class="inline-flex justify-center items-center w-6 h-6 mr-4">
       <?php echo documentation_svg('search'); ?>
@@ -24,10 +22,10 @@ $documents = get_document_hierarchy();
     <span><?php esc_html_e('Search In Docs') ?></span>
   </button>
 
-  <ul class="mt-8">
+  <ul class="mt-8 text-lg">
     <?php foreach ($documents as $index => $document): ?>
-      <li class="mt-8">
-        <a class="font-semibold text-lg" href="<?php echo esc_attr($document['permalink']); ?>">
+      <li class="mt-3">
+        <a class="font-semibold <?php echo is_singular('docs') && get_the_ID() === $document['ID'] ? 'text-primary underline' : '' ?>" href="<?php echo esc_attr($document['permalink']); ?>">
           <?php echo esc_html($document['title']); ?>
         </a>
 

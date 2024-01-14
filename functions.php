@@ -3,7 +3,7 @@
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('DOCUMENTATION_VERSION', '1.0.2');
+define('DOCUMENTATION_VERSION', '1.0.3');
 
 // Actions
 add_action("after_setup_theme", "documentation_after_setup_theme");
@@ -190,7 +190,6 @@ function documentation_after_setup_theme() {
     register_nav_menus(array(
         'primary' => esc_html__('Primary', 'documentation'),
         'footer' => esc_html__('Footer', 'documentation'),
-        'legal' => esc_html__('Legal', 'documentation'),
     ));
 }
 
@@ -657,7 +656,7 @@ function documentation_get_toc($content) {
             $heading_text = $headings[3][$i]; // The text inside the heading
 
             // Generate an ID using the sanitize_title() function
-            $heading_id = sanitize_title($heading_text);
+            $heading_id = sanitize_title(strip_tags($heading_text));
 
             // Get the heading level (e.g., 1, 2, etc.)
             $heading_level = intval(substr($tag, 1));

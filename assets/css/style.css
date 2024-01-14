@@ -7,6 +7,7 @@ html {
 }
 
 body[class] {
+    font-family: "Inter";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-feature-settings: "liga" 0;
@@ -81,11 +82,18 @@ input[type="checkbox"] {
     flex-shrink: 0;
 }
 
+h1, h2 {
+    font-family: "EB Garamond";
+    font-weight: 400;
+}
 
-h1,
-h2,
-h3,
-h4 {
+.prose h1,
+.prose h2 {
+    font-family: "Inter";
+    font-weight: 600;
+}
+
+h3, h4 {
     font-weight: 600;
 }
 
@@ -537,7 +545,7 @@ header nav.mobile li.toggled>.menu-toggle {
 
 .documentation_toc ul ul {
     padding-left: 1rem;
-    border-left: 0.1em solid var(--color-gray-300);
+    border-left: 0.1em dashed var(--color-gray-300);
 }
 
 .documentation_toc ul a {

@@ -9,6 +9,8 @@ $posts_page_id = get_option('page_for_posts');
 
 ?>
 
+<?php get_template_part('template-parts/subheader'); ?>
+
 <div id="primary" class="content-area">
 	<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
 

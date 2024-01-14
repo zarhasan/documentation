@@ -16,7 +16,7 @@
 
 <div class="sr-only live-status-region" role="status"></div>
 
-<footer class="mt-16 py-8 border-t-1 border-gray-300 border-solid">
+<footer class="mt-16 py-8 border-t-1 border-gray-300 border-dashed">
   <p class="text-center text-sm text-gray-600">Copyright © <?php echo date('Y') ?> <?php echo bloginfo('name') ?>.</p>
 </footer>
 

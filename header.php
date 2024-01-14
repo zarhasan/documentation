@@ -15,6 +15,10 @@
 	
 	<?php wp_head(); ?>
 
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 	<style>
 		:root {
 			--color-primary: <?php echo esc_html(get_theme_mod("color_primary", "#31358A")); ?>;
@@ -60,8 +64,9 @@
 	<header 
 		id="header"
 		x-data="header" 
+		x-on:keydown.window.ctrl.k.prevent="$store.searchPanel.show()"
 		role="banner" 
-		class="relative top-0 left-0 w-full h-24 z-[1001] md:py-4 flex justify-start bg-transparent border-gray-300 border-1 border-b-1 border-solid items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
+		class="relative top-0 left-0 w-full h-24 z-[1001] md:py-4 flex justify-start bg-transparent border-gray-300 border-1 border-b-1 border-dashed items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
 		x-bind:class="[notTop ? '' : '']">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
@@ -71,14 +76,32 @@
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
-			<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
-				<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
-					<?php echo documentation_svg('search'); ?>
-				</span>
-				<span>
-					<?php esc_attr_e('Search In Docs', 'documentation'); ?>
-				</span>
-			</button>
+			<?php if(is_archive('docs') || is_singular('docs')): ?>
+				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
+						<?php echo documentation_svg('search'); ?>
+					</span>
+					<span>
+						<?php esc_attr_e('Search In Docs', 'documentation'); ?>
+					</span>
+					<span class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full">
+						<?php esc_attr_e('Ctrl + K', 'documentation'); ?>
+					</span>
+				</button>
+			<?php else: ?>
+				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
+						<?php echo documentation_svg('search'); ?>
+					</span>
+					<span>
+						<?php esc_attr_e('Search in posts', 'documentation'); ?>
+					</span>
+
+					<span class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full">
+						<?php esc_attr_e('Ctrl + K', 'documentation'); ?>
+					</span>
+				</button>
+			<?php endif; ?>
 
 			<div>
 				<button class="bg-gray-100 border-1 border-solid border-gray-300 w-14 h-14 inline-flex justify-center items-center text-gray-600 rounded-full">
