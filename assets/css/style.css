@@ -83,8 +83,7 @@ input[type="checkbox"] {
 }
 
 h1, h2 {
-    font-family: "EB Garamond";
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .prose h1,
@@ -536,6 +535,9 @@ header nav.mobile li.toggled>.menu-toggle {
 
 
 /* TOC */
+.documentation_toc ul {
+    direction: ltr;
+}
 
 .documentation_toc h2 {
     font-size: 1.5rem;

@@ -17,6 +17,6 @@ if(!$toc) {
 
 ?>
 
-<div class="documentation_toc col-span-3 h-screen p-10 self-start sticky top-0 overflow-y-scroll when-sm:hidden">
+<div dir="rtl" class="documentation_toc col-span-2 h-screen p-10 self-start text-left sticky top-0 overflow-y-scroll when-sm:hidden">
   <?php echo $toc; ?>
 </div>

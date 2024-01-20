@@ -3,7 +3,7 @@
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('DOCUMENTATION_VERSION', '1.0.3');
+define('DOCUMENTATION_VERSION', '1.0.4');
 
 // Actions
 add_action("after_setup_theme", "documentation_after_setup_theme");
@@ -628,7 +628,7 @@ function get_document_hierarchy() {
 };
 
 
-function getHeadingsFromContent($content) {
+function documentation_get_level_2_headings($content) {
     preg_match_all('/<h2[^>]*>(.*?)<\/h2>/si', $content, $matches);
 
     $headings = array();
@@ -843,6 +843,9 @@ if (!function_exists('documentation_get_breadcrumb')) {
 
 add_filter('excerpt_length', function($length) {
     if (is_post_type_archive('docs')) {
+        // Set the desired excerpt length for the 'docs' archive page
+        return 10; // Change this number to your desired length
+    } else if (get_post_type() === 'post') {
         // Set the desired excerpt length for the 'docs' archive page
         return 10; // Change this number to your desired length
     } else {

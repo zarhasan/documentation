@@ -16,7 +16,7 @@ get_header();
 <div class="w-full grid grid-cols-12 gap-4 px-10">
   <?php get_template_part('template-parts/sidebar'); ?>
 	
-  <div id="primary" class="col-span-6 px-8 when-sm:col-span-12">
+  <div id="primary" class="col-span-7 px-8 when-sm:col-span-12">
     <?php
       /* Start the Loop */
       while (have_posts()):

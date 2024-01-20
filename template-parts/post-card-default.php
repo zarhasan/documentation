@@ -7,54 +7,52 @@ if ($args) {
     extract($args);
 }
 
+$headings = documentation_get_level_2_headings(get_the_content());
+$author_id = get_the_author_meta('ID');
+
 ?>
 
-<article class="relative group">
-    <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-gray-100"></div>
+<article class="relative group border-1 border-gray-300 rounded-xl p-8 flex flex-col overflow-hidden">
+    <?php if(has_post_thumbnail()): ?>
+        <a href="<?php the_permalink(); ?>" class="block w-full h-44 rounded-xl overflow-hidden mb-6 border-gray-300 border-1 border-solid">
+            <?php the_post_thumbnail('large', ['class' => 'w-full h-full object-cover']); ?>
+        </a>
+    <?php endif; ?>
 
-    <svg viewBox="0 0 9 9"
-       class="hidden absolute right-full mr-6 top-2 text-primary md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
-       <circle cx="4.5"
-            cy="4.5"
-            r="4.5"
-            stroke="currentColor"
-            class="fill-white"
-            stroke-width="2">
-        </circle>
-    </svg>
+    <div class="flex flex-col grow gap-2">
+        <a href="<?php the_permalink(); ?>" class="block">
+            <span class="sr-only"><?php esc_html_e('Posted on: ', 'documentation'); ?></span>
+            <?php echo date_i18n('F jS, Y', strtotime(get_the_date())); ?>
+        </a>            
 
-    <div class="relative">
-        <h3 class="text-base font-semibold tracking-tight text-gray-900 pt-8 lg:pt-0">
-            <?php echo esc_html(get_the_title()); ?>
-        </h3>
-        <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 dark:prose-dark line-clamp-2">
-            <p><?php the_excerpt(); ?></p>
+        <h2 class="text-2xl">
+            <a class="block text-gray-800" href="<?php the_permalink(); ?>">
+                <?php the_title(); ?>
+            </a>
+        </h2>
+        <div class="text-lg"><?php the_excerpt(); ?></div>
+
+        <ul class="list-disc pl-4 space-y-1 mb-4">
+            <?php foreach($headings as $index => $heading): ?>
+                <li>
+                    <a class="text-sm font-medium text-primary underline" href="<?php the_permalink(); ?>#<?php echo sanitize_title($heading); ?>">
+                        <?php echo esc_html($heading); ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+        <div class="flex justify-between items-center gap-2 mt-auto font-medium">
+            <button class="w-8 h-8 rounded-full overflow-hidden">
+                <?php echo get_avatar($author_id, 100); ?>
+            </button>
+
+            <a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
+                <?php the_author(); ?>
+            </a>
         </div>
-        <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
-            <dt class="sr-only">Date</dt>
-            <dd class="whitespace-nowrap text-sm leading-6 text-gray-600"><time datetime="2023-12-20T20:00:00.000Z"><?php echo get_the_date('F j, Y'); ?></time></dd>
-        </dl>
     </div>
-  
-    <a class="flex items-center text-sm text-primary font-medium" href="<?php the_permalink(); ?>">
-        <span
-          class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span><span
-          class="relative">
-          Read more
-          <span class="sr-only">, <?php the_title(); ?></span>
-        </span>
 
-        <svg class="relative mt-px overflow-visible ml-2.5 text-sky-300 dark:text-sky-700"
-         width="3"
-         height="6"
-         viewBox="0 0 3 6"
-         fill="none"
-         stroke="currentColor"
-         stroke-width="2"
-         stroke-linecap="round"
-         stroke-linejoin="round">
-            <path d="M0 0L3 3L0 6"></path>
-        </svg>
-    </a>
+    
 </article>
 

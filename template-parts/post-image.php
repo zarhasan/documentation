@@ -24,4 +24,5 @@ if(!$image_id) {
     width="<?php echo esc_attr($image[1] ?? 0); ?>"
     height="<?php echo esc_attr($image[2] ?? 0); ?>"
     alt="<?php echo esc_attr( $image_alt ); ?>"
+    loading="lazy"
 >

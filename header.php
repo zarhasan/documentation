@@ -17,7 +17,7 @@
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 	<style>
 		:root {
@@ -71,13 +71,13 @@
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
 
-		<div class="w-full px-10 flex justify-between items-center">
-			<a href="<?php echo site_url(); ?>" class="h-10 flex justify-start items-center">
+		<div class="w-full px-10 flex justify-between items-center gap-4">
+			<a href="<?php echo site_url(); ?>" class="h-10 flex justify-start items-center when-sm:hidden">
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
 			<?php if(is_archive('docs') || is_singular('docs')): ?>
-				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 grow bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
 					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
 						<?php echo documentation_svg('search'); ?>
 					</span>
@@ -89,7 +89,7 @@
 					</span>
 				</button>
 			<?php else: ?>
-				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 grow bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 when-sm:text-sm focus-within:outline-2 focus-within:border-gray-900">
 					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
 						<?php echo documentation_svg('search'); ?>
 					</span>

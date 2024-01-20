@@ -81,7 +81,11 @@ if ($args) {
               </span>
             </span>
 
-            <span x-text="result"></span>
+            <span class="flex flex-col justify-center gap-2">
+              <span x-text="result.split(' ➜ ').at(-1)"></span>
+              <span class="text-xs" x-text="result"></span>
+            </span>
+
             <span 
               class="shrink-0 bg-gray-100 text-gray-900 p-2 text-xs font-semibold rounded ml-auto"
               x-bind:class="[isActive(index) ? 'opacity-100' : 'opacity-0']">
