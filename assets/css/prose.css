@@ -329,7 +329,7 @@ a .prose code {
   font-weight: 600;
   padding-right: 0.6em;
   padding-bottom: 0.8em;
-  padding-left: 0;
+  padding-left: 0.6em;
 }
 
 .prose table thead tr {
@@ -343,7 +343,7 @@ a .prose code {
 .prose table tbody td {
   vertical-align: baseline;
   padding: 0.8em 0.6em;
-  padding-left: 0;
+  padding-left: 0.6em;
 }
 
 .prose table tbody tr {

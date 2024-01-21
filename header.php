@@ -59,7 +59,7 @@
 
 <?php wp_body_open(); ?>
 
-<div id="page" class="site" x-clock>
+<div id="page" class="site bg-white" x-clock>
 
 	<header 
 		id="header"
@@ -71,37 +71,42 @@
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
 
-		<div class="w-full px-10 flex justify-between items-center gap-4">
+		<div class="w-full px-10 flex justify-start items-center gap-8">
 			<a href="<?php echo site_url(); ?>" class="h-10 flex justify-start items-center when-sm:hidden">
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
-			<?php if(is_archive('docs') || is_singular('docs')): ?>
-				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 grow bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
-					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
-						<?php echo documentation_svg('search'); ?>
-					</span>
-					<span>
-						<?php esc_attr_e('Search In Docs', 'documentation'); ?>
-					</span>
-					<span class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full">
-						<?php esc_attr_e('Ctrl + K', 'documentation'); ?>
-					</span>
-				</button>
-			<?php else: ?>
-				<button x-on:click="$store.searchPanel.show()" class="w-1/2 h-14 grow bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 when-sm:text-sm focus-within:outline-2 focus-within:border-gray-900">
-					<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
-						<?php echo documentation_svg('search'); ?>
-					</span>
-					<span>
-						<?php esc_attr_e('Search in posts', 'documentation'); ?>
-					</span>
+			<button x-on:click="$store.searchPanel.show()" class="lg:max-w-3xl h-14 grow bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+				<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
+					<?php echo documentation_svg('search'); ?>
+				</span>
 
-					<span class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full">
-						<?php esc_attr_e('Ctrl + K', 'documentation'); ?>
+				<?php if(is_archive('docs') || is_singular('docs')): ?>
+					<span>
+						<?php esc_attr_e('Search in docs', 'documentation'); ?>
 					</span>
-				</button>
-			<?php endif; ?>
+				<?php else: ?>
+					<span>
+						<?php esc_attr_e('Search in site', 'documentation'); ?>
+					</span>
+				<?php endif; ?>
+				
+				<span class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full">
+					<?php esc_attr_e('Ctrl + K', 'documentation'); ?>
+				</span>
+			</button>
+			
+			<?php
+				wp_nav_menu(array(
+					'theme_location' => 'primary',
+					'container' => 'nav',
+					'container_class' => 'ml-auto when-sm:hidden',
+					'menu_class' => 'w-full flex justify-start gap-8 font-medium',
+					'menu_id' => '',
+					'fallback_cb' => false,
+					'container_aria_label' => 'Primary',
+				));
+			?>
 
 			<div>
 				<button class="bg-gray-100 border-1 border-solid border-gray-300 w-14 h-14 inline-flex justify-center items-center text-gray-600 rounded-full">
@@ -112,7 +117,11 @@
 			</div>
 		</div>
 
-		<?php get_template_part('template-parts/search-panel'); ?>
+		<?php if(is_archive('docs') || is_singular('docs')): ?>
+			<?php get_template_part('template-parts/search-panel', null, ['ajax_action' => 'documentation_get_documents_list', 'label' => __('Search in docs', 'documentation')]); ?>
+		<?php else: ?>
+			<?php get_template_part('template-parts/search-panel'); ?>
+		<?php endif; ?>
 	</header>
 
 	

@@ -6,7 +6,7 @@
 get_header();
 
 $posts_page_id = get_option('page_for_posts');
-$posts_page_url = get_permalink($posts_page_id);
+$posts_page_url = get_the_permalink($posts_page_id);
 
 $categories = get_categories([
     'type' => 'post',
@@ -28,10 +28,10 @@ if (is_category()) {
 
 <?php get_template_part('template-parts/subheader'); ?>
 
-<div id="primary" class="content-area">
+<div id="primary" class="content-area grid lg:grid-cols-12 px-10">
 	<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
 
-    <div class="px-10 flex-grow self-stretch mb-16 mt-8">
+    <div class="col-span-9 flex-grow self-stretch mb-16 mt-8">
         <?php
             $archive_title = 'Archive';
             if (is_category()) {
@@ -47,7 +47,7 @@ if (is_category()) {
             } elseif (is_tax()) {
                 $archive_title = single_term_title('', false);
             } else if(is_home()) {
-                $archive_title = __('Blog');
+                $archive_title = __('Blog Posts', 'Documentation');
             } else {
                 $archive_title = 'Archive';
             }
@@ -58,7 +58,7 @@ if (is_category()) {
         </h1>
 
         <div class="flex justify-start items-center flex-wrap gap-2 mt-8 when-sm:flex-wrap">
-            <a class="px-6 py-3 rounded-full border-1 border-solid border-gray-300 current:bg-gray-700 current:text-white" href="<?php echo esc_url($posts_page_url); ?>">
+            <a class="px-6 py-3 rounded-full border-1 border-solid border-gray-300 current:bg-gray-700 current:text-white" href="<?php echo esc_url($posts_page_id ? $posts_page_url : home_url()); ?>">
                 <?php esc_html_e('All', 'wpresidence') ?>
             </a>
 
@@ -78,7 +78,7 @@ if (is_category()) {
         </div>
 
         <?php if (have_posts()): ?>
-            <div class="w-full grid lg:grid-cols-4 gap-12 my-12">
+            <div class="w-full grid 2xl:grid-cols-3 lg:grid-cols-2 gap-12 my-12">
                 <?php 
                     global $wp_query;
 
@@ -99,6 +99,10 @@ if (is_category()) {
                 get_template_part('template-parts/pagination'); 
             }
         ?>
+    </div>
+
+    <div class="col-span-3 pl-10 pt-8">
+        <?php get_sidebar(); ?>
     </div>
 </div><!-- #primary -->
 

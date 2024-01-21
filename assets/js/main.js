@@ -476,7 +476,7 @@ document.addEventListener("alpine:init", () => {
     let titles = [];
     let paths = [];
 
-    Alpine.data("searchBox", (defaultValue) => ({
+    Alpine.data("searchBox", (action, defaultValue) => ({
         search: defaultValue || '',
         resultsVisible: false,
         searchResults: [],
@@ -497,7 +497,7 @@ document.addEventListener("alpine:init", () => {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: new URLSearchParams({
-                        action: 'documentation_get_pages_list',
+                        action: action,
                         security: documentationData._wpnonce, // Nonce value, change it as needed
                     }),
                 });
@@ -535,11 +535,7 @@ document.addEventListener("alpine:init", () => {
         },
 
         selectResult(result) {
-            // this.resultsVisible = false;
-
             const anchors = this.$root.querySelectorAll('#search-results > li > a');
-
-            console.log(this.activeResultIndex, anchors[this.activeResultIndex]);
 
             anchors[this.activeResultIndex].click();
 

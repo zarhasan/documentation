@@ -10,7 +10,11 @@
 ?>
 
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('mt-4'); ?> >
+<article id="post-<?php the_ID(); ?>" <?php post_class('mt-8'); ?> >
+	<div class="documentation_breadcrumb">
+    <?php echo documentation_get_breadcrumb(); ?>
+  </div>
+	
 	<div class="mt-2">
 		<h1 class="entry-title leading-snug when-sm:text-5xl"><?php the_title(); ?></h1>
 		<div class="mt-2"><?php the_excerpt(); ?></div>

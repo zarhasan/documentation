@@ -9,6 +9,7 @@
 
 get_header(); ?>
 
+
 <div id="primary" class="content-area container flex justify-start items-stretch flex-wrap">
 	<div class="lg:w-4/6 grow">
 		<?php

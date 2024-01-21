@@ -8,18 +8,21 @@ if ($args) {
     extract($args);
 }
 
+$ajax_action = !empty($ajax_action) ? $ajax_action : 'documentation_get_posts_list';
+$label = !empty($label) ? $label : __('Search in site', 'documentation');
+
 ?>
 
 <div
   x-cloak
   x-trap="$store.searchPanel.isVisible"
   x-show="$store.searchPanel.isVisible"
-  x-data="searchBox()" 
+  x-data="searchBox('<?php echo esc_attr($ajax_action); ?>')" 
   x-transition.opacity
   class="fixed inset-0 w-full h-full z-[9999] bg-[#212121d8] flex justify-center items-start py-20 backdrop-blur-sm">
 
   <form 
-    class="w-full lg:w-1/2 bg-white shadow-lg rounded-xl p-4"
+    class="w-full grow lg:max-w-3xl bg-white shadow-lg rounded-xl p-4"
     action="<?php home_url(); ?>"
     x-on:click.outside="$store.searchPanel.hide()">
 
@@ -30,7 +33,7 @@ if ($args) {
 
       <input 
         class="flex w-full !h-14 !border-none rounded-xl px-6 grow bg-transparent !outline-0"
-        placeholder="<?php esc_html_e('Search in docs') ?>"
+        placeholder="<?php echo esc_html($label); ?>"
         name="query"
         type="search"
         x-ref="searchInput"
@@ -66,12 +69,12 @@ if ($args) {
           x-on:click="selectResult(result)" 
           >
           <a 
-            class="flex justify-start items-center bg-gray-100 text-gray-700 px-4 py-4 text-sm font-medium rounded-xl w-full transition-all duration-200 ease-out-expo selected:bg-primary selected:text-white hover:bg-primary hover:text-white"
+            class="flex justify-start items-center bg-gray-100 text-gray-700 px-4 py-4 text-sm font-medium rounded-xl overflow-hidden w-full transition-all duration-200 ease-out-expo selected:bg-primary selected:text-white hover:bg-primary hover:text-white"
             x-bind:aria-selected="isActive(index)"
             x-bind:href="paths[index]" 
             x-show="result" 
           > 
-            <span class="flex justify-center items-center bg-gray-200 text-gray-700 rounded p-2 mr-4 w-8 h-8">
+            <span class="flex justify-center items-center bg-gray-200 text-gray-700 rounded p-2 mr-4 w-8 h-8 shrink-0">
               <span x-cloak x-show="paths[index] && paths[index].includes('#')">
                 <?php echo documentation_svg('hash'); ?>
               </span>
@@ -101,7 +104,7 @@ if ($args) {
     </div>
 
     <div class="w-full bg-gray-100 py-2 px-4 text-gray-600 rounded-xl mt-4">
-      Use <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-narrow-up') ?></span> <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-narrow-down') ?></span> to navigate
+      Use <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-narrow-up') ?></span> <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-narrow-down') ?></span> to navigate and press <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-back') ?></span> to select
     </div>
   </form>
 </div>

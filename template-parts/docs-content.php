@@ -10,9 +10,9 @@
 ?>
 
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('mt-4'); ?> >
+<article id="post-<?php the_ID(); ?>" <?php post_class(''); ?> >
 	<div class="mt-8 mb-16">
-		<h1 class="text-7xl entry-title leading-snug"><?php the_title(); ?></h1>
+		<h1 class="text-7xl entry-title"><?php the_title(); ?></h1>
 	</div>
 
 	<?php if(get_post_thumbnail_id()): ?>

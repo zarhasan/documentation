@@ -12,7 +12,7 @@ $author_id = get_the_author_meta('ID');
 
 ?>
 
-<article class="relative group border-1 border-gray-300 rounded-xl p-8 flex flex-col overflow-hidden">
+<article class="relative group border-1 border-gray-300 rounded-xl p-6 flex flex-col overflow-hidden">
     <?php if(has_post_thumbnail()): ?>
         <a href="<?php the_permalink(); ?>" class="block w-full h-44 rounded-xl overflow-hidden mb-6 border-gray-300 border-1 border-solid">
             <?php the_post_thumbnail('large', ['class' => 'w-full h-full object-cover']); ?>

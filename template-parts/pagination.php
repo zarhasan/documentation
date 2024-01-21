@@ -13,7 +13,7 @@ if(!$wp_query) {
 
 ?>
 
-<div class="documentation_pagination">
+<div class="documentation_pagination flex justify-center items-center">
     <?php
         $args = [
             'base'		=> str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
@@ -25,8 +25,8 @@ if(!$wp_query) {
             'end_size'	=> 0,
             'mid_size'	=> 2,
             'prev_next' => true,
-            'prev_text'	=> documentation_svg('chevron-left')."Previous",
-            'next_text'	=> "Next".documentation_svg('chevron-right'),
+            'prev_text'	=> documentation_svg('chevron-left').'<span class="sr-only">'.__('Previous', 'documentation').'</span>',
+            'next_text'	=> '<span class="sr-only">'.__('Next', 'documentation').'</span>'.documentation_svg('chevron-right'),
             'add_args'	=> false,
             'add_fragment' => '',
             'aria_current' => "page",

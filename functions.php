@@ -1,19 +1,25 @@
 <?php
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('DOCUMENTATION_VERSION', '1.0.4');
+define('DOCUMENTATION_VERSION', '1.0.5');
+define('DOCUMENTATION_JOIN_SYMBOL', ' ➜ ');
 
 // Actions
 add_action("after_setup_theme", "documentation_after_setup_theme");
 add_action("wp_enqueue_scripts", "documentation_enqueue_scripts");
 add_action('tgmpa_register', 'documentation_register_required_plugins');
+add_action('widgets_init', 'documentation_widgets_init');
 
 // Actions -> Ajax
-add_action('wp_ajax_documentation_get_pages_list', 'documentation_get_pages_list_callback');
-add_action('wp_ajax_nopriv_documentation_get_pages_list', 'documentation_get_pages_list_callback');
+add_action('wp_ajax_documentation_get_documents_list', 'documentation_get_documents_list_callback');
+add_action('wp_ajax_nopriv_documentation_get_documents_list', 'documentation_get_documents_list_callback');
 
+add_action('wp_ajax_documentation_get_posts_list', 'documentation_get_posts_list_callback');
+add_action('wp_ajax_nopriv_documentation_get_posts_list', 'documentation_get_posts_list_callback');
 
 // Filters
 add_filter("script_loader_tag", "documentation_add_defer_to_alpine_script", 10, 3);
@@ -600,7 +606,7 @@ function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
 function get_document_hierarchy() {
     $args = array(
         'post_type'      => 'docs',
-        'posts_per_page' => -1,
+        'posts_per_page' => 10000,
         'orderby'        => 'menu_order',
         'order' => 'ASC',
     );
@@ -724,6 +730,10 @@ function documentation_sanitize_heading_callback($matches) {
 }
 
 function documentation_add_ids_to_headings($content) {
+    if(get_post_type() != 'post' || get_post_type() != 'docs') {
+        return $content;
+    }
+
     $content = preg_replace_callback('/<h([1-6])>(.*?)<\/h\1>/', 'documentation_sanitize_heading_callback', $content);
 
     return $content;
@@ -742,7 +752,7 @@ if(!function_exists('documentation_flatten_pages_list')) {
             $page_path = $page['permalink'];
 
             if($parent_title != null) {
-                $page_title = $parent_title . ' ➜ ' . $page['title'];
+                $page_title = $parent_title . DOCUMENTATION_JOIN_SYMBOL . $page['title'];
             }
 
             $titles[] = $page_title;
@@ -750,7 +760,7 @@ if(!function_exists('documentation_flatten_pages_list')) {
 
             if (!empty($page['headings'])) {
                 foreach ($page['headings'] as $j => $heading) {
-                    $titles[] = $page_title . ' ➜ ' . $heading;
+                    $titles[] = $page_title . DOCUMENTATION_JOIN_SYMBOL . $heading;
                     $paths[] = $page_path ."#". sanitize_title($heading);
                 };
             };
@@ -771,19 +781,106 @@ if(!function_exists('documentation_flatten_pages_list')) {
 }
 
 
-function documentation_get_pages_list_callback() {
+function documentation_get_documents_list_callback() {
     // Ensure the request came from a valid source
     check_ajax_referer('documentation_ajax', 'security');
 
-    // Your function to get data
-    $pages_list = documentation_flatten_pages_list(get_document_hierarchy());
+    $list = documentation_get_file_cache('public_documents_haystack');
 
-    // Return the data
-    wp_send_json($pages_list);
+    if(!empty($list)) {
+        wp_send_json($list);
+        wp_die();
+    }
+
+    // Your function to get data
+    $list = documentation_flatten_pages_list(get_document_hierarchy());
+    
+
+    documentation_set_file_cache('public_documents_haystack', $list);
+
+    wp_send_json($list);
 
     // Don't forget to exit
     wp_die();
 }
+
+function documentation_get_posts_list_callback() {
+    // Ensure the request came from a valid source
+    check_ajax_referer('documentation_ajax', 'security');
+
+    $list = documentation_get_file_cache('public_posts_haystack');
+
+    if(!empty($list)) {
+        wp_send_json($list);
+        wp_die();
+    }
+
+    $post_types = get_post_types();
+
+    $searchable_post_types = array_filter($post_types, function ($post_type) {
+        $args = get_post_type_object($post_type);
+        return isset($args->publicly_queryable) && $args->publicly_queryable && isset($args->exclude_from_search) && !$args->exclude_from_search;
+    });
+
+    $list = [
+        "titles" => [],
+        "paths" => []
+    ];
+
+    $args = [
+        'post_type'      => 'any',
+        'public'       => true,
+        'exclude_from_search' => false,
+        '_builtin'     => false,  
+        'posts_per_page' => 10000,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ];
+
+    $query = new WP_Query($args);
+
+    if (!$query->have_posts()) {
+       wp_send_json($list);
+    }
+
+    foreach ($query->posts as $post) {
+        $post_type = get_post_type($post->ID);
+        $post_type_labels = get_post_type_labels(get_post_type_object($post_type));
+
+        $list['titles'][] = $post_type_labels->name. DOCUMENTATION_JOIN_SYMBOL .get_the_title($post->ID);
+        $list['paths'][] = get_the_permalink($post->ID);
+    }
+
+    documentation_set_file_cache('public_posts_haystack', $list);
+
+    // Return the data
+    wp_send_json($list);
+
+    // Don't forget to exit
+    wp_die();
+}
+
+function documentation_set_file_cache($cacheKey, $value, $cacheDir  =  WP_CONTENT_DIR . '/documentation-cache/') {
+    if (!file_exists($cacheDir)) {
+        mkdir($cacheDir, 0755, true);
+    }
+
+    $cacheFile = rtrim($cacheDir, '/') . '/' . md5($cacheKey) . '.json';
+
+    file_put_contents($cacheFile, json_encode($value));
+}
+
+function documentation_get_file_cache($cacheKey, $expiration = HOUR_IN_SECONDS, $cacheDir =  WP_CONTENT_DIR . '/documentation-cache/') {
+    $cacheFile = rtrim($cacheDir, '/') . '/' . md5($cacheKey) . '.json';
+
+    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $expiration) {
+        $cachedData = file_get_contents($cacheFile);
+        return json_decode($cachedData, true);
+    } else {
+        return array();
+    }
+}
+
 
 if (!function_exists('documentation_get_breadcrumb')) {
 
@@ -853,3 +950,16 @@ add_filter('excerpt_length', function($length) {
         return $length;
     }
 });
+
+
+function documentation_widgets_init() {
+    register_sidebar(array(
+        'name' => esc_html__('Sidebar', '[TEXT_DOMAIN]'),
+        'id' => 'documentation-blog-sidebar',
+        'description' => esc_html__('Default sidebar to add all your widgets.', '[TEXT_DOMAIN]'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget' => '</section>',
+        'before_title' => '<h2 class="widget-title">',
+        'after_title' => '</h2>',
+    ));
+}
