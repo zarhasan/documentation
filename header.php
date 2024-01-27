@@ -20,12 +20,15 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 	<style>
-		:root {
+		body {
 			--color-primary: <?php echo esc_html(get_theme_mod("color_primary", "#31358A")); ?>;
 			--color-primary-50: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'0d'); ?>;
 			--color-primary-100: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'1a'); ?>;
 			--color-primary-300: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'4D'); ?>;
 			--color-primary-900: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'e6'); ?>;
+			
+			--color-primary-foreground: <?php echo esc_html(get_theme_mod("color_primary_foreground", "#fff")); ?>;
+
 			--color-secondary: #A8DADC;
 			--color-accent: #E63946;
 			--color-dark: #21262c;
@@ -35,6 +38,7 @@
 			--color-red-300: #fca5a5;
 			--color-red-700: #b91c1c;
 
+			--color-gray-0: #ffffff;
 			--color-gray-50: #f9fafb;
 			--color-gray-100: #f3f4f6;
 			--color-gray-200: #e5e7eb;
@@ -45,28 +49,47 @@
 			--color-gray-700: #374151;
 			--color-gray-800: #1f2937;
 			--color-gray-900: #111827;
-			--color-gray-950: #030712;
+			--color-gray-1000: #030712;
 
 			--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 			--font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 			--line-height: 1.6;
 		}
+
+		body[data-color-scheme="dark"] {
+			--color-gray-0: #030712;
+			--color-gray-50: #111827;
+			--color-gray-100: #1f2937;
+			--color-gray-200: #374151;
+			--color-gray-300: #4b5563;
+			--color-gray-400: #6b7280;
+			--color-gray-500: #9ca3af;
+			--color-gray-600: #d1d5db;
+			--color-gray-700: #e5e7eb;
+			--color-gray-800: #f3f4f6;
+			--color-gray-900: #f9fafb;
+			--color-gray-1000: #ffffff;
+		}
 	</style>
 		
 </head>
 
-<body <?php body_class(""); ?> >
+<body 
+	<?php body_class("bg-gray-0 text-gray-1000"); ?> 
+	x-cloak 
+	x-data 
+	x-bind:data-color-scheme="$store.colorScheme.name">
 
 <?php wp_body_open(); ?>
 
-<div id="page" class="site bg-white" x-clock>
+<div id="page" class="site" x-clock>
 
 	<header 
 		id="header"
 		x-data="header" 
 		x-on:keydown.window.ctrl.k.prevent="$store.searchPanel.show()"
 		role="banner" 
-		class="relative top-0 left-0 w-full h-24 z-[1001] md:py-4 flex justify-start bg-transparent border-gray-300 border-1 border-b-1 border-dashed items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
+		class="relative top-0 left-0 w-full h-24 z-[1001] md:py-4 flex justify-start bg-transparent border-gray-300 border-b-1 border-b-1 border-dashed items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
 		x-bind:class="[notTop ? '' : '']">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
@@ -109,7 +132,7 @@
 			?>
 
 			<div>
-				<button class="bg-gray-100 border-1 border-solid border-gray-300 w-14 h-14 inline-flex justify-center items-center text-gray-600 rounded-full">
+				<button x-on:click="$store.colorScheme.toggle()" class="bg-gray-100 border-1 border-solid border-gray-300 w-14 h-14 inline-flex justify-center items-center text-gray-600 rounded-full">
 					<span class="inline-flex justify-center items-center w-6 h-6">
 						<?php echo documentation_svg('moon'); ?>
 					</span>

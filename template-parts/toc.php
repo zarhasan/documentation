@@ -17,7 +17,7 @@ if(!$toc) {
 
 ?>
 
-<div dir="rtl" class="documentation_toc col-span-2 h-screen p-10 self-start text-left sticky top-0 overflow-y-scroll when-sm:hidden">
+<div dir="rtl" class="documentation_toc col-span-2 h-screen py-10 pl-10 self-start text-left sticky top-0 overflow-y-scroll when-sm:hidden">
   <?php echo $toc; ?>
 
   <a class="inline-flex mt-8 text-sm font-semibold text-primary bg-primary-50 px-4 py-2 border-1 border-primary border-solid rounded-full" href="#header">

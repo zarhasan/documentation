@@ -1,12 +1,13 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('DOCUMENTATION_VERSION', '1.0.5');
+define('DOCUMENTATION_VERSION', '1.0.6');
 define('DOCUMENTATION_JOIN_SYMBOL', ' ➜ ');
+define('DOCUMENTATION_CACHE_DIR',  WP_CONTENT_DIR . '/cache/documentation/');
 
 // Actions
 add_action("after_setup_theme", "documentation_after_setup_theme");
@@ -29,6 +30,8 @@ add_filter('the_content', 'documentation_add_ids_to_headings');
 add_filter("acf/settings/save_json", "documentation_acf_json_save_point");
 add_filter("acf/settings/load_json", "documentation_acf_json_load_point");
 
+
+// <Helpers>
 
 function documentation_dd() {
     echo '<pre>';
@@ -103,56 +106,9 @@ function documentation_get_version() {
     return $version;
 }
 
-function documentation_add_defer_to_alpine_script($tag, $handle, $src) {
-    $defer_scripts = array('documentation-alpine', 'documentation-alpine-focus', 'documentation-alpine-collapse', 'documentation-alpine-intersect');
+// </Helpers>
 
-    if (in_array($handle, $defer_scripts)) {
-        return str_replace(' src', ' defer src', $tag);
-    }
-
-    return $tag;
-}
-
-
-function documentation_enqueue_scripts() {
-    // Scripts
-    wp_enqueue_script('documentation-alpine-focus', documentation_assets('js/alpine-focus.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-alpine-collapse', documentation_assets('js/alpine-collapse.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-alpine-intersect', documentation_assets('js/alpine-intersect.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-alpine', documentation_assets('js/alpine.min.js'), array(), documentation_get_version(), false);
-
-    wp_enqueue_script('documentation-twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
-    wp_add_inline_script('documentation-twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
-
-    wp_enqueue_script('embla-autoplay', documentation_assets('js/embla-carousel-autoplay.umd.js'), array(), "8.0.0", true);
-    wp_enqueue_script('embla', documentation_assets('js/embla-carousel.umd.js'), array(), "8.0.0", true);
-    wp_enqueue_script('toastify', documentation_assets('js/toastify.js'), array(), "5.3.0", true);
-    wp_enqueue_script('uFuzzy', documentation_assets('js/uFuzzy.iife.min.js'), array(), '1.0.14', false);
-
-    wp_enqueue_script('documentation-main', documentation_assets('js/main.js'), array('jquery'), documentation_get_version(), true);
-    wp_enqueue_style('animxyz', documentation_assets('css/animxyz.min.css'), array(), "0.6.7", 'all');
-    wp_register_style('documentation-prose', get_template_directory_uri(). '/assets/css/prose.css', array(), documentation_get_version(), 'all');
-    wp_enqueue_style('documentation-style', documentation_assets('css/style.css'), array(), documentation_get_version(), 'all');
-    
-    // Localize
-    wp_localize_script('documentation-main', 'documentationData', [
-        '_wpnonce' => wp_create_nonce('documentation_ajax'),
-        'homeURL' => esc_url(home_url()),
-        'assetsURL' => documentation_assets('/'),
-        'ajaxURL' => admin_url('admin-ajax.php'),
-        'ajax_url' => admin_url('admin-ajax.php')
-    ]);
-
-    // Extra
-    if(is_singular()) {
-        wp_enqueue_style('documentation-prose');
-    }
-
-    if (is_singular() && comments_open() && get_option('thread_comments')) {
-        wp_enqueue_script('comment-reply');
-    }
-}
-
+// <Actions>
 
 function documentation_after_setup_theme() {
     /*
@@ -200,6 +156,214 @@ function documentation_after_setup_theme() {
 }
 
 
+function documentation_enqueue_scripts() {
+    // Scripts
+    wp_enqueue_script('documentation-alpine-focus', documentation_assets('js/alpine-focus.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('documentation-alpine-collapse', documentation_assets('js/alpine-collapse.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('documentation-alpine-intersect', documentation_assets('js/alpine-intersect.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('documentation-alpine', documentation_assets('js/alpine.min.js'), array(), documentation_get_version(), false);
+
+    wp_enqueue_script('documentation-twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
+    wp_add_inline_script('documentation-twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
+
+    wp_enqueue_script('embla-autoplay', documentation_assets('js/embla-carousel-autoplay.umd.js'), array(), "8.0.0", true);
+    wp_enqueue_script('embla', documentation_assets('js/embla-carousel.umd.js'), array(), "8.0.0", true);
+    wp_enqueue_script('toastify', documentation_assets('js/toastify.js'), array(), "5.3.0", true);
+    wp_enqueue_script('uFuzzy', documentation_assets('js/uFuzzy.iife.min.js'), array(), '1.0.14', false);
+
+    wp_enqueue_script('documentation-main', documentation_assets('js/main.js'), array('jquery'), documentation_get_version(), true);
+    wp_enqueue_style('animxyz', documentation_assets('css/animxyz.min.css'), array(), "0.6.7", 'all');
+    wp_register_style('documentation-prose', get_template_directory_uri(). '/assets/css/prose.css', array(), documentation_get_version(), 'all');
+    wp_enqueue_style('documentation-style', documentation_assets('css/style.css'), array(), documentation_get_version(), 'all');
+    
+    // Localize
+    wp_localize_script('documentation-main', 'documentationData', [
+        '_wpnonce' => wp_create_nonce('documentation_ajax'),
+        'homeURL' => esc_url(home_url()),
+        'assetsURL' => documentation_assets('/'),
+        'ajaxURL' => admin_url('admin-ajax.php'),
+        'ajax_url' => admin_url('admin-ajax.php')
+    ]);
+
+    // Extra
+    if(is_singular()) {
+        wp_enqueue_style('documentation-prose');
+    }
+
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
+}
+
+
+function documentation_register_required_plugins() {
+    $plugins = array(
+        array(
+            'name'      => 'Advanced Custom Fields (ACF)',
+            'slug'      => 'advanced-custom-fields',
+            'required'  => false,
+        ),
+        array(
+            'name'      => 'Nested Pages',
+            'slug'      => 'wp-nested-pages',
+            'required'  => false,
+        ),
+        array(
+            'name'      => 'WP Githuber MD',
+            'slug'      => 'wp-githuber-md',
+            'required'  => false,
+        )
+    );
+
+    $config = array(
+        'id'           => 'documentation', // Unique ID for TGMPA
+        'default_path' => '',
+        'menu'         => 'tgmpa-install-plugins', // Menu slug
+        'parent_slug'  => 'themes.php',
+        'capability'   => 'edit_theme_options',
+        'has_notices'  => true,
+        'dismissable'  => true,
+        'dismiss_msg'  => '', // Customize the dismissal message
+        'is_automatic' => true,
+        'message'      => '', // Customize the notice message
+    );
+
+    tgmpa($plugins, $config);
+}
+
+function documentation_widgets_init() {
+    register_sidebar(array(
+        'name' => esc_html__('Sidebar', '[TEXT_DOMAIN]'),
+        'id' => 'documentation-blog-sidebar',
+        'description' => esc_html__('Default sidebar to add all your widgets.', '[TEXT_DOMAIN]'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget' => '</section>',
+        'before_title' => '<h2 class="widget-title">',
+        'after_title' => '</h2>',
+    ));
+}
+
+// </Actions>
+
+
+// <Filters>
+
+function documentation_get_documents_list_callback() {
+    // Ensure the request came from a valid source
+    check_ajax_referer('documentation_ajax', 'security');
+
+    $list = documentation_get_file_cache('public_documents_haystack', HOUR_IN_SECONDS * 1);
+
+    if(!empty($list)) {
+        wp_send_json($list);
+        wp_die();
+    }
+
+    // Your function to get data
+    $list = documentation_flatten_pages_list(get_document_hierarchy());
+    
+
+    documentation_set_file_cache('public_documents_haystack', $list);
+
+    wp_send_json($list);
+
+    // Don't forget to exit
+    wp_die();
+}
+
+function documentation_get_posts_list_callback() {
+    // Ensure the request came from a valid source
+    check_ajax_referer('documentation_ajax', 'security');
+
+    $list = documentation_get_file_cache('public_posts_haystack', HOUR_IN_SECONDS * 1);
+
+    if(!empty($list)) {
+        wp_send_json($list);
+        wp_die();
+    }
+
+    $post_types = get_post_types();
+
+    $searchable_post_types = array_filter($post_types, function ($post_type) {
+        $args = get_post_type_object($post_type);
+        return isset($args->publicly_queryable) && $args->publicly_queryable && isset($args->exclude_from_search) && !$args->exclude_from_search;
+    });
+
+    $list = [
+        "titles" => [],
+        "paths" => []
+    ];
+
+    $args = [
+        'post_type'      => 'any',
+        'public'       => true,
+        'exclude_from_search' => false,
+        '_builtin'     => false,  
+        'posts_per_page' => 10000,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ];
+
+    $query = new WP_Query($args);
+
+    if (!$query->have_posts()) {
+       wp_send_json($list);
+    }
+
+    foreach ($query->posts as $post) {
+        $post_type = get_post_type($post->ID);
+        $post_type_labels = get_post_type_labels(get_post_type_object($post_type));
+
+        $list['titles'][] = $post_type_labels->name. DOCUMENTATION_JOIN_SYMBOL .get_the_title($post->ID);
+        $list['paths'][] = get_the_permalink($post->ID);
+    }
+
+    documentation_set_file_cache('public_posts_haystack', $list);
+
+    // Return the data
+    wp_send_json($list);
+
+    // Don't forget to exit
+    wp_die();
+}
+
+
+function documentation_add_defer_to_alpine_script($tag, $handle, $src) {
+    $defer_scripts = array('documentation-alpine', 'documentation-alpine-focus', 'documentation-alpine-collapse', 'documentation-alpine-intersect');
+
+    if (in_array($handle, $defer_scripts)) {
+        return str_replace(' src', ' defer src', $tag);
+    }
+
+    return $tag;
+}
+
+
+function documentation_add_ids_to_headings($content) {
+    if(get_post_type() == 'post' || get_post_type() == 'docs') {
+        $content = preg_replace_callback('/<h([1-6])>(.*?)<\/h\1>/', 'documentation_sanitize_heading_callback', $content);
+    }
+
+    return $content;
+}
+
+function documentation_acf_json_save_point( $path ) {
+    return get_template_directory() . '/acf-json';
+}
+
+function documentation_acf_json_load_point( $paths ) {
+    // Remove the original path (optional).
+    unset($paths[0]);
+
+    // Append the new path and return it.
+    $paths[] = get_template_directory() . '/acf-json';
+
+    return $paths;
+}
+
+// </Filters>
+
+
 function documentation_kses_ruleset() {
     $kses_defaults = wp_kses_allowed_html('post');
 
@@ -238,57 +402,6 @@ function documentation_kses_ruleset() {
     );
 
     return array_merge($kses_defaults, $svg_args);
-}
-
-
-function documentation_acf_json_save_point( $path ) {
-    return get_template_directory() . '/acf-json';
-}
-
-function documentation_acf_json_load_point( $paths ) {
-    // Remove the original path (optional).
-    unset($paths[0]);
-
-    // Append the new path and return it.
-    $paths[] = get_template_directory() . '/acf-json';
-
-    return $paths;
-}
-
-
-function documentation_register_required_plugins() {
-    $plugins = array(
-        array(
-            'name'      => 'Advanced Custom Fields (ACF)',
-            'slug'      => 'advanced-custom-fields',
-            'required'  => false,
-        ),
-        array(
-            'name'      => 'Nested Pages',
-            'slug'      => 'wp-nested-pages',
-            'required'  => false,
-        ),
-        array(
-            'name'      => 'WP Githuber MD',
-            'slug'      => 'wp-githuber-md',
-            'required'  => false,
-        )
-    );
-
-    $config = array(
-        'id'           => 'documentation', // Unique ID for TGMPA
-        'default_path' => '',
-        'menu'         => 'tgmpa-install-plugins', // Menu slug
-        'parent_slug'  => 'themes.php',
-        'capability'   => 'edit_theme_options',
-        'has_notices'  => true,
-        'dismissable'  => true,
-        'dismiss_msg'  => '', // Customize the dismissal message
-        'is_automatic' => true,
-        'message'      => '', // Customize the notice message
-    );
-
-    tgmpa($plugins, $config);
 }
 
 class Pivotal_Accessibility_Nav_Walker extends Walker_Nav_Menu {
@@ -672,7 +785,7 @@ function documentation_get_toc($content) {
                 array_pop($heading_stack);
             }
 
-            $toc_list .= '<li><a href="#' . $heading_id . '">' . $heading_text . '</a>';
+            $toc_list .= '<li><a href="#' . $heading_id . '">' . strip_tags($heading_text) . '</a>';
 
             if (count($heading_stack) === 0 || end($heading_stack) < $heading_level) {
                 $toc_list .= '<ul>';
@@ -729,19 +842,6 @@ function documentation_sanitize_heading_callback($matches) {
     return "<h$heading_level id=\"$heading_id\">$matches[2]</h$heading_level>";
 }
 
-function documentation_add_ids_to_headings($content) {
-    if(get_post_type() != 'post' || get_post_type() != 'docs') {
-        return $content;
-    }
-
-    $content = preg_replace_callback('/<h([1-6])>(.*?)<\/h\1>/', 'documentation_sanitize_heading_callback', $content);
-
-    return $content;
-}
-
-
-
-
 if(!function_exists('documentation_flatten_pages_list')) {
     function documentation_flatten_pages_list($pages, $parent_title = null) {
         $titles = [];
@@ -780,105 +880,49 @@ if(!function_exists('documentation_flatten_pages_list')) {
     }
 }
 
-
-function documentation_get_documents_list_callback() {
-    // Ensure the request came from a valid source
-    check_ajax_referer('documentation_ajax', 'security');
-
-    $list = documentation_get_file_cache('public_documents_haystack');
-
-    if(!empty($list)) {
-        wp_send_json($list);
-        wp_die();
+function documentation_set_file_cache($key, $data) {
+    if (!file_exists(DOCUMENTATION_CACHE_DIR)) {
+        mkdir(DOCUMENTATION_CACHE_DIR, 0777, true); // Create directory recursively with full permissions
     }
 
-    // Your function to get data
-    $list = documentation_flatten_pages_list(get_document_hierarchy());
-    
+    $cache_file = DOCUMENTATION_CACHE_DIR . md5($key) . '.json';
 
-    documentation_set_file_cache('public_documents_haystack', $list);
-
-    wp_send_json($list);
-
-    // Don't forget to exit
-    wp_die();
+    // Save the data to the cache file
+    file_put_contents($cache_file, json_encode($data));
 }
 
-function documentation_get_posts_list_callback() {
-    // Ensure the request came from a valid source
-    check_ajax_referer('documentation_ajax', 'security');
+function documentation_get_file_cache($key, $expiration = 3600) {
+    $cache_file = DOCUMENTATION_CACHE_DIR . md5($key) . '.json';
 
-    $list = documentation_get_file_cache('public_posts_haystack');
-
-    if(!empty($list)) {
-        wp_send_json($list);
-        wp_die();
-    }
-
-    $post_types = get_post_types();
-
-    $searchable_post_types = array_filter($post_types, function ($post_type) {
-        $args = get_post_type_object($post_type);
-        return isset($args->publicly_queryable) && $args->publicly_queryable && isset($args->exclude_from_search) && !$args->exclude_from_search;
-    });
-
-    $list = [
-        "titles" => [],
-        "paths" => []
-    ];
-
-    $args = [
-        'post_type'      => 'any',
-        'public'       => true,
-        'exclude_from_search' => false,
-        '_builtin'     => false,  
-        'posts_per_page' => 10000,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-    ];
-
-    $query = new WP_Query($args);
-
-    if (!$query->have_posts()) {
-       wp_send_json($list);
-    }
-
-    foreach ($query->posts as $post) {
-        $post_type = get_post_type($post->ID);
-        $post_type_labels = get_post_type_labels(get_post_type_object($post_type));
-
-        $list['titles'][] = $post_type_labels->name. DOCUMENTATION_JOIN_SYMBOL .get_the_title($post->ID);
-        $list['paths'][] = get_the_permalink($post->ID);
-    }
-
-    documentation_set_file_cache('public_posts_haystack', $list);
-
-    // Return the data
-    wp_send_json($list);
-
-    // Don't forget to exit
-    wp_die();
-}
-
-function documentation_set_file_cache($cacheKey, $value, $cacheDir  =  WP_CONTENT_DIR . '/documentation-cache/') {
-    if (!file_exists($cacheDir)) {
-        mkdir($cacheDir, 0755, true);
-    }
-
-    $cacheFile = rtrim($cacheDir, '/') . '/' . md5($cacheKey) . '.json';
-
-    file_put_contents($cacheFile, json_encode($value));
-}
-
-function documentation_get_file_cache($cacheKey, $expiration = HOUR_IN_SECONDS, $cacheDir =  WP_CONTENT_DIR . '/documentation-cache/') {
-    $cacheFile = rtrim($cacheDir, '/') . '/' . md5($cacheKey) . '.json';
-
-    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $expiration) {
-        $cachedData = file_get_contents($cacheFile);
-        return json_decode($cachedData, true);
+    // Check if the cache file exists and is still valid
+    if (file_exists($cache_file) && (time() - filemtime($cache_file) < $expiration)) {
+        // Cache hit, return the cached data
+        return json_decode(file_get_contents($cache_file), true);
     } else {
-        return array();
+        // Cache miss or expired, delete the cache file if it exists
+        if (file_exists($cache_file)) {
+            unlink($cache_file);
+        }
     }
+
+    return null;
+}
+
+function documentation_delete_file_cache($key) {
+    $cache_file = DOCUMENTATION_CACHE_DIR . md5($key) . '.json';
+
+    // Check if the cache file exists and delete it
+    if (file_exists($cache_file)) {
+        unlink($cache_file);
+    }
+}
+
+function documentation_update_file_cache($key, $callback, $expiration = 3600) {
+    // Delete existing cache data
+    delete_cache_data($key);
+
+    // Use the get_data_with_cache function to update the cache
+    return get_data_with_cache($key, $callback, $expiration);
 }
 
 
@@ -951,15 +995,3 @@ add_filter('excerpt_length', function($length) {
     }
 });
 
-
-function documentation_widgets_init() {
-    register_sidebar(array(
-        'name' => esc_html__('Sidebar', '[TEXT_DOMAIN]'),
-        'id' => 'documentation-blog-sidebar',
-        'description' => esc_html__('Default sidebar to add all your widgets.', '[TEXT_DOMAIN]'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget' => '</section>',
-        'before_title' => '<h2 class="widget-title">',
-        'after_title' => '</h2>',
-    ));
-}

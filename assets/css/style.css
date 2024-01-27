@@ -583,6 +583,38 @@ header nav.mobile li.toggled>.menu-toggle {
     font-weight: 700;
 }
 
+/* Doc Comments */
+
+.single-docs .comments-area {
+    background-color: var(--color-gray-50);
+    padding: 2rem;
+    border: 0.05em solid var(--color-gray-300);
+    border-radius: 1em;
+}
+
+.single-docs .comment-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]), 
+.single-docs .comment-form select, 
+.single-docs .comment-form textarea {
+    border: 0.05em solid var(--color-gray-300);
+    border-radius: 0.5em;
+    background-color: var(--color-gray-0);
+} 
+
+.single-docs .comment-form label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+.single-docs .comment-form [type='submit'] {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    padding: 0.75em 1.5em;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5em;
+}
+
 /* Footer */
 
 footer form input:-webkit-autofill {

@@ -375,6 +375,18 @@ a .prose code {
   padding: 0 1rem 1rem 1rem;
 }
 
+.prose blockquote {
+  background-color: var(--color-primary-50);
+  border: 0.1em solid var(--color-primary-300);
+  color: var(--color-primary);
+  border-radius: 1em;
+  padding: 2rem;
+}
+
+.prose blockquote > *:first-child {
+  margin: 0;
+}
+
 /**
  * Github Light theme for Prism.js
  * Based on Github: https://github.com
@@ -385,8 +397,7 @@ a .prose code {
   border: 0.1em solid var(--color-gray-300);
 }
 
-.prose pre[class*="language-"],
-.prose code[class*="language-"] {
+.prose pre[class*="language-"] {
   color: #24292f;
   font-size: 1rem;
   font-weight: 500;

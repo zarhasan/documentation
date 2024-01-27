@@ -348,6 +348,39 @@ document.addEventListener("alpine:init", () => {
         }
     });
 
+    Alpine.store('colorScheme', {
+        name: 'light',
+
+        init() {
+            const fromStorage = localStorage.getItem('colorScheme');
+
+            if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                this.name = 'dark'
+            }
+
+            if(fromStorage) {
+                this.name = fromStorage
+            }
+        },
+
+        set(value) {
+            if (!['light', 'dark'].includes(value)) {
+                return
+            };
+
+            this.name = value
+            localStorage.setItem('colorScheme',  this.name);
+        },
+
+        toggle() {
+            if(this.name == 'light') {
+                this.set('dark');
+            } else {
+                this.set('light');
+            }
+        }
+    });
+
     Alpine.data("header", () => ({
         scroll: {
             x: 0,
@@ -476,7 +509,7 @@ document.addEventListener("alpine:init", () => {
     let titles = [];
     let paths = [];
 
-    Alpine.data("searchBox", (action, defaultValue) => ({
+    Alpine.data("searchPanel", (action, defaultValue) => ({
         search: defaultValue || '',
         resultsVisible: false,
         searchResults: [],
@@ -541,7 +574,7 @@ document.addEventListener("alpine:init", () => {
 
             this.selected = result
 
-            this.$store.searchPanel.hide()
+            this.$store.searchPanel.hide();
         },
 
         handleArrowNavigation(event) {

@@ -11,46 +11,11 @@
 
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(''); ?> >
-	<div class="mt-8 mb-16">
+	<div class="mt-8 mb-8">
 		<h1 class="text-7xl entry-title"><?php the_title(); ?></h1>
 	</div>
 
-	<?php if(get_post_thumbnail_id()): ?>
-		<div class="relative h-96 flex flex-start items-stretch gap-4 mb-8 mt-8 overflow-hidden">
-			<div class="h-full w-full rounded-2xl overflow-hidden">
-				<?php get_template_part('template-parts/post-image'); ?>
-			</div>
-		</div>
-	<?php endif; ?>
-	
-	<div class="entry-content prose">
-		<?php
-			the_content(
-				sprintf(
-					wp_kses(
-						__('Continue reading %s <span class="meta-nav">&rarr;</span>', 'documentation'),
-						array(
-							'span' => array(
-								'class' => array(),
-							),
-						)
-					),
-					the_title( '<span class="screen-reader-text">"', '"</span>', false )
-				)
-			);
-
-			wp_link_pages(
-				array(
-					'before' => '<div class="page-links">' . esc_html__('Pages:', 'documentation'),
-					'after'  => '</div>',
-				)
-			);
-		?>
-	</div><!-- .entry-content -->
-
-
-
-	<div class="w-full my-8 flex justify-between items-start">
+	<div class="w-full mt-8 mb-12 flex justify-between items-start pb-8 border-b-1 border-gray-300 border-dashed">
 		<div class="flex justify-start items-start gap-6">
 			<div class="flex flex-col items-start justify-start gap-1">
 				<p class="text-sm font-semibold inline-flex items-center text-gray-900">
@@ -91,6 +56,41 @@
 			</div>
 		</div>
 	</div>
+
+	<?php if(get_post_thumbnail_id()): ?>
+		<div class="relative h-96 flex flex-start items-stretch gap-4 mb-8 mt-8 overflow-hidden">
+			<div class="h-full w-full rounded-2xl overflow-hidden">
+				<?php get_template_part('template-parts/post-image'); ?>
+			</div>
+		</div>
+	<?php endif; ?>
+	
+	<div class="entry-content prose">
+		<?php
+			the_content(
+				sprintf(
+					wp_kses(
+						__('Continue reading %s <span class="meta-nav">&rarr;</span>', 'documentation'),
+						array(
+							'span' => array(
+								'class' => array(),
+							),
+						)
+					),
+					the_title( '<span class="screen-reader-text">"', '"</span>', false )
+				)
+			);
+
+			wp_link_pages(
+				array(
+					'before' => '<div class="page-links">' . esc_html__('Pages:', 'documentation'),
+					'after'  => '</div>',
+				)
+			);
+		?>
+	</div><!-- .entry-content -->
+
+	
 
 	<?php get_template_part('template-parts/content/partials/tags'); ?>
 </article><!-- #post-## -->

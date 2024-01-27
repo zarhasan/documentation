@@ -9,10 +9,12 @@
 
 get_header(); 
 
+$documents = get_document_hierarchy();
+
 ?>
 
 <div class="w-full grid grid-cols-12 gap-4 px-10">
-  <?php get_template_part('template-parts/sidebar'); ?>
+  <?php get_template_part('template-parts/sidebar', null, ['documents' => $documents]); ?>
 	
   <div id="primary" class="col-span-7 pt-8 px-8 when-sm:col-span-12">
     <div class="documentation_breadcrumb">
@@ -26,7 +28,7 @@ get_header();
 
         get_template_part( 'template-parts/docs', 'content');
 
-        get_template_part( 'template-parts/docs', 'navigation');
+        get_template_part( 'template-parts/docs', 'navigation', ['documents' => $documents]);
 
         // If comments are open or we have at least one comment, load up the comment template.
         if ( comments_open() || get_comments_number() ) :

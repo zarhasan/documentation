@@ -26,12 +26,10 @@ if (is_category()) {
 
 ?>
 
-<?php get_template_part('template-parts/subheader'); ?>
-
 <div id="primary" class="content-area grid lg:grid-cols-12 px-10">
 	<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
 
-    <div class="col-span-9 flex-grow self-stretch mb-16 mt-8">
+    <div class="col-span-12 flex-grow self-stretch mb-16 mt-8">
         <?php
             $archive_title = 'Archive';
             if (is_category()) {
@@ -101,9 +99,6 @@ if (is_category()) {
         ?>
     </div>
 
-    <div class="col-span-3 pl-10 pt-8">
-        <?php get_sidebar(); ?>
-    </div>
 </div><!-- #primary -->
 
 

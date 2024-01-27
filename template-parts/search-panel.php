@@ -15,14 +15,12 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
 
 <div
   x-cloak
-  x-trap="$store.searchPanel.isVisible"
+  x-trap.noreturn="$store.searchPanel.isVisible"
   x-show="$store.searchPanel.isVisible"
-  x-data="searchBox('<?php echo esc_attr($ajax_action); ?>')" 
-  x-transition.opacity
+  x-data="searchPanel('<?php echo esc_attr($ajax_action); ?>')" 
   class="fixed inset-0 w-full h-full z-[9999] bg-[#212121d8] flex justify-center items-start py-20 backdrop-blur-sm">
-
   <form 
-    class="w-full grow lg:max-w-3xl bg-white shadow-lg rounded-xl p-4"
+    class="w-full grow lg:max-w-3xl bg-gray-0 shadow-lg rounded-xl p-4"
     action="<?php home_url(); ?>"
     x-on:click.outside="$store.searchPanel.hide()">
 

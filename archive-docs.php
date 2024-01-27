@@ -13,15 +13,10 @@ $documents = get_document_hierarchy();
 
 ?>
 
-<?php get_template_part('template-parts/subheader'); ?>
-
 <div class="w-full">
+  <div class="container py-16 grid bg-gray-50 p-10">
+    <h1 class="text-7xl mb-8 text-gray-1000"><?php esc_html_e( 'Welcome to our comprehensive documentation', 'documentation' ); ?></h1>
 
-  <div class="container py-16 grid">
-    <h1 class="text-8xl"><?php esc_html_e( 'Welcome to our comprehensive documentation', 'documentation' ); ?></h1>
-  </div>
-
-	<div class="mt-8 container">
     <div class="grid lg:grid-cols-3 gap-8">
       <?php foreach ($documents as $index => $document): ?>
         <div class="mt-3">
