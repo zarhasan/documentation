@@ -76,7 +76,7 @@
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
-			<button x-on:click="$store.searchPanel.show()" class="lg:max-w-3xl h-14 grow bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
+			<button x-on:click="$store.searchPanel.show()" class="lg:max-w-3xl h-14 grow mr-auto bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900">
 				<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
 					<?php echo documentation_svg('search'); ?>
 				</span>
