@@ -15,7 +15,7 @@ if ($args) {
     id="post-<?php echo esc_attr($document['ID']); ?>">
 
     <div class="w-full h-full flex justify-start items-stretch flex-wrap">
-        <div class="w-full pt-8 lg:pt-0 lg:w-3/5 grow">
+        <div class="w-full lg:pt-0 lg:w-3/5 grow">
             <span class="w-8 h-8 inline-flex justify-center items-center mb-4">
                 <?php echo documentation_svg('folder'); ?>
             </span>
@@ -37,13 +37,15 @@ if ($args) {
                         <a 
                         class="w-full block text-primary" 
                         href="<?php echo esc_attr($children['permalink']); ?>">
-                        <?php echo esc_html($children['title']); ?>
+                            <?php echo esc_html($children['title']); ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
 
-            <button x-on:click="$store.searchPanel.show()" class="w-full flex justify-start items-center gap-2 mt-8 bg-gray-50 rounded-full px-4 py-3 text-start text-sm font-medium border-1 border-gray-300 border-solid">
+            <button 
+                x-on:click="$store.searchPanel.query = '<?php echo esc_html($document['title']); ?>: '; $store.searchPanel.show(); $dispatch('site-search');" 
+                class="w-full flex justify-start items-center gap-2 mt-8 bg-gray-50 rounded-full px-4 py-3 text-start text-sm font-medium border-1 border-gray-300 border-solid">
                 <span class="w-4 h-4 inline-flex justify-center items-center shrink-0">
                     <?php echo documentation_svg('search'); ?>
                 </span>

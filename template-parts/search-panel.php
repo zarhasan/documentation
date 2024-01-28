@@ -18,9 +18,9 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
   x-trap.noreturn="$store.searchPanel.isVisible"
   x-show="$store.searchPanel.isVisible"
   x-data="searchPanel('<?php echo esc_attr($ajax_action); ?>')" 
-  class="fixed inset-0 w-full h-full z-[9999] bg-[#212121d8] flex justify-center items-start py-20 backdrop-blur-sm">
+  class="fixed inset-0 w-full h-full z-[9999] bg-[#212121d8] flex justify-center items-start p-20 backdrop-blur-sm when-sm:p-6">
   <form 
-    class="w-full grow lg:max-w-3xl bg-gray-0 shadow-lg rounded-xl p-4"
+    class="flex flex-col w-full max-h-full grow lg:max-w-3xl bg-white shadow-lg rounded-xl p-4"
     action="<?php home_url(); ?>"
     x-on:click.outside="$store.searchPanel.hide()">
 
@@ -35,8 +35,9 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
         name="query"
         type="search"
         x-ref="searchInput"
-        x-model="search"
+        x-model="$store.searchPanel.query"
         x-on:input="searchDebounced"
+        x-on:site-search.window="searchDebounced"
         x-on:keydown.window="handleArrowNavigation"
         x-on:keydown.enter.prevent="selectResultWithEnter"
         x-on:keydown.esc.prevent="$store.searchPanel.hide()"
@@ -47,14 +48,14 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
         style="outline: none !important;"
       >
       <button 
-        class="shrink-0 bg-gray-200 text-gray-900 p-2 text-xs font-semibold rounded ml-auto"
+        class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full shrink-0"
         x-on:click.prevent="$store.searchPanel.hide()">
         <?php esc_html_e('Esc', 'documentation'); ?>
       </button>
     </div>
 
     <ul 
-      class="w-full bg-white text-gray-900 list-none m-0 p-0 mt-4" 
+      class="w-full grow overflow-y-scroll bg-gray-0 text-gray-1000 list-none m-0 px-1 mt-4" 
       id="search-results" 
       role="listbox" 
       aria-label="Search results" 
@@ -88,7 +89,7 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
             </span>
 
             <span 
-              class="shrink-0 bg-gray-100 text-gray-900 p-2 text-xs font-semibold rounded ml-auto"
+              class="ml-auto bg-gray-50 text-gray-900 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full shrink-0"
               x-bind:class="[isActive(index) ? 'opacity-100' : 'opacity-0']">
               <?php esc_html_e('Enter', 'documentation'); ?>
             </span>
@@ -101,8 +102,8 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
       <?php esc_html_e('Enter search term to find documents', 'documentation'); ?>
     </div>
 
-    <div class="w-full bg-gray-100 py-2 px-4 text-gray-600 rounded-xl mt-4">
-      Use <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-narrow-up') ?></span> <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-narrow-down') ?></span> to navigate and press <span class="inline-flex justify-center items-center w-4 h-4"><?php echo documentation_svg('arrow-back') ?></span> to select
+    <div class="w-full bg-gray-100 text-sm py-2 px-4 text-gray-600 rounded-xl mt-4">
+      <?php echo sprintf(__('Press %s %s to navigate, %s to select, and %s to close', 'documentation'), '<kbd>'.documentation_svg('arrow-narrow-up').'</kbd>', '<kbd>'.documentation_svg('arrow-narrow-down').'</kbd>',  '<kbd>'.documentation_svg('arrow-back').'</kbd>', '<kbd>'.__('Esc', 'documetation').'</kbd>') ?>
     </div>
   </form>
 </div>

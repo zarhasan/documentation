@@ -334,6 +334,8 @@ function announceToScreenReader(text, role, timeout = 1000, once = false) {
 document.addEventListener("alpine:init", () => {
     Alpine.store('searchPanel', {
         isVisible: false,
+        query: '',
+        loading: true,
 
         toggle() {
             this.isVisible = !this.isVisible
@@ -510,10 +512,9 @@ document.addEventListener("alpine:init", () => {
     let paths = [];
 
     Alpine.data("searchPanel", (action, defaultValue) => ({
-        search: defaultValue || '',
         resultsVisible: false,
         searchResults: [],
-        activeResultIndex: -1,
+        activeResultIndex: 0,
         selected: null,
         paths: [],
         fuzzy: new uFuzzy(),
@@ -521,6 +522,7 @@ document.addEventListener("alpine:init", () => {
 
         async init() {
             this.initiating = true;
+            this.activeResultIndex = 0;
 
             try {
                 // Perform fetch request when the document is ready
@@ -551,7 +553,7 @@ document.addEventListener("alpine:init", () => {
         },
 
         searchDebounced() {
-            if (this.search.length < 2) {
+            if (this.$store.searchPanel.query.length < 2) {
                 this.resultsVisible = false;
                 this.searchResults = [];
                 return;
@@ -559,7 +561,7 @@ document.addEventListener("alpine:init", () => {
 
             this.resultsVisible = true;
 
-            let indexes = this.fuzzy.filter(titles, this.search);
+            let indexes = this.fuzzy.filter(titles, this.$store.searchPanel.query);
 
             if (indexes) {
                 this.searchResults = indexes.slice(0, 6).map((idx) => titles[idx]);

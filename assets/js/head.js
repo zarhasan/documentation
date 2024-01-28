@@ -2,6 +2,7 @@ twind.install({
     hash: false,
     variants: [
         ['when-sm', '@media screen and (max-width: 768px)'],
+        ['when-md', '@media screen and (max-width: 1024px)'],
         ['children', '& > *'],
         ['expanded', '&[aria-expanded="true"]'],
         ['focused', '.focused &'],

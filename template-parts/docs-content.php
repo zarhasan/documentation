@@ -57,6 +57,17 @@
 		</div>
 	</div>
 
+	<div class="lg:hidden flex justify-between items-center gap-8 mb-8">
+		<button class="px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold rounded-full bg-gray-50 border-1 border-gray-300 border-solid text-right">
+			<?php esc_html_e('Sidebar', 'documentation'); ?>
+			<span class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('chevron-right-pipe'); ?></span>
+		</button>
+		<button class="px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold rounded-full bg-gray-50 border-1 border-gray-300 border-solid text-right">
+			<span class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('chevron-left-pipe'); ?></span>
+			<?php esc_html_e('Table Of Contents', 'documentation'); ?>
+		</button>
+	</div>
+
 	<?php if(get_post_thumbnail_id()): ?>
 		<div class="relative h-96 flex flex-start items-stretch gap-4 mb-8 mt-8 overflow-hidden">
 			<div class="h-full w-full rounded-2xl overflow-hidden">
