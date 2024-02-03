@@ -31,11 +31,11 @@ if ($args) {
                 <?php echo get_the_date(); ?>
             </p>
       
-            <ul class="mt-4 flex flex-col gap-2 underline list-disc pl-4 font-medium">
+            <ul class="mt-4 flex flex-col gap-2 list-disc pl-4 font-medium">
                 <?php foreach ($document['children'] as $index => $children): ?>
                     <li>
                         <a 
-                        class="w-full block text-primary" 
+                        class="w-full block text-primary underline" 
                         href="<?php echo esc_attr($children['permalink']); ?>">
                             <?php echo esc_html($children['title']); ?>
                         </a>
