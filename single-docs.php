@@ -28,7 +28,7 @@ $documents = get_document_hierarchy();
 
         get_template_part( 'template-parts/docs', 'content');
 
-        get_template_part( 'template-parts/docs', 'navigation', ['documents' => $documents]);
+        get_template_part( 'template-parts/docs', 'links', ['documents' => $documents]);
 
         // If comments are open or we have at least one comment, load up the comment template.
         if ( comments_open() || get_comments_number() ) :

@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('DOCUMENTATION_VERSION', '1.0.7');
+define('DOCUMENTATION_VERSION', '1.0.8');
 define('DOCUMENTATION_JOIN_SYMBOL', ' ➜ ');
 define('DOCUMENTATION_CACHE_DIR',  WP_CONTENT_DIR . '/cache/documentation/');
 
@@ -979,6 +979,20 @@ if (!function_exists('documentation_get_breadcrumb')) {
 
         return $breadcrumb->trail();
     }
+}
+
+function documentation_recursive_array_search($needle, $haystack, $keyToSearch) {
+    foreach ($haystack as $key => $value) {
+        if ($key === $keyToSearch && $value === $needle) {
+            return $haystack;
+        } elseif (is_array($value)) {
+            $result = documentation_recursive_array_search($needle, $value, $keyToSearch);
+            if ($result !== false) {
+                return $result;
+            }
+        }
+    }
+    return false;
 }
 
 

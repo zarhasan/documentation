@@ -33,7 +33,7 @@ if ($args) {
                 x-show="results.length > 0"
                 x-transition:enter="xyz-in"
                 xyz="fade down-1 duration-2" 
-                class="absolute w-72 left-0 top-full mt-2 bg-white border-1 border-gray-900 p-6 rounded-xl">
+                class="absolute w-72 left-0 top-full mt-2 bg-gray-0 border-1 border-gray-900 p-6 rounded-xl">
                 <ul class="flex flex-col gap-4">
                     <template x-for="(result, i) in results">
                         <li>

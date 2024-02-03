@@ -2,7 +2,7 @@
 
 .prose {
   font-size: 16px;
-  color: var(--color-dark);
+  color: var(--color-gray-1000);
 }
 
 .prose h1,
@@ -133,12 +133,13 @@
   font-weight: inherit;
   font-size: inherit;
   font-family: inherit;
-  background-color: var(--color-primary-100);
-  border: 0.1em solid var(--color-primary-300);
-  padding: 0.125em 0.25em;
+  background-color: var(--color-primary-50);
+  border: 0.05em solid var(--color-primary-300);
+  padding: 0.25em 0.5em;
   font-weight: 600;
   font-size: 0.8em;
   margin-bottom: 0;
+  border-radius: 0.25em;
 }
 
 
@@ -380,7 +381,7 @@ a .prose code {
   border: 0.1em solid var(--color-primary-300);
   color: var(--color-primary);
   border-radius: 1em;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .prose blockquote > *:first-child {
@@ -441,12 +442,6 @@ a .prose code {
   background: var(--color-primary-50);
 }
 
-.prose :not(pre)>code[class*="language-"] {
-  padding: .1em .3em;
-  border-radius: .3em;
-  color: #24292f;
-  background: #eff1f3;
-}
 
 /* Line highlighting */
 .prose pre[data-line] {

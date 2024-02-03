@@ -58,7 +58,7 @@ $images = documentation_get_field('gallery', [
             <div class="gallery__embla__container embla__container">
                 <?php foreach ($images as $index => $image) : ?>
                     <div 
-                        class="gallery__embla__slide bg-white grow-0 shrink-0 basis-4/5 h-152 md:px-10 when-sm:px-4 when-sm:h-96 when-sm:basis-5/6"
+                        class="gallery__embla__slide bg-gray-0 grow-0 shrink-0 basis-4/5 h-152 md:px-10 when-sm:px-4 when-sm:h-96 when-sm:basis-5/6"
                     >
                         <img
                             class="embla__slide__img rounded-xl overflow-hidden w-full h-full object-cover transition-opacity duration-300 ease-in-out"

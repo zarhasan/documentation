@@ -88,7 +88,8 @@ input[type="checkbox"] {
     flex-shrink: 0;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-weight: 600;
 }
 
@@ -98,7 +99,8 @@ h1, h2 {
     font-weight: 600;
 }
 
-h3, h4 {
+h3,
+h4 {
     font-weight: 600;
 }
 
@@ -141,18 +143,17 @@ kbd svg.icon-tabler {
     height: auto;
 }
 
-.hide-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.scrollbar {
+    scrollbar-width: thin;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-    width: 0.5rem;
+.scrollbar::-webkit-scrollbar {
 }
 
-.hide-scrollbar::-webkit-scrollbar-thumb {
-    background-color: transparent;
+.scrollbar::-webkit-scrollbar-track {
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
 }
 
 
@@ -475,7 +476,7 @@ header nav.mobile li.toggled>.menu-toggle {
     gap: 2rem;
 }
 
-.documentation_blog__sidebar .widget-area > section.widget {
+.documentation_blog__sidebar .widget-area>section.widget {
     border: 0.05rem solid var(--color-gray-300);
     border-radius: 1.5rem;
     padding: 1.5rem;
@@ -622,13 +623,13 @@ header nav.mobile li.toggled>.menu-toggle {
     border-radius: 1em;
 }
 
-.single-docs .comment-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]), 
-.single-docs .comment-form select, 
+.single-docs .comment-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+.single-docs .comment-form select,
 .single-docs .comment-form textarea {
     border: 0.05em solid var(--color-gray-300);
     border-radius: 0.5em;
     background-color: var(--color-gray-0);
-} 
+}
 
 .single-docs .comment-form label {
     font-size: 0.875rem;

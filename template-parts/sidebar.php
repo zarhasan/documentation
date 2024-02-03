@@ -12,7 +12,7 @@ if ($args) {
 
 
 
-<div x-data class="sticky top-0 col-span-3 border-gray-300 text-gray-1000 border-solid h-screen overflow-y-scroll py-10 lg:pr-10 self-start when-md:hidden">
+<div x-data class="sticky scrollbar top-0 col-span-3 border-gray-300 text-gray-1000 border-solid h-screen overflow-y-scroll py-10 lg:pr-10 self-start when-md:hidden">
   <ul class="text-lg">
     <?php foreach ($documents as $index => $document): ?>
       <li class="mt-3" x-data="{expanded: true}">

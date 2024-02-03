@@ -17,7 +17,7 @@ if(!$toc) {
 
 ?>
 
-<div dir="rtl" class="documentation_toc col-span-2 h-screen py-10 lg:pl-10 self-start text-left sticky top-0 overflow-y-scroll when-md:hidden">
+<div dir="rtl" class="documentation_toc scrollbar col-span-2 h-screen py-10 lg:pl-10 self-start text-left sticky top-0 overflow-y-scroll when-md:hidden">
   <button 
       dir="ltr"
       x-on:click="$store.searchPanel.query = '<?php echo get_the_title(); ?>: '; $store.searchPanel.show(); $dispatch('site-search');" 

@@ -20,7 +20,7 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
   x-data="searchPanel('<?php echo esc_attr($ajax_action); ?>')" 
   class="fixed inset-0 w-full h-full z-[9999] bg-[#212121d8] flex justify-center items-start p-20 backdrop-blur-sm when-sm:p-6">
   <form 
-    class="flex flex-col w-full max-h-full grow lg:max-w-3xl bg-white shadow-lg rounded-xl p-4"
+    class="flex flex-col w-full max-h-full grow lg:max-w-3xl bg-gray-0 shadow-lg rounded-xl p-4"
     action="<?php home_url(); ?>"
     x-on:click.outside="$store.searchPanel.hide()">
 

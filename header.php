@@ -20,12 +20,14 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 	<style>
+		<?php $primary_color = get_theme_mod("color_primary", "#31358A"); ?>
+
 		body {
-			--color-primary: <?php echo esc_html(get_theme_mod("color_primary", "#31358A")); ?>;
-			--color-primary-50: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'0d'); ?>;
-			--color-primary-100: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'1a'); ?>;
-			--color-primary-300: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'4D'); ?>;
-			--color-primary-900: <?php echo esc_html(get_theme_mod("color_primary", "#31358A").'e6'); ?>;
+			--color-primary: <?php echo esc_html($primary_color); ?>;
+			--color-primary-50: <?php echo esc_html($primary_color.'0d'); ?>;
+			--color-primary-100: <?php echo esc_html($primary_color.'1a'); ?>;
+			--color-primary-300: <?php echo esc_html($primary_color.'4D'); ?>;
+			--color-primary-900: <?php echo esc_html($primary_color.'e6'); ?>;
 			
 			--color-primary-foreground: <?php echo esc_html(get_theme_mod("color_primary_foreground", "#fff")); ?>;
 
@@ -56,7 +58,15 @@
 			--line-height: 1.6;
 		}
 
+		<?php $primary_color__dark_mode = get_theme_mod("color_primary_dark", $primary_color); ?>
+
 		body[data-color-scheme="dark"] {
+			--color-primary: <?php echo esc_html($primary_color__dark_mode); ?>;
+			--color-primary-50: <?php echo esc_html($primary_color__dark_mode.'0d'); ?>;
+			--color-primary-100: <?php echo esc_html($primary_color__dark_mode.'1a'); ?>;
+			--color-primary-300: <?php echo esc_html($primary_color__dark_mode.'4D'); ?>;
+			--color-primary-900: <?php echo esc_html($primary_color__dark_mode.'e6'); ?>;
+
 			--color-gray-0: #030712;
 			--color-gray-50: #111827;
 			--color-gray-100: #1f2937;
@@ -95,21 +105,21 @@
 		<?php get_template_part('template-parts/skip-link'); ?>
 
 		<div class="w-full px-10 flex justify-start items-center gap-8 when-md:px-6">
-			<a href="<?php echo site_url(); ?>" class="h-14 flex justify-start items-center bg-white py-2 px-4 rounded-xl when-sm:hidden">
+			<a href="<?php echo site_url(); ?>" class="h-14 flex justify-start items-center bg-gray-0 py-2 px-4 rounded-xl when-sm:hidden">
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
-			<button x-on:click="$store.searchPanel.show()" class="lg:max-w-3xl h-14 grow mr-auto bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900 when-md:text-sm">
-				<span class="inline-flex justify-center items-center w-6 h-6 mr-4">
+			<button x-on:click="$store.searchPanel.show()" class="lg:max-w-3xl h-12 shrink-0 grow mr-auto bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900 when-md:text-sm">
+				<span class="inline-flex justify-center items-center w-5 h-5 mr-4">
 					<?php echo documentation_svg('search'); ?>
 				</span>
 
 				<?php if(is_archive('docs') || is_singular('docs')): ?>
-					<span>
+					<span class="mr-4 text-sm">
 						<?php esc_attr_e('Search in docs', 'documentation'); ?>
 					</span>
 				<?php else: ?>
-					<span>
+					<span class="mr-4 text-sm">
 						<?php esc_attr_e('Search in site', 'documentation'); ?>
 					</span>
 				<?php endif; ?>
@@ -123,7 +133,7 @@
 				wp_nav_menu(array(
 					'theme_location' => 'primary',
 					'container' => 'nav',
-					'container_class' => 'ml-auto when-sm:hidden',
+					'container_class' => 'ml-auto when-sm:hidden pl-8',
 					'menu_class' => 'w-full flex justify-start gap-8 font-medium',
 					'menu_id' => '',
 					'fallback_cb' => false,
@@ -132,7 +142,7 @@
 			?>
 
 			<div>
-				<button x-on:click="$store.colorScheme.toggle()" class="bg-gray-100 border-1 border-solid border-gray-300 w-14 h-14 inline-flex justify-center items-center text-gray-600 rounded-full">
+				<button x-on:click="$store.colorScheme.toggle()" class="bg-gray-100 border-1 border-solid border-gray-300 w-12 h-12 inline-flex justify-center items-center text-gray-600 rounded-full">
 					<span x-show="$store.colorScheme.name === 'light'" class="inline-flex justify-center items-center w-6 h-6">
 						<?php echo documentation_svg('moon'); ?>
 					</span>
