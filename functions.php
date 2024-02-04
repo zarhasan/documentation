@@ -298,10 +298,11 @@ function documentation_get_posts_list_callback() {
         'post_type'      => 'any',
         'public'       => true,
         'exclude_from_search' => false,
-        '_builtin'     => false,  
         'posts_per_page' => 10000,
         'orderby'        => 'menu_order',
         'order'          => 'ASC',
+        'post_status' => 'publish',
+        '_builtin'     => false,  
     ];
 
     $query = new WP_Query($args);
