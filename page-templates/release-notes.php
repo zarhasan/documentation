@@ -15,8 +15,15 @@ get_header();
                 <button x-on:click="expanded = !expanded" class="p-4 w-full flex items-center justify-between text-left">
                     <span class="w-4 h-4 inline-flex justify-center items-center mr-2"><?php echo documentation_svg('file-text'); ?></span>
                     <span class="font-semibold pr-2" x-text="item.version"></span>
-                    <span x-text="item.product"></span>
-                    <span class="ml-auto text-sm" x-text="item.date"></span>
+                    <span class="mr-auto" x-text="item.product"></span>
+
+                    <div class="flex justify-start items-start flex-wrap gap-1 mr-2">
+                        <template x-for="change in item.changes">
+                            <span class="inline-flex text-xs font-semibold bg-gray-100 border-1 border-gray-300 rounded-full px-2 py-1 shrink-0" x-text="change.name"></span>
+                        </template>
+                    </div>
+
+                    <span class="text-sm" x-text="item.date"></span>
                     <span class="w-5 h-5 inline-flex justify-center items-center ml-2">
                         <?php echo documentation_svg('chevron-down') ?>
                     </span>
