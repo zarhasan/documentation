@@ -110,7 +110,6 @@
 
 .prose pre {
   color: #fff;
-  background-color: var(--color-dark);
   overflow-x: auto;
   font-weight: 400;
   font-size: 0.875em;
@@ -133,8 +132,7 @@
   font-weight: inherit;
   font-size: inherit;
   font-family: inherit;
-  background-color: var(--color-primary-50);
-  border: 0.05em solid var(--color-primary-300);
+  border: 0.05em solid var(--color-gray-300);
   padding: 0.25em 0.5em;
   font-weight: 600;
   font-size: 0.8em;

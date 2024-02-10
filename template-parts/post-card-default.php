@@ -44,9 +44,9 @@ $author_id = get_the_author_meta('ID');
         </ul>
 
         <div class="flex justify-between items-center gap-2 pt-4 mt-auto font-medium border-t-1 border-gray-300 border-dashed">
-            <button class="w-8 h-8 rounded-full overflow-hidden">
+            <span class="w-8 h-8 rounded-full overflow-hidden">
                 <?php echo get_avatar($author_id, 100); ?>
-            </button>
+            </span>
 
             <a class="text-sm" href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
                 <?php the_author(); ?>

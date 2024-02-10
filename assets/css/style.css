@@ -156,6 +156,27 @@ kbd svg.icon-tabler {
 .scrollbar::-webkit-scrollbar-thumb {
 }
 
+/* Buttons */
+
+.action-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 400ms var(--ease-out-expo);
+    border: 0.05em solid var(--color-gray-300);
+    background-color: var(--color-gray-50);
+    gap: 0.5em;
+}
+
+.action-button svg {
+    width: 1.2em;
+    height: auto;
+}
 
 /* Single Post */
 
@@ -513,7 +534,7 @@ header nav.mobile li.toggled>.menu-toggle {
     flex-direction: column;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    gap: 2rem;
+    gap: 4rem;
 }
 
 .comment-list ol.children {
@@ -609,35 +630,28 @@ header nav.mobile li.toggled>.menu-toggle {
     text-decoration: underline;
 }
 
-.comment .comment-content {
-    padding-top: 1rem;
-}
-
-
-/* Doc Comments */
-
-.single-docs .comments-area {
+.comments-area {
     background-color: var(--color-gray-50);
     padding: 2rem;
     border: 0.05em solid var(--color-gray-300);
     border-radius: 1em;
 }
 
-.single-docs .comment-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
-.single-docs .comment-form select,
-.single-docs .comment-form textarea {
+.comment-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+.comment-form select,
+.comment-form textarea {
     border: 0.05em solid var(--color-gray-300);
     border-radius: 0.5em;
     background-color: var(--color-gray-0);
 }
 
-.single-docs .comment-form label {
+.comment-form label {
     font-size: 0.875rem;
     font-weight: 600;
     margin-bottom: 0.5em;
 }
 
-.single-docs .comment-form [type='submit'] {
+.comment-form [type='submit'] {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
     padding: 0.75em 1.5em;
@@ -646,7 +660,7 @@ header nav.mobile li.toggled>.menu-toggle {
     border-radius: 0.5em;
 }
 
-.single-docs .logged-in-as {
+.logged-in-as {
     font-size: 0.875rem;
     margin-top: 0.5em;
 }

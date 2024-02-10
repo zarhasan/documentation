@@ -168,7 +168,6 @@ function documentation_enqueue_scripts() {
 
     wp_enqueue_script('embla-autoplay', documentation_assets('js/embla-carousel-autoplay.umd.js'), array(), "8.0.0", true);
     wp_enqueue_script('embla', documentation_assets('js/embla-carousel.umd.js'), array(), "8.0.0", true);
-    wp_enqueue_script('toastify', documentation_assets('js/toastify.js'), array(), "5.3.0", true);
     wp_enqueue_script('uFuzzy', documentation_assets('js/uFuzzy.iife.min.js'), array(), '1.0.14', false);
 
     wp_enqueue_script('documentation-main', documentation_assets('js/main.js'), array('jquery'), documentation_get_version(), true);

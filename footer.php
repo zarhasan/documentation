@@ -47,6 +47,9 @@
       <p class="text-sm text-gray-600">Copyright © <?php echo date('Y') ?> <?php echo bloginfo('name') ?>.</p>
     </div>
   </div>
+
+  <?php get_template_part('template-parts/toast'); ?>
+
 </footer>
 
 </div><!-- #page -->

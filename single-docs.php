@@ -16,7 +16,7 @@ $documents = get_document_hierarchy();
 <div class="w-full grid grid-cols-12 gap-4 px-10 when-md:px-6">
   <?php get_template_part('template-parts/sidebar', null, ['documents' => $documents]); ?>
 	
-  <div id="primary" class="col-span-7 pt-8 lg:px-8 when-sm:col-span-12">
+  <div id="primary" class="col-span-6 pt-8 lg:px-8 when-sm:col-span-12">
     <div class="documentation_breadcrumb">
       <?php echo documentation_get_breadcrumb(); ?>
     </div>
@@ -40,7 +40,7 @@ $documents = get_document_hierarchy();
     ?>
   </div><!-- #primary -->
 
-  <?php get_template_part('template-parts/toc'); ?>
+  <?php get_template_part('template-parts/docs', 'toc'); ?>
 </div>
 
 

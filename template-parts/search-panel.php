@@ -68,7 +68,7 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
           x-on:click="selectResult(result)" 
           >
           <a 
-            class="flex justify-start items-center bg-gray-100 text-gray-700 px-4 py-4 text-sm font-medium rounded-xl overflow-hidden w-full transition-all duration-200 ease-out-expo selected:bg-primary selected:text-white hover:bg-primary hover:text-white"
+            class="flex justify-start items-center bg-gray-50 text-gray-700 px-4 py-4 text-sm font-medium rounded-xl overflow-hidden w-full transition-all duration-200 ease-out-expo selected:bg-primary selected:text-white hover:bg-primary hover:text-white"
             x-bind:aria-selected="isActive(index)"
             x-bind:href="paths[index]" 
             x-show="result" 

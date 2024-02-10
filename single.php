@@ -10,8 +10,8 @@
 get_header(); ?>
 
 
-<div id="primary" class="content-area container flex justify-start items-stretch flex-wrap">
-	<div class="lg:w-4/6 grow">
+<div id="primary" class="content-area px-10 grid grid-cols-12 justify-start items-stretch flex-wrap">
+	<div class="col-span-9 grow pr-16">
 		<?php
 			/* Start the Loop */
 			while (have_posts()):
@@ -19,7 +19,7 @@ get_header(); ?>
 
 				get_template_part( 'template-parts/content/single', get_post_format());
 
-				get_template_part( 'template-parts/content/single', 'navigation');
+				get_template_part( 'template-parts/post', 'navigation');
 
 				// If comments are open or we have at least one comment, load up the comment template.
 				if ( comments_open() || get_comments_number() ) :
@@ -30,9 +30,8 @@ get_header(); ?>
 
 		?>
 	</div>
-	<div class="lg:w-2/6 pl-16">
-		<?php if ( function_exists( 'echo_crp' ) ) { echo_crp(); } ?>
-	</div>
+
+	<?php get_template_part('template-parts/toc'); ?>
 </div><!-- #primary -->
 
 

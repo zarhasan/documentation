@@ -7,53 +7,33 @@
  * @package documentation
  */
 
+
+$author_id = get_the_author_meta('ID');
+
 ?>
 
-
 <article id="post-<?php the_ID(); ?>" <?php post_class(''); ?> >
-	<div class="mt-8 mb-8">
-		<h1 class="text-7xl entry-title"><?php the_title(); ?></h1>
+	<div class="mt-8">
+		<h1 class="text-4xl entry-title"><?php the_title(); ?></h1>
 	</div>
 
-	<div class="w-full mt-8 mb-12 flex justify-between items-start pb-8 border-b-1 border-gray-300 border-dashed">
-		<div class="flex justify-start items-start gap-6">
-			<div class="flex flex-col items-start justify-start gap-1">
-				<p class="text-sm font-semibold inline-flex items-center text-gray-900">
-					<?php esc_html_e( 'Published By', 'documentation' ) ?>
-				</p>
-				<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" class="text-sm">
-					<?php the_author(); ?>
-				</a>
-			</div>
-			<div class="flex flex-col items-start justify-start gap-1">
-				<p class="text-sm font-semibold inline-flex items-center text-gray-900">
-					<?php esc_html_e( 'Published On', 'documentation' ) ?>
-				</p>
-				<p class="text-sm">
-					<?php the_date('F j, Y'); ?>
-				</p>
-			</div>
+	<div class="w-full mt-4 mb-12 pb-6 border-b-1 border-gray-300 border-dashed">
+		<div class="text-sm">
+			<a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
+				<?php echo sprintf(__('Written by %s', 'documentation'), get_the_author()); ?>
+			</a>	
+			<span><?php echo sprintf(__('on %s', 'documentation'), get_the_date('F j, Y')); ?></span>
 		</div>
 
-		<div class="flex justify-end items-center gap-4">
-			<div class="flex justify-end items-center gap-4 text-gray-700">
-				<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo the_permalink(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-facebook'); ?>
-				</a>
-				<a href="https://twitter.com/intent/tweet?url=<?php echo the_permalink(); ?>&text=<?php echo the_title(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-twitter'); ?>
-				</a>
-				<a href="https://www.linkedin.com/shareArticle?url=<?php echo the_permalink(); ?>&title=<?php echo the_title(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-linkedin'); ?>
-				</a>
-				<a href="https://api.whatsapp.com/send?text=<?php echo the_title(); ?>%20-%<?php echo the_permalink(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-whatsapp'); ?>
-				</a>
-
-				<button x-data aria-label="Copy URL" x-on:click="$clipboard('<?php echo the_permalink(); ?>');">
-					<?php echo documentation_svg('copy'); ?>
-				</button>
-			</div>
+		<div class="flex justify-start items-center gap-4 mt-6">
+			<button class="action-button" x-data x-on:click="$clipboard('<?php echo the_permalink(); ?>'); $store.toast.add('Copied to clipboard', '<?php echo get_the_permalink(); ?>', 'success', 5000);">
+				<?php echo documentation_svg('copy'); ?>
+				<?php esc_html_e('Copy URL', 'documentation'); ?>
+			</button>
+			<button class="action-button">
+				<?php echo documentation_svg('share'); ?>
+				<?php esc_html_e('Share on social media', 'documentation'); ?>
+			</button>
 		</div>
 	</div>
 

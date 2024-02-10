@@ -1,336 +1,3 @@
-jQuery(document).ready(() => {
-    const $ = jQuery;
-    const isMobile = window.matchMedia("(max-width: 767px)");
-
-    $('#commentform').each((i, form) => {
-        $(form).find('input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):not([style="display: none;"]), select, textarea').each((i, input) => {
-            const label = $(form).find(`label[for="${input.getAttribute('id')}"]`);
-
-            input.addEventListener("invalid", function (event) {
-                let message = '';
-
-                if (event.target.value.length < 1) {
-                    message = `${label.text().trim()} is required`;
-                } else {
-                    message = `${label.text().trim()} is invalid`;
-                }
-
-                if (isMobile.matches) {
-                    input.setCustomValidity(message);
-                    announceToScreenReader(message, 'alert', 100, true);
-                } else {
-                    input.setCustomValidity(message);
-                }
-            });
-
-            input.addEventListener("input", function (event) {
-                input.setCustomValidity("");
-            });
-        });
-    });
-
-    $('.documentation_pagination').each((i, pagination) => {
-        $(pagination).find('a.prev.page-numbers').parent().addClass('prev-item');
-        $(pagination).find('a.next.page-numbers').parent().addClass('next-item');
-    });
-
-    $('.wpj-jtoc').each((i, toc) => {
-        const toggle = $(toc).find('.wpj-jtoc--toggle');
-        const label = $(toc).find('.wpj-jtoc--title-label');
-
-        label.attr({
-            'role': 'heading',
-            'aria-level': 2,
-        });
-
-        toggle.attr({
-            'role': 'button',
-            'tabindex': 0,
-            'aria-label': `${label.text().trim()} Toggle`,
-            'aria-expanded': toc.classList.contains('--jtoc-is-unfolded'),
-        });
-
-        toggle.on('click', () => {
-            toggle.attr('aria-expanded', !toc.classList.contains('--jtoc-is-unfolded'));
-        })
-    });
-
-    $('.flipcard').each((i, flipcard) => {
-        const buttons = flipcard.querySelectorAll('.flipcard__button');
-        const front = flipcard.querySelector('.flipcard__front');
-        const back = flipcard.querySelector('.flipcard__back');
-
-        if (buttons.length < 1) {
-            return
-        }
-
-        back.setAttribute('aria-hidden', true);
-        $(back).find('a, button').attr('tabindex', -1);
-
-        function handleChange() {
-            if (flipcard.classList.contains('flipped')) {
-                front.setAttribute('aria-hidden', true);
-                back.removeAttribute('aria-hidden');
-
-                $(back).find('a, button').removeAttr('tabindex');
-                $(front).find('a, button').attr('tabindex', -1);
-
-                const flipToBackButton = $(flipcard).find('.flipcard__button--back');
-
-                flipToBackButton.focus();
-
-                announceToScreenReader(`${flipToBackButton.attr('aria-label')}`);
-            } else {
-                back.setAttribute('aria-hidden', true);
-                front.removeAttribute('aria-hidden');
-
-                $(front).find('a, button').removeAttr('tabindex');
-                $(back).find('a, button').attr('tabindex', -1);
-
-                const flipToFrontButton = $(flipcard).find('.flipcard__button--front');
-
-                flipToFrontButton.focus();
-
-                announceToScreenReader(`${flipToFrontButton.attr('aria-label')}`);
-            }
-        }
-
-        buttons.forEach((button) => {
-            button.addEventListener('click', () => {
-                flipcard.classList.toggle('flipped');
-                handleChange();
-            });
-        });
-    });
-
-    $('.footer__form').each((i, form) => {
-        $(form).find('.forminator-email--field').each((i, input) => {
-            const placeholder = $(input).attr('placeholder');
-            const label = $(input).prev('label');
-
-            if (input.value === '') {
-                label.removeClass('floating');
-            }
-
-            $(input).removeAttr('placeholder');
-
-            $(input).on('mouseenter focus', () => {
-                label.addClass('floating');
-                $(input).attr('placeholder', placeholder);
-            });
-
-            $(input).on('mouseleave blur', (e) => {
-                if (e.target.value === '') {
-                    label.removeClass('floating');
-                    $(input).removeAttr('placeholder');
-                }
-            });
-
-            $(input).on('input change', (e) => {
-                if (document.activeElement !== e.target && e.target.value === '') {
-                    label.removeClass('floating');
-                    $(input).removeAttr('placeholder');
-                }
-            });
-        })
-    });
-
-
-    function handleDocsHeadings() {
-
-        const handleTocAnchor = (hash) => {
-            if (hash) {
-                const currentActive = document.querySelector(`.documentation_toc a.active`);
-                const targetElement = document.querySelector(`.documentation_toc a[href="#${hash}"]`);
-
-                if (currentActive) {
-                    currentActive.classList.remove('active');
-                }
-
-                if (targetElement) {
-                    targetElement.classList.add('active'); // Add your desired class
-                }
-            }
-        };
-
-        const updateHash = entry => {
-            if (entry.isIntersecting) {
-                handleTocAnchor(entry.target.id)
-            }
-        };
-
-        const handleIntersection = (entries, observer) => entries.forEach(entry => updateHash(entry));
-
-        const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.5 });
-
-        $('.single-docs .entry-content').find('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
-            observer.observe(heading)
-        });
-    }
-
-    handleDesktopMenu();
-    handleEmbla();
-    handleDocsHeadings();
-
-});
-
-function handleDesktopMenu() {
-    const $ = jQuery;
-
-    const menuItems = document.querySelectorAll('.menu-item');
-
-    if (menuItems.length > 0) {
-        menuItems.forEach((item) => {
-            handleMenuItem(item);
-        });
-    }
-
-    function handleMenuItem(item) {
-        const anchor = item.querySelector('a');
-        const toggle = item.querySelector('.menu-toggle');
-        const submenu = item.querySelector('.sub-menu');
-
-        if (!toggle || !submenu || !anchor) {
-            return;
-        }
-
-        toggle.setAttribute('aria-label', `${anchor.textContent.trim()}`);
-
-        toggle.addEventListener('click', () => {
-            item.classList.toggle('toggled');
-            toggle.setAttribute('aria-expanded', item.classList.contains('toggled'));
-        });
-
-        anchor.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab' && e.shiftKey) {
-                item.classList.remove('toggled');
-            }
-        });
-
-        handleSubMenu(item, submenu)
-    }
-
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            const item = e.target.closest('.toggled');
-
-            if (!item) {
-                return
-            }
-
-            const toggle = item.querySelector('.menu-toggle');
-
-            item.classList.remove('toggled');
-
-            if (toggle) {
-                toggle.focus();
-            }
-        }
-    });
-
-    function handleSubMenu(item, menu) {
-        const items = menu.querySelectorAll('.menu-item');
-        const last = items[items.length - 1];
-        const lastAnchor = last.querySelector('a');
-
-        if (lastAnchor) {
-            lastAnchor.addEventListener('keydown', (e) => {
-                if (e.key === 'Tab' && !e.shiftKey) {
-                    item.classList.remove('toggled');
-                }
-            });
-        }
-    }
-
-}
-
-function handleEmbla() {
-    const OPTIONS = {};
-
-    const node = document.querySelector('.embla');
-
-    if (!node) {
-        return
-    }
-
-    const viewport = node.querySelector('.embla__viewport');
-    const prev = node.querySelector('.embla__prev');
-    const next = node.querySelector('.embla__next');
-
-    const embla = EmblaCarousel(viewport, OPTIONS);
-
-    embla.on('select', () => {
-        handleNavState();
-    });
-
-    embla.on('init', () => {
-        handleNavState();
-    });
-
-    function handleNavState() {
-        if (prev) {
-            if (embla.canScrollPrev()) {
-                prev.removeAttribute('disabled');
-            } else {
-                prev.setAttribute('disabled', 'disabled');
-            }
-        }
-
-        if (next) {
-            if (embla.canScrollNext()) {
-                next.removeAttribute('disabled');
-            } else {
-                next.setAttribute('disabled', 'disabled');
-            }
-        }
-    }
-
-    function handleSlideChangeAnnouncement() {
-        announceToScreenReader(`You are on slide ${embla.selectedScrollSnap() + 1}/${embla.internalEngine().slideIndexes.length}`)
-    }
-
-    if (prev) {
-        prev.addEventListener('click', (e) => {
-            embla.scrollPrev();
-            handleSlideChangeAnnouncement();
-        });
-    }
-
-    if (next) {
-        next.addEventListener('click', (e) => {
-            embla.scrollNext();
-            handleSlideChangeAnnouncement();
-        });
-    }
-}
-
-let liveElementTimeout = null;
-
-function announceToScreenReader(text, role, timeout = 1000, once = false) {
-    if (once && liveElementTimeout) {
-        return;
-    }
-
-    const liveElement = document.querySelector(".live-status-region");
-    const paraElement = document.createElement("p");
-    const textElement = document.createTextNode(text);
-
-    if (!liveElement) {
-        return;
-    }
-
-    liveElement.setAttribute("role", role === undefined ? "status" : role);
-    paraElement.appendChild(textElement);
-    liveElement.appendChild(paraElement);
-
-    liveElementTimeout = setTimeout(() => {
-        liveElement.innerHTML = "";
-        liveElement.setAttribute("role", "status");
-        liveElementTimeout = null;
-    }, timeout);
-}
-
-
 document.addEventListener("alpine:init", () => {
     Alpine.store('searchPanel', {
         isVisible: false,
@@ -356,11 +23,11 @@ document.addEventListener("alpine:init", () => {
         init() {
             const fromStorage = localStorage.getItem('colorScheme');
 
-            if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 this.name = 'dark'
             }
 
-            if(fromStorage) {
+            if (fromStorage) {
                 this.name = fromStorage
             }
         },
@@ -371,15 +38,46 @@ document.addEventListener("alpine:init", () => {
             };
 
             this.name = value
-            localStorage.setItem('colorScheme',  this.name);
+            localStorage.setItem('colorScheme', this.name);
         },
 
         toggle() {
-            if(this.name == 'light') {
+            if (this.name == 'light') {
                 this.set('dark');
             } else {
                 this.set('light');
             }
+        }
+    });
+
+    Alpine.store('toast', {
+        entries: [],
+        add(title, message, type, duration = -1) {
+            const id = randomId();
+            const safeMessage = new DOMParser().parseFromString(message, 'text/html');
+
+            this.entries.push({
+                id: id,
+                title: title,
+                message: message,
+                type: type,
+            });
+
+            announceToScreenReader(`${title} ${safeMessage.body.textContent.trim()}`);
+
+            if (duration > 0) {
+                setTimeout(() => {
+                    console.log(`removing ${id} after ${duration}ms`);
+                    this.entries.splice(this.entries.indexOf(id), 1);
+                }, duration);
+            }
+
+            if (this.entries.length > 5) {
+                this.entries.shift();
+            }
+        },
+        dismiss(index) {
+            this.entries.splice(index, 1);
         }
     });
 
@@ -518,10 +216,9 @@ document.addEventListener("alpine:init", () => {
         selected: null,
         paths: [],
         fuzzy: new uFuzzy(),
-        initiating: false,
 
         async init() {
-            this.initiating = true;
+            this.$store.searchPanel.loading = true;
             this.activeResultIndex = 0;
 
             try {
@@ -549,7 +246,9 @@ document.addEventListener("alpine:init", () => {
             }
 
 
-            this.initiating = false;
+            this.$store.searchPanel.loading = false;
+
+            console.log(this.$store.searchPanel.loading);
         },
 
         searchDebounced() {
@@ -611,21 +310,23 @@ document.addEventListener("alpine:init", () => {
 
     }));
 
+    Alpine.data("changelog", () => ({
+        rawValue: '',
+        jsonValue: [],
+
+        init() {
+            this.jsonValue = parseChangelog(this.$refs.textarea.value);
+
+            console.log(this.jsonValue);
+        }
+    }));
+
     Alpine.magic('clipboard', () => {
         if (!navigator.clipboard) {
             return
         }
 
-        const toast = new Toast();
-
         return subject => {
-            toast
-                .setMessage('Link copied to the clipboard')
-                .setDuration(200000)
-                .setDismissButton(true)
-                .setPosition('bottom-right')
-                .show();
-
             navigator.clipboard.writeText(subject)
         }
     });
@@ -741,6 +442,236 @@ document.addEventListener("alpine:init", () => {
     });
 });
 
+jQuery(document).ready(() => {
+    const $ = jQuery;
+    const isMobile = window.matchMedia("(max-width: 767px)");
+
+    $('#commentform').each((i, form) => {
+        $(form).find('input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):not([style="display: none;"]), select, textarea').each((i, input) => {
+            const label = $(form).find(`label[for="${input.getAttribute('id')}"]`);
+
+            input.addEventListener("invalid", function (event) {
+                let message = '';
+
+                if (event.target.value.length < 1) {
+                    message = `${label.text().trim()} is required`;
+                } else {
+                    message = `${label.text().trim()} is invalid`;
+                }
+
+                if (isMobile.matches) {
+                    input.setCustomValidity(message);
+                    announceToScreenReader(message, 'alert', 100, true);
+                } else {
+                    input.setCustomValidity(message);
+                }
+            });
+
+            input.addEventListener("input", function (event) {
+                input.setCustomValidity("");
+            });
+        });
+    });
+
+    $('.documentation_pagination').each((i, pagination) => {
+        $(pagination).find('a.prev.page-numbers').parent().addClass('prev-item');
+        $(pagination).find('a.next.page-numbers').parent().addClass('next-item');
+    });
+
+    function handleDocsHeadings() {
+
+        const handleTocAnchor = (hash) => {
+            if (hash) {
+                const currentActive = document.querySelector(`.documentation_toc a.active`);
+                const targetElement = document.querySelector(`.documentation_toc a[href="#${hash}"]`);
+
+                if (currentActive) {
+                    currentActive.classList.remove('active');
+                }
+
+                if (targetElement) {
+                    targetElement.classList.add('active'); // Add your desired class
+                }
+            }
+        };
+
+        const updateHash = entry => {
+            if (entry.isIntersecting) {
+                handleTocAnchor(entry.target.id)
+            }
+        };
+
+        const handleIntersection = (entries, observer) => entries.forEach(entry => updateHash(entry));
+
+        const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.5 });
+
+        $('.single-docs .entry-content, .single-post .entry-content').find('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
+            observer.observe(heading)
+        });
+    }
+
+    $('.comment-content').addClass('prose');
+
+    handleDesktopMenu();
+    handleDocsHeadings();
+});
+
+function handleDesktopMenu() {
+    const $ = jQuery;
+
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    if (menuItems.length > 0) {
+        menuItems.forEach((item) => {
+            handleMenuItem(item);
+        });
+    }
+
+    function handleMenuItem(item) {
+        const anchor = item.querySelector('a');
+        const toggle = item.querySelector('.menu-toggle');
+        const submenu = item.querySelector('.sub-menu');
+
+        if (!toggle || !submenu || !anchor) {
+            return;
+        }
+
+        toggle.setAttribute('aria-label', `${anchor.textContent.trim()}`);
+
+        toggle.addEventListener('click', () => {
+            item.classList.toggle('toggled');
+            toggle.setAttribute('aria-expanded', item.classList.contains('toggled'));
+        });
+
+        anchor.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey) {
+                item.classList.remove('toggled');
+            }
+        });
+
+        handleSubMenu(item, submenu)
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const item = e.target.closest('.toggled');
+
+            if (!item) {
+                return
+            }
+
+            const toggle = item.querySelector('.menu-toggle');
+
+            item.classList.remove('toggled');
+
+            if (toggle) {
+                toggle.focus();
+            }
+        }
+    });
+
+    function handleSubMenu(item, menu) {
+        const items = menu.querySelectorAll('.menu-item');
+        const last = items[items.length - 1];
+        const lastAnchor = last.querySelector('a');
+
+        if (lastAnchor) {
+            lastAnchor.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && !e.shiftKey) {
+                    item.classList.remove('toggled');
+                }
+            });
+        }
+    }
+
+}
+
+
+function parseChangelog(inputString) {
+    const lines = inputString.split('\n');
+    const changelog = [];
+  
+    let currentVersion = null;
+  
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+  
+      if (line.startsWith('==') && line.endsWith('==')) {
+        // Ignore section headers
+        continue;
+      } else if (line.startsWith('=') && line.endsWith('=')) {
+        // Extract version and date
+        const versionDateLine = line.substring(1, line.length - 1).trim().split(' ');
+        const version = versionDateLine[0];
+        const date = versionDateLine[1];
+  
+        // Create a new entry for this version
+        currentVersion = {
+          version: version,
+          date: date,
+          changes: []
+        };
+        changelog.push(currentVersion);
+      } else if (line.startsWith('**') && line.endsWith('**') && currentVersion) {
+        // Extract product name
+        const productName = line.substring(2, line.length - 2).trim();
+        currentVersion.product = productName;
+      } else if (line.startsWith('*') && currentVersion) {
+        // Extract category and log details
+        const categoryEndIndex = line.indexOf(' - ');
+        const category = line.substring(2, categoryEndIndex).trim();
+        const logDetail = line.substring(categoryEndIndex + 3).trim();
+  
+        // Check if the category exists
+        let categoryObj = currentVersion.changes.find(item => item.name === category);
+        if (!categoryObj) {
+          categoryObj = {
+            name: category,
+            log: []
+          };
+          currentVersion.changes.push(categoryObj);
+        }
+  
+        // Extract log details
+        const logDetailParts = /(.+)\[#(\d+)\]/.exec(logDetail);
+        if (logDetailParts && logDetailParts.length === 3) {
+          const description = logDetailParts[1].trim();
+          const id = logDetailParts[2].trim();
+          categoryObj.log.push({ description, id });
+        }
+      }
+    }
+  
+    return changelog;
+  }
+  
+
+let liveElementTimeout = null;
+
+function announceToScreenReader(text, role, timeout = 1000, once = false) {
+    if (once && liveElementTimeout) {
+        return;
+    }
+
+    const liveElement = document.querySelector(".live-status-region");
+    const paraElement = document.createElement("p");
+    const textElement = document.createTextNode(text);
+
+    if (!liveElement) {
+        return;
+    }
+
+    liveElement.setAttribute("role", role === undefined ? "status" : role);
+    paraElement.appendChild(textElement);
+    liveElement.appendChild(paraElement);
+
+    liveElementTimeout = setTimeout(() => {
+        liveElement.innerHTML = "";
+        liveElement.setAttribute("role", "status");
+        liveElementTimeout = null;
+    }, timeout);
+}
+
 function throttle(func) {
     let queued = false;
 
@@ -763,4 +694,19 @@ function modifierValue(modifiers, key, fallback) {
     if (!rawValue) return fallback;
 
     return rawValue;
+}
+
+function randomId(length = 10) {
+    const possibleCharacters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const possibleCharacterArray = Array.from(possibleCharacters);
+    const resultArray = [];
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * possibleCharacterArray.length);
+        const randomCharacter = possibleCharacterArray[randomIndex];
+        resultArray.push(randomCharacter);
+    }
+
+    return resultArray.join('');
 }

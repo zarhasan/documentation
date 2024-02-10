@@ -58,7 +58,7 @@
 			--line-height: 1.6;
 		}
 
-		<?php $primary_color__dark_mode = get_theme_mod("color_primary_dark", $primary_color); ?>
+		<?php $primary_color__dark_mode = get_theme_mod("color_primary_dark", '#6f73cc'); ?>
 
 		body[data-color-scheme="dark"] {
 			--color-primary: <?php echo esc_html($primary_color__dark_mode); ?>;
@@ -109,9 +109,16 @@
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
-			<button x-on:click="$store.searchPanel.show()" class="lg:max-w-3xl h-12 shrink-0 grow mr-auto bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900 when-md:text-sm">
-				<span class="inline-flex justify-center items-center w-5 h-5 mr-4">
+			<button 
+				x-on:click="$store.searchPanel.show()" 
+				x-bind:disabled="$store.searchPanel.loading ? 'disabled' : false"
+				class="lg:max-w-3xl h-12 shrink-0 grow mr-auto bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900 when-md:text-sm disabled:opacity-50">
+				<span x-cloak x-show="!$store.searchPanel.loading" class="inline-flex justify-center items-center w-5 h-5 mr-4">
 					<?php echo documentation_svg('search'); ?>
+				</span>
+
+				<span x-show="$store.searchPanel.loading" class="inline-flex justify-center items-center w-5 h-5 mr-4">
+					<?php echo documentation_svg('spinner'); ?>
 				</span>
 
 				<?php if(is_archive('docs') || is_singular('docs')): ?>
