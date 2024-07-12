@@ -17,23 +17,14 @@ if(!$toc) {
 
 ?>
 
-<div dir="rtl" class="documentation_toc scrollbar col-span-3 h-screen py-10 lg:pl-10 self-start text-left sticky top-0 overflow-y-scroll when-md:hidden">
-  <button 
-      dir="ltr"
-      x-bind:disabled="$store.searchPanel.loading ? 'disabled' : false"
-      x-on:click="$store.searchPanel.query = '<?php echo get_the_title(); ?>: '; $store.searchPanel.show(); $dispatch('site-search');" 
-      class="w-full flex justify-start items-center gap-2 mb-8 bg-gray-50 rounded-full px-4 py-3 text-start text-sm font-medium border-1 border-gray-300 border-solid disabled:opacity-50">
-      <span class="w-4 h-4 inline-flex justify-center items-center shrink-0">
-          <?php echo documentation_svg('search'); ?>
-      </span>
-      <span class="truncate"><?php echo sprintf(__('Search in %s', 'documentation'), get_the_title()); ?></span>
-  </button>
+<div dir="rtl" data-simplebar class="documentation_toc w-72 h-screen py-8 lg:pl-10 self-start text-left !sticky top-0 overflow-y-scroll when-md:hidden">
   
   <?php echo $toc; ?>
 
   <a 
     dir="ltr"
-    class="inline-flex mt-8 text-sm font-semibold text-primary bg-primary-50 px-4 py-2 border-1 border-primary border-solid rounded-full" href="#header">
+    class="inline-flex mt-8 text-sm font-semibold justify-center items-center whitespace-nowrap" href="#header">
     <?php esc_html_e('Back to top', 'documentation'); ?>
+    <span class="inline-block ml-2 w-4 h-4"><?php echo documentation_svg('arrow-up'); ?></span>
   </a>
 </div>

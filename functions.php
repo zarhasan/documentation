@@ -760,7 +760,8 @@ function documentation_get_level_2_headings($content) {
 
 function documentation_get_toc($content) {
     // Match all heading elements (h1 to h6) in the content using a regular expression
-    $pattern = '/<(h[1-6])(.*?)>(.*?)<\/h[1-6]>/i';
+    // $pattern = '/<(h[1-6])(.*?)>(.*?)<\/h[1-6]>/i';
+    $pattern = '/<(h2)(.*?)>(.*?)<\/h[1-6]>/i';
     preg_match_all($pattern, $content, $headings);
 
     // Check if any headings were found

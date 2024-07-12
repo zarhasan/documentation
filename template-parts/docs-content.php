@@ -14,26 +14,16 @@ $author_id = get_the_author_meta('ID');
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(''); ?> >
 	<div class="mt-8">
-		<h1 class="text-4xl entry-title"><?php the_title(); ?></h1>
+		<h1 class="text-7xl font-semibold entry-title inline"><?php the_title(); ?></h1>
 	</div>
 
-	<div class="w-full mt-4 mb-12 pb-6 border-b-1 border-gray-300 border-dashed">
+	<div class="w-full mt-8 mb-12 pb-6 border-b-1 border-gray-300 border-dashed">
 		<div class="text-sm">
 			<a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
 				<?php echo sprintf(__('Written by %s', 'documentation'), get_the_author()); ?>
 			</a>	
-			<span><?php echo sprintf(__('on %s', 'documentation'), get_the_date('F j, Y')); ?></span>
-		</div>
 
-		<div class="flex justify-start items-center gap-4 mt-6">
-			<button class="action-button" x-data x-on:click="$clipboard('<?php echo the_permalink(); ?>'); $store.toast.add('Copied to clipboard', '<?php echo get_the_permalink(); ?>', 'success', 5000);">
-				<?php echo documentation_svg('copy'); ?>
-				<?php esc_html_e('Copy URL', 'documentation'); ?>
-			</button>
-			<button class="action-button">
-				<?php echo documentation_svg('share'); ?>
-				<?php esc_html_e('Share on social media', 'documentation'); ?>
-			</button>
+			<span><?php echo sprintf(__('on %s', 'documentation'), get_the_date('F j, Y')); ?></span>
 		</div>
 	</div>
 

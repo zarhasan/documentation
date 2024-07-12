@@ -78,7 +78,6 @@
 }
 
 .prose a {
-  color: var(--color-primary);
   text-decoration: underline;
   word-break: break-all;
   font-weight: 500;

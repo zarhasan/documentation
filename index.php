@@ -26,7 +26,7 @@ if (is_category()) {
 
 ?>
 
-<div id="primary" class="content-area grid lg:grid-cols-12 px-10">
+<div id="primary" class="content-area grid lg:grid-cols-12 container">
 	<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
 
     <div class="col-span-12 flex-grow self-stretch mb-16 mt-8">

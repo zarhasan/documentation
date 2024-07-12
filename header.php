@@ -17,7 +17,14 @@
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css"
+	/>
+
+	<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
 
 	<style>
 		<?php $primary_color = get_theme_mod("color_primary", "#31358A"); ?>
@@ -99,20 +106,20 @@
 		x-data="header" 
 		x-on:keydown.window.ctrl.k.prevent="$store.searchPanel.show()"
 		role="banner" 
-		class="relative top-0 left-0 w-full h-24 z-[1001] md:py-4 flex justify-start bg-transparent border-gray-300 border-b-1 border-b-1 border-dashed items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
+		class="relative top-0 left-0 w-full h-24 z-[1001] flex justify-start bg-transparent items-center when-sm:border-b-1 when-sm:border-solid when-sm:border-gray-300 transition-all duration-500 ease-out-expo when-sm:h-20"
 		x-bind:class="[notTop ? '' : '']">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
 
-		<div class="w-full px-10 flex justify-start items-center gap-8 when-md:px-6">
-			<a href="<?php echo site_url(); ?>" class="h-14 flex justify-start items-center bg-gray-0 py-2 px-4 rounded-xl when-sm:hidden">
+		<div class="w-full container flex justify-start items-center">
+			<a href="<?php echo site_url(); ?>" class="h-14 sm:w-80 flex justify-start items-center bg-gray-0 py-2 pr-4 rounded-xl when-sm:hidden">
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>
 
 			<button 
 				x-on:click="$store.searchPanel.show()" 
 				x-bind:disabled="$store.searchPanel.loading ? 'disabled' : false"
-				class="lg:max-w-3xl h-12 shrink-0 grow mr-auto bg-gray-100 text-gray-700 border-1 border-gray-300 border-solid rounded-full flex justify-start items-center px-4 focus-within:outline-2 focus-within:border-gray-900 when-md:text-sm disabled:opacity-50">
+				class="lg:max-w-3xl h-12 shrink-0 grow mr-auto text-gray-700 border-b-2 border-gray-1000 border-solid flex justify-start items-center focus-within:outline-2 focus-within:border-gray-900 when-md:text-sm disabled:opacity-50">
 				<span x-cloak x-show="!$store.searchPanel.loading" class="inline-flex justify-center items-center w-5 h-5 mr-4">
 					<?php echo documentation_svg('search'); ?>
 				</span>
@@ -131,33 +138,35 @@
 					</span>
 				<?php endif; ?>
 				
-				<span class="ml-auto bg-gray-50 border-gray-300 border-1 border-solid text-xs font-semibold px-3 py-2 rounded-full">
+				<span class="ml-auto text-xs font-semibold">
 					<?php esc_attr_e('Ctrl + K', 'documentation'); ?>
 				</span>
 			</button>
 			
-			<?php
-				wp_nav_menu(array(
-					'theme_location' => 'primary',
-					'container' => 'nav',
-					'container_class' => 'ml-auto when-sm:hidden pl-8',
-					'menu_class' => 'w-full flex justify-start gap-8 font-medium',
-					'menu_id' => '',
-					'fallback_cb' => false,
-					'container_aria_label' => 'Primary',
-				));
-			?>
+			<div class="flex justify-end items-center w-auto shrink-0 sm:pl-8">
+				<?php
+					wp_nav_menu(array(
+						'theme_location' => 'primary',
+						'container' => 'nav',
+						'container_class' => 'ml-auto when-sm:hidden pl-8',
+						'menu_class' => 'w-full flex justify-start gap-8 font-medium',
+						'menu_id' => '',
+						'fallback_cb' => false,
+						'container_aria_label' => 'Primary',
+					));
+				?>
 
-			<div>
-				<button x-on:click="$store.colorScheme.toggle()" class="bg-gray-100 border-1 border-solid border-gray-300 w-12 h-12 inline-flex justify-center items-center text-gray-600 rounded-full">
-					<span x-show="$store.colorScheme.name === 'light'" class="inline-flex justify-center items-center w-6 h-6">
-						<?php echo documentation_svg('moon'); ?>
-					</span>
+				<div>
+					<button x-on:click="$store.colorScheme.toggle()" class="w-8 h-8 inline-flex justify-center items-center text-gray-600 rounded-full ml-2">
+						<span x-show="$store.colorScheme.name === 'light'" class="inline-flex justify-center items-center w-6 h-6">
+							<?php echo documentation_svg('moon'); ?>
+						</span>
 
-					<span x-cloak x-show="$store.colorScheme.name === 'dark'" class="inline-flex justify-center items-center w-6 h-6">
-						<?php echo documentation_svg('sun'); ?>
-					</span>
-				</button>
+						<span x-cloak x-show="$store.colorScheme.name === 'dark'" class="inline-flex justify-center items-center w-6 h-6">
+							<?php echo documentation_svg('sun'); ?>
+						</span>
+					</button>
+				</div>
 			</div>
 		</div>
 

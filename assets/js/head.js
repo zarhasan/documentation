@@ -14,7 +14,7 @@ twind.install({
     theme: {
         fontFamily: {
             primary: [
-                "Inter",
+                "Open Sans",
                 "-apple-system",
                 "BlinkMacSystemFont",
                 "Segoe UI",
