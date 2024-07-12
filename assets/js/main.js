@@ -480,30 +480,21 @@ jQuery(document).ready(() => {
 
     function handleDocsHeadings() {
 
-        const handleTocAnchor = (hash) => {
-            if (hash) {
-                const currentActive = document.querySelector(`.documentation_toc a.active`);
-                const targetElement = document.querySelector(`.documentation_toc a[href="#${hash}"]`);
+        const handleTocAnchor = (entry) => {
+            if (entry.target.id) {
+                const targetElement = document.querySelector(`.documentation_toc a[href="#${entry.target.id}"]`);
 
-                if (currentActive) {
-                    currentActive.classList.remove('active');
-                }
-
-                if (targetElement) {
-                    targetElement.classList.add('active'); // Add your desired class
+                if (entry.isIntersecting) {
+                    targetElement.classList.add('active');
+                } else {
+                    targetElement.classList.remove('active');
                 }
             }
         };
 
-        const updateHash = entry => {
-            if (entry.isIntersecting) {
-                handleTocAnchor(entry.target.id)
-            }
-        };
+        const handleIntersection = (entries, observer) => entries.forEach(entry => handleTocAnchor(entry));
 
-        const handleIntersection = (entries, observer) => entries.forEach(entry => updateHash(entry));
-
-        const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.5 });
+        const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.75 });
 
         $('.single-docs .entry-content, .single-post .entry-content').find('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
             observer.observe(heading)
