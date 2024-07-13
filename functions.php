@@ -6,7 +6,7 @@ require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
 define('DOCUMENTATION_VERSION', '1.0.10');
-define('DOCUMENTATION_JOIN_SYMBOL', ' ➜ ');
+define('DOCUMENTATION_JOIN_SYMBOL', ' / ');
 define('DOCUMENTATION_CACHE_DIR',  WP_CONTENT_DIR . '/cache/documentation/');
 
 // Actions
@@ -21,6 +21,11 @@ add_action('wp_ajax_nopriv_documentation_get_documents_list', 'documentation_get
 
 add_action('wp_ajax_documentation_get_posts_list', 'documentation_get_posts_list_callback');
 add_action('wp_ajax_nopriv_documentation_get_posts_list', 'documentation_get_posts_list_callback');
+
+add_action('save_post', function($post_id) {
+    documentation_delete_file_cache('public_documents_haystack');
+    documentation_delete_file_cache('public_posts_haystack');
+});
 
 // Filters
 add_filter("script_loader_tag", "documentation_add_defer_to_alpine_script", 10, 3);
@@ -208,8 +213,8 @@ function documentation_register_required_plugins() {
             'required'  => false,
         ),
         array(
-            'name'      => 'WP Githuber MD',
-            'slug'      => 'wp-githuber-md',
+            'name'      => 'Code Block Pro – Beautiful Syntax Highlighting',
+            'slug'      => 'code-block-pro',
             'required'  => false,
         )
     );
@@ -920,7 +925,7 @@ function documentation_delete_file_cache($key) {
 
 function documentation_update_file_cache($key, $callback, $expiration = 3600) {
     // Delete existing cache data
-    delete_cache_data($key);
+    documentation_delete_file_cache($key);
 
     // Use the get_data_with_cache function to update the cache
     return get_data_with_cache($key, $callback, $expiration);

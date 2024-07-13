@@ -14,7 +14,7 @@
 
 get_header(); ?>
 
-<div class="container">
+<div class="x-container">
 	<div id="primary" class="content-area">
 		<?php
 			/* Start the Loop */

@@ -26,7 +26,7 @@ if (is_category()) {
 
 ?>
 
-<div id="primary" class="content-area grid lg:grid-cols-12 container">
+<div id="primary" class="content-area grid lg:grid-cols-12 x-container">
 	<?php $card_type = get_theme_mod('blog_card_type', 'default'); ?>
 
     <div class="col-span-12 flex-grow self-stretch mb-16 mt-8">
@@ -55,15 +55,15 @@ if (is_category()) {
 			<?php echo wp_kses_post($archive_title); ?>
         </h1>
 
-        <div class="flex justify-start items-center flex-wrap gap-2 mt-8 when-sm:flex-wrap">
-            <a class="px-6 py-3 rounded-full border-1 border-solid border-gray-300 current:bg-gray-700 current:text-white" href="<?php echo esc_url($posts_page_id ? $posts_page_url : home_url()); ?>">
+        <div class="flex justify-start items-center flex-wrap gap-4 mt-8 when-sm:flex-wrap">
+            <a class="font-semibold current:underline" href="<?php echo esc_url($posts_page_id ? $posts_page_url : home_url()); ?>">
                 <?php esc_html_e('All', 'wpresidence') ?>
             </a>
 
             <?php if(!empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
                     <a 
-                        class="px-6 py-3 rounded-full border-1 border-solid border-gray-300 current:bg-primary-50 current:text-primary current:border-primary" 
+                        class="font-semibold current:underline" 
                         href="<?php echo esc_url(get_category_link($category->term_id)); ?>"
                         <?php if(!empty($current_category) && $current_category->term_id == $category->term_id): ?>
                             aria-current="page"

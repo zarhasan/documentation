@@ -248,7 +248,13 @@ document.addEventListener("alpine:init", () => {
 
             this.$store.searchPanel.loading = false;
 
-            console.log(this.$store.searchPanel.loading);
+            this.$watch('activeResultIndex', () => {
+                this.$root.querySelector(`#search-results a[data-index="${this.activeResultIndex}"]`)?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'nearest',
+                });
+            })
         },
 
         searchDebounced() {
@@ -284,7 +290,6 @@ document.addEventListener("alpine:init", () => {
                 if (this.activeResultIndex < this.searchResults.length - 1) {
                     this.activeResultIndex++;
                 }
-
             } else if (event.key === 'ArrowUp') {
                 event.preventDefault();
                 if (this.activeResultIndex > 0) {
@@ -485,9 +490,9 @@ jQuery(document).ready(() => {
                 const targetElement = document.querySelector(`.documentation_toc a[href="#${entry.target.id}"]`);
 
                 if (entry.isIntersecting) {
-                    targetElement.classList.add('active');
+                    targetElement?.classList.add('active');
                 } else {
-                    targetElement.classList.remove('active');
+                    targetElement?.classList.remove('active');
                 }
             }
         };
@@ -497,6 +502,10 @@ jQuery(document).ready(() => {
         const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.75 });
 
         $('.single-docs .entry-content, .single-post .entry-content').find('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
+            if(!heading.hasAttribute('id')) {
+                $(heading).attr('id', heading.textContent.trim().replace(/\s+/g, '-').toLowerCase());
+            }
+            
             observer.observe(heading)
         });
     }

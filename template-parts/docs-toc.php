@@ -17,7 +17,7 @@ if(!$toc) {
 
 ?>
 
-<div dir="rtl" data-simplebar class="documentation_toc w-72 h-screen py-8 lg:pl-10 self-start text-left !sticky top-0 overflow-y-scroll when-md:hidden">
+<div dir="rtl" data-simplebar class="documentation_toc w-72 h-screen py-8 lg:pl-10 self-start text-left !sticky top-0 overflow-y-scroll hidden xl:block">
   
   <?php echo $toc; ?>
 

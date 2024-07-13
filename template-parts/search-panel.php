@@ -20,11 +20,11 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
   x-data="searchPanel('<?php echo esc_attr($ajax_action); ?>')" 
   class="fixed inset-0 w-full h-full z-[9999] bg-[#212121d8] flex justify-center items-start p-20 backdrop-blur-sm when-sm:p-6">
   <form 
-    class="flex flex-col w-full max-h-full grow lg:max-w-3xl bg-gray-0 shadow-lg rounded-xl p-4"
+    class="flex flex-col w-full max-h-full grow lg:max-w-3xl bg-gray-0 shadow-lg p-6 pb-4"
     action="<?php home_url(); ?>"
     x-on:click.outside="$store.searchPanel.hide()">
 
-    <div class="border-1 border-solid border-gray-300 rounded-xl flex justify-start items-center px-4 bg-gray-100 focus-within:bg-transparent">
+    <div class="border-b-2 border-solid border-gray-1000 flex justify-start items-center focus-within:bg-transparent">
       <span class="inline-flex justify-center items-center w-6 h-6 mr-2 text-gray-600 shrink-0">
         <?php echo documentation_svg('search'); ?>
       </span>
@@ -55,7 +55,8 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
     </div>
 
     <ul 
-      class="w-full grow overflow-y-scroll bg-gray-0 text-gray-1000 list-none m-0 px-1 mt-4" 
+      x-cloak
+      class="w-full grow scrollbar overflow-y-scroll bg-gray-0 text-gray-1000 list-none m-0 px-1 mt-4" 
       id="search-results" 
       role="listbox" 
       aria-label="Search results" 
@@ -68,10 +69,11 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
           x-on:click="selectResult(result)" 
           >
           <a 
-            class="flex justify-start items-center bg-gray-50 text-gray-700 px-4 py-4 text-sm font-medium rounded-xl overflow-hidden w-full transition-all duration-200 ease-out-expo selected:bg-primary selected:text-white hover:bg-primary hover:text-white"
+            class="flex justify-start items-center text-gray-700 px-4 py-4 text-sm font-medium overflow-hidden w-full transition-all duration-200 ease-out-expo selected:bg-gray-100 hover:bg-gray-100"
             x-bind:aria-selected="isActive(index)"
             x-bind:href="paths[index]" 
             x-show="result" 
+            x-bind:data-index="index"
           > 
             <span class="flex justify-center items-center bg-gray-200 text-gray-700 rounded p-2 mr-4 w-8 h-8 shrink-0">
               <span x-cloak x-show="paths[index] && paths[index].includes('#')">
@@ -84,8 +86,8 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
             </span>
 
             <span class="flex flex-col justify-center gap-2">
-              <span x-text="result.split(' ➜ ').at(-1)"></span>
-              <span class="text-xs" x-text="result"></span>
+              <span class="font-bold" x-text="result.split('<?php echo DOCUMENTATION_JOIN_SYMBOL; ?>').at(-1)"></span>
+              <span class="text-xs text-gray-700" x-text="result.split('<?php echo DOCUMENTATION_JOIN_SYMBOL; ?>').at(0)"></span>
             </span>
 
             <span 
@@ -102,7 +104,7 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
       <?php esc_html_e('Enter search term to find documents', 'documentation'); ?>
     </div>
 
-    <div class="w-full bg-gray-100 text-sm py-2 px-4 text-gray-600 rounded-xl mt-4">
+    <div class="text-xs font-semibold mt-4">
       <?php echo sprintf(__('Press %s %s to navigate, %s to select, and %s to close', 'documentation'), '<kbd>'.documentation_svg('arrow-narrow-up').'</kbd>', '<kbd>'.documentation_svg('arrow-narrow-down').'</kbd>',  '<kbd>'.documentation_svg('arrow-back').'</kbd>', '<kbd>'.__('Esc', 'documetation').'</kbd>') ?>
     </div>
   </form>

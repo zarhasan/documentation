@@ -10,7 +10,7 @@
 get_header(); ?>
 
 <div class="documentation-container documentation_search_page">
-	<div class="container flex-grow self-stretch">
+	<div class="x-container flex-grow self-stretch">
 		<?php if (have_posts()): ?>
 			<div class="posts grid gap-8 my-12 items-start">
 				<?php 

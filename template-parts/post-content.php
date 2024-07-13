@@ -10,14 +10,14 @@
 ?>
 
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('mt-8'); ?> >
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
 	<div class="documentation_breadcrumb">
-    <?php echo documentation_get_breadcrumb(); ?>
-  </div>
+		<?php echo documentation_get_breadcrumb(); ?>
+	</div>
 	
-	<div class="mt-2">
-		<h1 class="entry-title leading-snug when-sm:text-5xl"><?php the_title(); ?></h1>
-		<div class="mt-2"><?php the_excerpt(); ?></div>
+	<div class="mt-4">
+		<h1 class="text-7xl font-semibold entry-title inline"><?php the_title(); ?></h1>
+		<div class="mt-4"><?php the_excerpt(); ?></div>
 	</div>
 
 	<?php if(get_post_thumbnail_id()): ?>

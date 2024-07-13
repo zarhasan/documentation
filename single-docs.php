@@ -13,8 +13,8 @@ $documents = get_document_hierarchy();
 
 ?>
 
-<div class="w-full flex justify-start container when-md:px-6">
-  <?php get_template_part('template-parts/sidebar', null, ['documents' => $documents]); ?>
+<div class="w-full flex justify-start x-container when-md:px-6">
+  <?php get_template_part('template-parts/docs', 'sidebar', ['documents' => $documents]); ?>
 	
   <div id="primary" class="pt-8 lg:px-8 sm:w-7/12 grow">
     <div class="documentation_breadcrumb">

@@ -17,7 +17,7 @@
 <div class="sr-only live-status-region" role="status"></div>
 
 <footer class="mt-16 border-t-1 border-gray-300 border-dashed">
-  <div class="container flex justify-start items-start">
+  <div class="x-container flex justify-start items-start">
     <div class="w-8/12 grow py-16">
       <a href="<?php echo site_url(); ?>" class="h-14 inline-flex justify-start items-center bg-gray-0 py-2 rounded-xl when-sm:hidden">
 				<?php get_template_part('template-parts/footer-logo'); ?>

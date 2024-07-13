@@ -111,7 +111,7 @@
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
 
-		<div class="w-full container flex justify-start items-center">
+		<div class="w-full x-container flex justify-start items-center">
 			<a href="<?php echo site_url(); ?>" class="h-14 sm:w-80 flex justify-start items-center bg-gray-0 py-2 pr-4 rounded-xl when-sm:hidden">
 				<?php get_template_part('template-parts/header-logo'); ?>
 			</a>

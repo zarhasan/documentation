@@ -157,7 +157,7 @@
 }
 
 a .prose code {
-  color: var(--color-primary);
+  color: var(--color-gray-900);
 }
 
 .prose ol {
@@ -374,10 +374,9 @@ a .prose code {
 }
 
 .prose blockquote {
-  background-color: var(--color-primary-50);
-  border: 0.1em solid var(--color-primary-300);
-  color: var(--color-primary);
-  border-radius: 1em;
+  background-color: var(--color-gray-50);
+  border: 0.1em solid var(--color-gray-300);
+  color: var(--color-gray-900);
   padding: 1.5rem;
 }
 
@@ -421,7 +420,7 @@ a .prose code {
 .prose pre[class*="language-"]::mozselection,
 .prose code[class*="language-"]::mozselection {
   text-shadow: none;
-  background: var(--color-primary-300);
+  background: var(--color-gray-300);
 }
 
 @media print {
@@ -436,7 +435,7 @@ a .prose code {
   padding: 1em;
   margin: .5em 0;
   overflow: auto;
-  background: var(--color-primary-50);
+  background: var(--color-gray-50);
 }
 
 

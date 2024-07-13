@@ -10,14 +10,16 @@
 get_header(); ?>
 
 
-<div id="primary" class="content-area px-10 grid grid-cols-12 justify-start items-stretch flex-wrap">
-	<div class="col-span-9 grow pr-16">
+<div class="mx-auto w-full flex justify-start x-container">
+	<?php get_template_part('template-parts/post', 'sidebar'); ?>
+
+	<div id="primary" class="pt-8 lg:px-8 sm:w-7/12 grow">
 		<?php
 			/* Start the Loop */
 			while (have_posts()):
 				the_post();
 
-				get_template_part( 'template-parts/content/single', get_post_format());
+				get_template_part( 'template-parts/post-content', get_post_format());
 
 				get_template_part( 'template-parts/post', 'navigation');
 
@@ -30,8 +32,6 @@ get_header(); ?>
 
 		?>
 	</div>
-
-	<?php get_template_part('template-parts/toc'); ?>
 </div><!-- #primary -->
 
 

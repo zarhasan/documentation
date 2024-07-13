@@ -13,7 +13,7 @@ if(!$wp_query) {
 
 ?>
 
-<div class="documentation_pagination flex justify-center items-center">
+<div class="documentation_pagination">
     <?php
         $args = [
             'base'		=> str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
