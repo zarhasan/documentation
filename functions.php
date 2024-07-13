@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
-define('DOCUMENTATION_VERSION', '1.0.10');
+define('DOCUMENTATION_VERSION', '1.0.11');
 define('DOCUMENTATION_JOIN_SYMBOL', ' / ');
 define('DOCUMENTATION_CACHE_DIR',  WP_CONTENT_DIR . '/cache/documentation/');
 
