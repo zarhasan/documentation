@@ -93,12 +93,6 @@ h2 {
     font-weight: 600;
 }
 
-.prose h1,
-.prose h2 {
-    font-family: "Inter";
-    font-weight: 600;
-}
-
 h3,
 h4 {
     font-weight: 600;
@@ -229,11 +223,17 @@ header nav.desktop>ul {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1.5rem;
 }
 
 header nav.desktop>ul li {
     display: inline-flex;
     align-items: center;
+}
+
+header nav.desktop > ul > li {
+    font-size: 0.875rem;
+    font-weight: bold;
 }
 
 header nav.desktop ul li.menu-item-has-children {
@@ -286,7 +286,6 @@ header nav.desktop li.toggled>.menu-toggle {
 
 header nav ul a[aria-current="page"] {
     text-decoration: underline;
-    font-weight: 600;
 }
 
 /* Menu > Mobile */
@@ -295,6 +294,8 @@ header nav.mobile>ul {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 header nav.mobile>ul li {
@@ -488,7 +489,9 @@ header nav.mobile li.toggled>.menu-toggle {
 
 /* TOC */
 .documentation_toc ul {
-    direction: ltr;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .documentation_toc h2 {
@@ -506,7 +509,6 @@ header nav.mobile li.toggled>.menu-toggle {
 .documentation_toc ul a {
     width: 100%;
     border-radius: 9999px;
-    display: inline-flex;
     font-size: 0.875rem;
     font-weight: 500;
     margin: 0.25rem 0;
@@ -664,10 +666,10 @@ header nav.mobile li.toggled>.menu-toggle {
 }
 
 .comments-area {
-    background-color: var(--color-gray-50);
+    background-color: var(--color-gray-0);
     padding: 2rem;
     border: 0.05em solid var(--color-gray-300);
-    border-radius: 1em;
+    width: 100%;
 }
 
 .comment-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),

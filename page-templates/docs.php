@@ -20,18 +20,20 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 <div class="mt-16">
   <div class="x-container">
     <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Support center</h2>
+      <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+        <?php echo esc_html($data['title']); ?>
+      </h2>
       <p class="mt-6 text-lg leading-8 text-gray-600">
-        <?php echo wp_kses_post($data['subtitle']); ?>
+        <?php echo esc_html($data['subtitle']); ?>
       </p>
     </div>
   </div>
 </div>
 
 <div class="x-container mt-16"> 
-  <div class="sm:grid sm:grid-cols-3 gap-16">
+  <div class="grid sm:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): ?>
-      <div class="group relative">
+      <div class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
         <div>
           <span class="inline-flex rounded-lg bg-<?php echo esc_attr($colors[$index]); ?>-50 p-3 text-<?php echo esc_attr($colors[$index]); ?>-700">
             <?php echo documentation_svg('folder'); ?>
@@ -41,15 +43,17 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
         <div class="mt-8">
           <h3 class="text-lg font-bold leading-6 text-gray-900">
             <a href="<?php echo esc_url($document['permalink']); ?>" rel="bookmark" class="focus:outline-none">
-              <!-- Extend touch target to entire panel -->
               <?php echo esc_html($document['title']); ?>
             </a>
           </h3>
 
-          <ul class="mt-4 text-sm text-gray-700 flex flex-col gap-2 list-disc pl-4">
+          <ul class="mt-4 text-sm text-gray-700 flex flex-col gap-2">
             <?php foreach (array_slice($document['children'], 0, 5) as $index => $children): ?>
                 <li>
-                    <a class="w-full block hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
+                    <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
+                      <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
+                        <?php echo documentation_svg('clipboard-text'); ?>
+                      </span>
                       <?php echo esc_html($children['title']); ?>
                     </a>
                 </li>

@@ -10,7 +10,7 @@ if ($args) {
 
 ?>
 
-<div data-simplebar class="!sticky top-0 sm:w-72 shrink-0 border-gray-300 text-gray-1000 border-solid h-screen overflow-y-scroll py-8 lg:pr-10 self-start when-md:hidden">
+<div data-simplebar class="<?php echo !empty($class) ? $class : ''; ?>">
   <ul class="text-sm flex flex-col gap-4">
     <?php foreach ($documents as $index => $document): ?>
       <li>
