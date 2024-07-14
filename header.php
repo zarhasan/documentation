@@ -131,7 +131,7 @@
 					wp_nav_menu(array(
 						'theme_location' => 'primary',
 						'container' => 'nav',
-						'container_class' => 'desktop ml-auto when-sm:hidden pl-8',
+						'container_class' => 'desktop ml-auto hidden lg:flex pl-8',
 						'menu_class' => '',
 						'menu_id' => '',
 						'fallback_cb' => false,

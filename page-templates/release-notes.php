@@ -11,8 +11,8 @@ get_header();
 <div x-data="changelog" class="px-10 mx-auto py-16">
     <div class="flex flex-col justify-start items-start gap-4">
         <template x-for="item in jsonValue">
-            <div x-data="{expanded: false}" class="w-full bg-gray-50 text-gray-950 border-1 border-solid border-gray-300 rounded-2xl">
-                <button x-on:click="expanded = !expanded" class="p-4 w-full flex items-center justify-between text-left">
+            <div class="w-full bg-gray-0 border-1 border-solid border-gray-200">
+                <button class="p-4 w-full flex items-center justify-between text-left">
                     <span class="w-4 h-4 inline-flex justify-center items-center mr-2"><?php echo documentation_svg('file-text'); ?></span>
                     <span class="font-semibold pr-2" x-text="item.version"></span>
                     <span class="mr-auto" x-text="item.product"></span>
@@ -29,7 +29,7 @@ get_header();
                     </span>
                 </button>
 
-                <div x-show="expanded" class="p-4">
+                <div class="p-4">
                     <template x-for="change in item.changes">
                         <template x-if="change.log.length > 0">
                             <div>

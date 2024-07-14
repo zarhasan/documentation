@@ -374,8 +374,10 @@ header nav.mobile li.toggled>.menu-toggle {
     margin: 2rem 0;
     position: relative;
     width: auto;
-    border: 0.1rem solid var(--color-gray-300);
+    border: 0.05rem solid var(--color-gray-200);
     padding: 0.5rem;
+    background-color: var(--color-gray-0);
+
 }
 
 .documentation_pagination a.page-numbers {

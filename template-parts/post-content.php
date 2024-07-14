@@ -15,9 +15,17 @@
 		<?php echo documentation_get_breadcrumb(); ?>
 	</div>
 	
-	<div class="mt-4">
-		<h1 class="text-7xl font-semibold entry-title inline"><?php the_title(); ?></h1>
-		<div class="mt-4"><?php the_excerpt(); ?></div>
+	<div class="mt-8">
+		<h1 class="text-5xl sm:text-7xl font-semibold entry-title inline"><?php the_title(); ?></h1>
+	</div>
+
+	<div class="w-full mt-8 mb-8 pb-6 border-b-1 border-gray-300 border-dashed">
+		<div class="text-sm">
+			<a class="inline-flex justify-start items-center" href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
+				<span class="w-4 h-4 inline-flex justify-center items-center mr-2"><?php echo documentation_svg('edit'); ?></span>
+				<?php echo sprintf(__('Published on %s', 'documentation'), get_the_date()); ?>
+			</a>	
+		</div>
 	</div>
 
 	<?php if(get_post_thumbnail_id()): ?>
@@ -27,49 +35,6 @@
 			</div>
 		</div>
 	<?php endif; ?>
-
-	
-	<div class="w-full my-8 flex justify-between items-start">
-		<div class="flex justify-start items-start gap-6">
-			<div class="flex flex-col items-start justify-start gap-1">
-				<p class="text-sm font-semibold inline-flex items-center text-gray-900">
-					<?php esc_html_e( 'Published By', 'documentation' ) ?>
-				</p>
-				<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" class="text-sm">
-					<?php the_author(); ?>
-				</a>
-			</div>
-			<div class="flex flex-col items-start justify-start gap-1">
-				<p class="text-sm font-semibold inline-flex items-center text-gray-900">
-					<?php esc_html_e( 'Published On', 'documentation' ) ?>
-				</p>
-				<p class="text-sm">
-					<?php the_date('F j, Y'); ?>
-				</p>
-			</div>
-		</div>
-
-		<div class="flex justify-end items-center gap-4">
-			<div class="flex justify-end items-center gap-4 text-gray-700">
-				<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo the_permalink(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-facebook'); ?>
-				</a>
-				<a href="https://twitter.com/intent/tweet?url=<?php echo the_permalink(); ?>&text=<?php echo the_title(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-twitter'); ?>
-				</a>
-				<a href="https://www.linkedin.com/shareArticle?url=<?php echo the_permalink(); ?>&title=<?php echo the_title(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-linkedin'); ?>
-				</a>
-				<a href="https://api.whatsapp.com/send?text=<?php echo the_title(); ?>%20-%<?php echo the_permalink(); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo documentation_svg('brand-whatsapp'); ?>
-				</a>
-
-				<button x-data aria-label="Copy URL" x-on:click="$clipboard('<?php echo the_permalink(); ?>');">
-					<?php echo documentation_svg('copy'); ?>
-				</button>
-			</div>
-		</div>
-	</div>
 	
 	
 	<div class="entry-content prose">

@@ -45,11 +45,11 @@ $author_id = get_the_author_meta('ID');
 			x-on:click.away="showSidebar = false"
 			x-on:keydown.escape="showSidebar = false"
 			x-transition:enter="transition ease-out duration-300"
-			x-transition:enter-start="opacity-0 translate-x-28"
-			x-transition:enter-end="opacity-100 translate-x-0"
+			x-transition:enter-start="opacity-0 -translate-x-28"
+			x-transition:enter-end="opacity-100 -translate-x-0"
 			x-transition:leave="transition ease-in duration-300"
-			x-transition:leave-start="opacity-100 translate-x-0"
-			x-transition:leave-end="opacity-0 translate-x-28"
+			x-transition:leave-start="opacity-100 -translate-x-0"
+			x-transition:leave-end="opacity-0 -translate-x-28"
 			class="!fixed z-[500] bg-gray-50 px-6 py-8 top-32 left-0 w-96 bottom-0 h-screen">
 			<?php get_template_part('template-parts/docs', 'sidebar', ['documents' => $documents, 'class' => 'w-full shrink-0 overflow-y-scroll lg:pr-10 lg:hidden']); ?>
 		</div>
@@ -71,12 +71,12 @@ $author_id = get_the_author_meta('ID');
 			x-on:keydown.escape="showToc = false"
 			x-on:hashchange.window="showToc = false"
 			x-transition:enter="transition ease-out duration-300"
-			x-transition:enter-start="opacity-0 -translate-x-28"
-			x-transition:enter-end="opacity-100 -translate-x-0"
+			x-transition:enter-start="opacity-0 translate-x-28"
+			x-transition:enter-end="opacity-100 translate-x-0"
 			x-transition:leave="transition ease-in duration-300"
-			x-transition:leave-start="opacity-100 -translate-x-0"
-			x-transition:leave-end="opacity-0 -translate-x-28"
-			class="documentation_toc !fixed z-[500] bg-gray-50 px-6 py-8 top-32 left-0 right-0 bottom-0 h-screen overflow-y-scroll text-right">
+			x-transition:leave-start="opacity-100 translate-x-0"
+			x-transition:leave-end="opacity-0 translate-x-28"
+			class="documentation_toc !fixed z-[500] bg-gray-50 px-6 py-8 top-32 w-96 right-0 bottom-0 h-screen overflow-y-scroll text-right">
 			<?php echo wp_kses_post($toc); ?>
 		</div>
 	</div>

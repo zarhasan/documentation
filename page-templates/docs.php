@@ -19,23 +19,33 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 
 <div class="mt-16">
   <div class="x-container">
-    <div class="mx-auto max-w-2xl lg:mx-0">
+    <div class="max-w-2xl lg:mx-0">
       <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
         <?php echo esc_html($data['title']); ?>
       </h2>
       <p class="mt-6 text-lg leading-8 text-gray-600">
         <?php echo esc_html($data['subtitle']); ?>
       </p>
+
+      <div class="mt-8 flex gap-4">
+        <a class="inline-flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-5 py-3 text-base font-medium text-gray-0 shadow-sm hover:bg-gray-800" href="<?php echo $documents[0]['permalink']; ?>">
+          <?php esc_html_e( 'Get started', 'documentation' ); ?>
+          <span class="ml-2 -mr-0.5 h-4 w-4">
+            <?php echo documentation_svg('arrow-right'); ?>
+          </span>
+        </a>
+      </div>
+
     </div>
   </div>
 </div>
 
 <div class="x-container mt-16"> 
-  <div class="grid sm:grid-cols-3 gap-8">
+  <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): ?>
-      <div class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
+      <div x-data="{expanded: false}" class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
         <div>
-          <span class="inline-flex rounded-lg bg-<?php echo esc_attr($colors[$index]); ?>-50 p-3 text-<?php echo esc_attr($colors[$index]); ?>-700">
+          <span class="inline-flex rounded-lg bg-<?php echo esc_attr($colors[$index % count($colors)]); ?>-50 p-3 text-<?php echo esc_attr($colors[$index % count($colors)]); ?>-700">
             <?php echo documentation_svg('folder'); ?>
           </span>
         </div>
@@ -48,8 +58,9 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
           </h3>
 
           <ul class="mt-4 text-sm text-gray-700 flex flex-col gap-2">
-            <?php foreach (array_slice($document['children'], 0, 5) as $index => $children): ?>
-                <li>
+            <?php foreach ($document['children'] as $index => $children): ?>
+                <li 
+                    x-bind:class="expanded || '1' == '<?php echo $index < 5 ?>' ? 'block' : 'hidden'">
                     <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
                       <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
                         <?php echo documentation_svg('clipboard-text'); ?>
@@ -59,6 +70,13 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
                 </li>
             <?php endforeach; ?>
           </ul>
+
+          <?php if (!empty($document['children']) && count($document['children']) > 5): ?>
+            <button class="inline-flex items-center justify-center mt-4 w-6 h-6 text-gray-600" x-on:click="expanded = !expanded">
+              <span x-show="!expanded" aria-hidden="true"><?php echo documentation_svg('chevron-down'); ?></span>
+              <span x-cloak x-show="expanded" aria-hidden="true"><?php echo documentation_svg('chevron-up'); ?></span>
+            </button>
+          <?php endif; ?>
         </div>
       
         <span class="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
