@@ -9,7 +9,7 @@ get_header();
 $documents = get_document_hierarchy();
 
 $data = [
-  'title' => __('RedOxbird Docs', 'documentation'),
+  'title' => __('RedOxbird Theme Documentation', 'documentation'),
   'subtitle' => __('Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.', 'documentation'),
 ];
 
@@ -19,8 +19,8 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 
 <div class="mt-16">
   <div class="x-container">
-    <div class="max-w-2xl lg:mx-0">
-      <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+    <div class="max-w-4xl lg:mx-0">
+      <h2 class="text-4xl tracking-tight text-gray-900 sm:text-8xl">
         <?php echo esc_html($data['title']); ?>
       </h2>
       <p class="mt-6 text-lg leading-8 text-gray-600">
@@ -57,7 +57,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
             </a>
           </h3>
 
-          <ul class="mt-4 text-sm text-gray-700 flex flex-col gap-2">
+          <ul class="mt-4 text-base text-gray-700 flex flex-col gap-2">
             <?php foreach ($document['children'] as $index => $children): ?>
                 <li 
                     x-bind:class="expanded || '1' == '<?php echo $index < 5 ?>' ? 'block' : 'hidden'">

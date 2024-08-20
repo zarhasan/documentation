@@ -55,15 +55,20 @@ if (is_category()) {
 			<?php echo wp_kses_post($archive_title); ?>
         </h1>
 
-        <div class="flex justify-start items-center flex-wrap gap-4 mt-8 when-sm:flex-wrap">
-            <a class="font-semibold current:underline" href="<?php echo esc_url($posts_page_id ? $posts_page_url : home_url()); ?>">
+        <div class="flex justify-start items-center flex-wrap w-full gap-4 mt-8 whitespace-nowrap bg-white border border-gray-200 p-2">
+            <a 
+                class="text-sm current:bg-gray-1000 current:text-white px-4 py-2" 
+                href="<?php echo esc_url($posts_page_id ? $posts_page_url : home_url()); ?>"
+                <?php if(!is_category()): ?>
+                    aria-current="page"
+                <?php endif; ?>>
                 <?php esc_html_e('All', 'wpresidence') ?>
             </a>
 
             <?php if(!empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
                     <a 
-                        class="font-semibold current:underline" 
+                        class="text-sm current:bg-gray-1000 current:text-white px-4 py-2" 
                         href="<?php echo esc_url(get_category_link($category->term_id)); ?>"
                         <?php if(!empty($current_category) && $current_category->term_id == $category->term_id): ?>
                             aria-current="page"
