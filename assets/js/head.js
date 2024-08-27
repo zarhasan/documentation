@@ -9,6 +9,7 @@ twind.install({
         ["selected", '&[aria-selected="true"]'],
         ["current", '&[aria-current="true"], &[aria-current="page"]'],
         ["scrolled", "&.scrolled"],
+        ["admin-bar", ".admin-bar &"],
         ["touch", "@media (hover: none)"],
     ],
     theme: {

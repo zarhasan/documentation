@@ -62,9 +62,17 @@ input[type="search"]:not([readonly]),
 input[type="tel"]:not([readonly]),
 input[type="url"]:not([readonly]),
 select,
+select,
 textarea {
+    color: var(--color-gray-1000);
+    background-color: transparent;
     border: 0.05em solid var(--color-gray-900);
     padding: 0 1rem;
+}
+
+select option {
+    background-color: var(--color-gray-0);
+    color: var(--color-gray-1000);
 }
 
 input[type="text"]:not([readonly]),

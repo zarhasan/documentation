@@ -31,9 +31,9 @@ $author_id = get_the_author_meta('ID');
 
 	<div x-data="{showSidebar: false, showToc: false}" class="lg:hidden flex justify-between items-center">
 		<button 
-			class="fixed left-0 top-1/2 -translate-y-1/2 origin-left px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold bg-gray-0 border-1 border-gray-300 border-solid text-right transition-all"
+			class="fixed left-0 bottom-20 origin-left px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold bg-gray-0 border-1 border-gray-300 border-solid text-right transition-all"
 			x-on:click="showSidebar = !showSidebar"
-			x-bind:class="{ 'translate-x-[22.5rem] z-[501]': showSidebar }"
+			x-bind:class="{ 'translate-x-[22.5rem] z-[1501]': showSidebar }"
 			x-show="!showToc">
 			<span x-show="!showSidebar" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-right'); ?></span>
 			<span x-cloak x-show="showSidebar" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-left'); ?></span>
@@ -50,15 +50,15 @@ $author_id = get_the_author_meta('ID');
 			x-transition:leave="transition ease-in duration-300"
 			x-transition:leave-start="opacity-100 -translate-x-0"
 			x-transition:leave-end="opacity-0 -translate-x-28"
-			class="!fixed z-[500] bg-gray-50 px-6 py-8 top-32 left-0 w-96 bottom-0 h-screen">
+			class="!fixed z-[1500] bg-gray-50 px-6 py-8 top-32 left-0 w-96 bottom-0 h-screen border border-gray-300">
 			<?php get_template_part('template-parts/docs', 'sidebar', ['documents' => $documents, 'class' => 'w-full shrink-0 overflow-y-scroll lg:pr-10 lg:hidden']); ?>
 		</div>
 
 		<button 
 			x-on:click="showToc = !showToc"
-			x-bind:class="{ '-translate-x-[22.5rem] z-[501]': showToc }"
+			x-bind:class="{ '-translate-x-[22.5rem] z-[1501]': showToc }"
 			x-show="!showSidebar"
-			class="fixed right-0 top-1/2 -translate-y-1/2 px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold bg-gray-0 border-1 border-gray-300 border-solid text-right transition-all">
+			class="fixed right-0 bottom-20 px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold bg-gray-0 border border-gray-300 border-solid text-right transition-all">
 			<span x-show="!showToc" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-left'); ?></span>
 			<span x-cloak x-show="showToc" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-right'); ?></span>
 		</button>
@@ -76,7 +76,7 @@ $author_id = get_the_author_meta('ID');
 			x-transition:leave="transition ease-in duration-300"
 			x-transition:leave-start="opacity-100 translate-x-0"
 			x-transition:leave-end="opacity-0 translate-x-28"
-			class="documentation_toc !fixed z-[500] bg-gray-50 px-6 py-8 top-32 w-96 right-0 bottom-0 h-screen overflow-y-scroll text-right">
+			class="documentation_toc !fixed z-[1500] bg-gray-50 px-6 py-8 top-32 w-96 right-0 bottom-0 h-screen overflow-y-scroll text-right border border-gray-300">
 			<?php echo wp_kses_post($toc); ?>
 		</div>
 	</div>

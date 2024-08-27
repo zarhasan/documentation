@@ -20,22 +20,12 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 <div class="mt-16">
   <div class="x-container">
     <div class="max-w-4xl lg:mx-0">
-      <h2 class="text-4xl tracking-tight text-gray-900 sm:text-8xl">
+      <h2 class="text-4xl tracking-tight text-gray-900 sm:text-7xl">
         <?php echo esc_html($data['title']); ?>
       </h2>
       <p class="mt-6 text-lg leading-8 text-gray-600">
         <?php echo esc_html($data['subtitle']); ?>
       </p>
-
-      <div class="mt-8 flex gap-4">
-        <a class="inline-flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-5 py-3 text-base font-medium text-gray-0 shadow-sm hover:bg-gray-800" href="<?php echo $documents[0]['permalink']; ?>">
-          <?php esc_html_e( 'Get started', 'documentation' ); ?>
-          <span class="ml-2 -mr-0.5 h-4 w-4">
-            <?php echo documentation_svg('arrow-right'); ?>
-          </span>
-        </a>
-      </div>
-
     </div>
   </div>
 </div>

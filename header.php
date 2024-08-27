@@ -74,17 +74,17 @@
 			--color-primary-300: <?php echo esc_html($primary_color__dark_mode.'4D'); ?>;
 			--color-primary-900: <?php echo esc_html($primary_color__dark_mode.'e6'); ?>;
 
-			--color-gray-0: #000000;
-			--color-gray-50: #030712;
-			--color-gray-100: #111827;
-			--color-gray-200: #1f2937;
-			--color-gray-300: #374151;
-			--color-gray-400: #4b5563;
-			--color-gray-500: #6b7280;
-			--color-gray-600: #9ca3af;
-			--color-gray-700: #d1d5db;
-			--color-gray-800: #e5e7eb;
-			--color-gray-900: #f3f4f6;
+			--color-gray-0: #171717;
+			--color-gray-50: #0a0a0a;
+			--color-gray-100: #262626;
+			--color-gray-200: #404040;
+			--color-gray-300: #525252;
+			--color-gray-400: #737373;
+			--color-gray-500: #a3a3a3;
+			--color-gray-600: #d4d4d4;
+			--color-gray-700: #e5e5e5;
+			--color-gray-800: #f5f5f5;
+			--color-gray-900: #fafafa;
 			--color-gray-1000: #ffffff;
 		}
 	</style>
@@ -92,21 +92,21 @@
 </head>
 
 <body 
-	<?php body_class("bg-gray-0 text-gray-1000"); ?> 
+	<?php body_class("bg-gray-50 text-gray-1000"); ?> 
 	x-cloak 
 	x-data 
 	x-bind:data-color-scheme="$store.colorScheme.name">
 
 <?php wp_body_open(); ?>
 
-<div id="page" class="site bg-gray-50 text-gray-700" x-clock>
+<div id="page" class="site bg-gray-50 text-gray-1000" x-clock>
 
 	<header 
 		id="header"
 		x-data="header" 
 		x-on:keydown.window.ctrl.k.prevent="$store.searchPanel.show()"
 		role="banner" 
-		class="absolute top-0 left-0 w-full h-32 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo"
+		class="absolute top-0 left-0 w-full h-32 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo admin-bar:top-14 sm:admin-bar:top-8"
 		x-bind:class="[notTop ? '' : '']">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
@@ -137,6 +137,12 @@
 						'fallback_cb' => false,
 						'container_aria_label' => 'Primary',
 					));
+				?>
+
+				<?php
+					if(function_exists('pll_the_languages')) {
+						pll_the_languages( array( 'dropdown' => 1 ) );
+					};
 				?>
 
 				<button x-on:click="$store.colorScheme.toggle()" class="w-6 h-6 inline-flex justify-center items-center text-gray-600">

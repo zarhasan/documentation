@@ -10,4 +10,9 @@ License URI: https://www.gnu.org/licenses/gpl-3.0-standalone.html
 
 == Description ==
 
+
+- Built-in fast search engine
+- Supports multiple languages using Polylang
+
+
 == Changelog ==

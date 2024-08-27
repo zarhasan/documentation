@@ -266,7 +266,6 @@ function documentation_get_documents_list_callback() {
     // Your function to get data
     $list = documentation_flatten_pages_list(get_document_hierarchy());
     
-
     documentation_set_file_cache('public_documents_haystack', $list);
 
     wp_send_json($list);
@@ -891,14 +890,14 @@ function documentation_set_file_cache($key, $data) {
         mkdir(DOCUMENTATION_CACHE_DIR, 0777, true); // Create directory recursively with full permissions
     }
 
-    $cache_file = DOCUMENTATION_CACHE_DIR . md5($key) . '.json';
+    $cache_file = DOCUMENTATION_CACHE_DIR . get_locale(). '-' . md5($key) . '.json';
 
     // Save the data to the cache file
     file_put_contents($cache_file, json_encode($data));
 }
 
 function documentation_get_file_cache($key, $expiration = 3600) {
-    $cache_file = DOCUMENTATION_CACHE_DIR . md5($key) . '.json';
+    $cache_file = DOCUMENTATION_CACHE_DIR . get_locale(). '-' . md5($key) . '.json';
 
     // Check if the cache file exists and is still valid
     if (file_exists($cache_file) && (time() - filemtime($cache_file) < $expiration)) {
@@ -915,7 +914,7 @@ function documentation_get_file_cache($key, $expiration = 3600) {
 }
 
 function documentation_delete_file_cache($key) {
-    $cache_file = DOCUMENTATION_CACHE_DIR . md5($key) . '.json';
+    $cache_file = DOCUMENTATION_CACHE_DIR . get_locale(). '-' . md5($key) . '.json';
 
     // Check if the cache file exists and delete it
     if (file_exists($cache_file)) {
