@@ -4,6 +4,8 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  */
 
+
+$theme_options = get_option('documentation');
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +97,7 @@
 	<?php body_class("bg-gray-50 text-gray-1000"); ?> 
 	x-cloak 
 	x-data 
+	data-color-scheme="<?php echo !empty($theme_options['default_color_scheme']) ? $theme_options['default_color_scheme'] : 'light' ; ?>"
 	x-bind:data-color-scheme="$store.colorScheme.name">
 
 <?php wp_body_open(); ?>

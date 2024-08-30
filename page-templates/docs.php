@@ -6,11 +6,12 @@
 
 get_header(); 
 
-$documents = get_document_hierarchy();
+$documents = documentation_get_document_hierarchy();
+$theme_options = get_option('documentation');
 
 $data = [
-  'title' => __('RedOxbird Theme Documentation', 'documentation'),
-  'subtitle' => __('Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.', 'documentation'),
+  'title' => isset( $theme_options['docs_page_title'] ) ? $theme_options['docs_page_title'] : __('RedOxbird Theme Documentation', 'documentation'),
+  'subtitle' => isset( $theme_options['docs_page_description'] ) ? $theme_options['docs_page_description'] :  __('Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.', 'documentation'),
 ];
 
 $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky', 'emerald', 'fuchsia', 'lime'];

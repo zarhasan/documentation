@@ -688,6 +688,7 @@ header nav.mobile li.toggled>.menu-toggle {
     border: 0.05em solid var(--color-gray-300);
     border-radius: 0.5em;
     background-color: var(--color-gray-0);
+    width: 100%;
 }
 
 .comment-form label {

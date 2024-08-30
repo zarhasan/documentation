@@ -20,7 +20,7 @@ if ( post_password_required() ) :
 endif;
 ?>
 
-<div id="comments" class="comments-area mt-16">
+<div id="comments" class="comments-area !w-full mt-16">
 
 	<?php if ( have_comments() ) : ?>
 		<h2 class="comments-title">

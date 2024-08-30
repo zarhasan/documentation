@@ -13,7 +13,6 @@ define('DOCUMENTATION_CACHE_DIR',  WP_CONTENT_DIR . '/cache/documentation/');
 add_action("after_setup_theme", "documentation_after_setup_theme");
 add_action("wp_enqueue_scripts", "documentation_enqueue_scripts");
 add_action('tgmpa_register', 'documentation_register_required_plugins');
-add_action('widgets_init', 'documentation_widgets_init');
 
 // Actions -> Ajax
 add_action('wp_ajax_documentation_get_documents_list', 'documentation_get_documents_list_callback');
@@ -31,10 +30,27 @@ add_action('save_post', function($post_id) {
 add_filter("script_loader_tag", "documentation_add_defer_to_alpine_script", 10, 3);
 add_filter('the_content', 'documentation_add_ids_to_headings');
 
-// Filters -> ACF
-add_filter("acf/settings/save_json", "documentation_acf_json_save_point");
-add_filter("acf/settings/load_json", "documentation_acf_json_load_point");
+add_filter("acf/settings/save_json", function( $path ) {
+    return get_template_directory() . '/acf-json';
+});
 
+add_filter('acf/settings/load_json', function( $paths ) {
+    unset($paths[0]);
+
+    $paths[] = get_template_directory() . '/acf-json';
+    
+    return $paths;
+});
+
+add_filter('excerpt_length', function($length) {
+    if (is_post_type_archive('docs')) {
+        return 10; 
+    } else if (get_post_type() === 'post') {
+        return 10; 
+    } else {
+        return $length;
+    }
+});
 
 // <Helpers>
 
@@ -216,6 +232,11 @@ function documentation_register_required_plugins() {
             'name'      => 'Code Block Pro – Beautiful Syntax Highlighting',
             'slug'      => 'code-block-pro',
             'required'  => false,
+        ),
+        array(
+            'name'      => 'Redux Framework',
+            'slug'      => 'redux-framework',
+            'required'  => false,
         )
     );
 
@@ -235,23 +256,6 @@ function documentation_register_required_plugins() {
     tgmpa($plugins, $config);
 }
 
-function documentation_widgets_init() {
-    register_sidebar(array(
-        'name' => esc_html__('Sidebar', '[TEXT_DOMAIN]'),
-        'id' => 'documentation-blog-sidebar',
-        'description' => esc_html__('Default sidebar to add all your widgets.', '[TEXT_DOMAIN]'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget' => '</section>',
-        'before_title' => '<h2 class="widget-title">',
-        'after_title' => '</h2>',
-    ));
-}
-
-// </Actions>
-
-
-// <Filters>
-
 function documentation_get_documents_list_callback() {
     // Ensure the request came from a valid source
     check_ajax_referer('documentation_ajax', 'security');
@@ -264,7 +268,7 @@ function documentation_get_documents_list_callback() {
     }
 
     // Your function to get data
-    $list = documentation_flatten_pages_list(get_document_hierarchy());
+    $list = documentation_flatten_pages_list(documentation_get_document_hierarchy());
     
     documentation_set_file_cache('public_documents_haystack', $list);
 
@@ -351,23 +355,6 @@ function documentation_add_ids_to_headings($content) {
     return $content;
 }
 
-function documentation_acf_json_save_point( $path ) {
-    return get_template_directory() . '/acf-json';
-}
-
-function documentation_acf_json_load_point( $paths ) {
-    // Remove the original path (optional).
-    unset($paths[0]);
-
-    // Append the new path and return it.
-    $paths[] = get_template_directory() . '/acf-json';
-
-    return $paths;
-}
-
-// </Filters>
-
-
 function documentation_kses_ruleset() {
     $kses_defaults = wp_kses_allowed_html('post');
 
@@ -408,294 +395,8 @@ function documentation_kses_ruleset() {
     return array_merge($kses_defaults, $svg_args);
 }
 
-class Pivotal_Accessibility_Nav_Walker extends Walker_Nav_Menu {
-    function start_lvl(&$output, $depth = 0, $args = null) {
-        // Add a button after the list item's opening tag
-        $output .= '<button class="menu-toggle w-6" aria-expanded="false" aria-label="'.__('Toggle sub-menu', 'documentation').'">';
-        $output .= '<span class="menu-toggle-icon" aria-hidden="true">'.documentation_svg('chevron-down').'</span>';
-        $output .= '</button>';
-        
-        $output .= '<ul class="sub-menu">';
-    }
-}
 
-// Kirki
-
-if (class_exists('Kirki')) {
-    // Appearance
-    new \Kirki\Panel(
-        'appearance',
-        [
-            'priority'    => 20,
-            'title'       => esc_html__('Appearance', 'documentation'),
-            'description' => esc_html__('Change the appearance of the theme.', 'documentation'),
-        ]
-    );
-
-    new \Kirki\Section(
-        'colors',
-        [
-            'title'       => esc_html__('Colors', 'documentation'),
-            'description' => esc_html__('Customize the colors of the theme.', 'documentation'),
-            'panel'       => 'appearance',
-            'priority'    => 160,
-        ]
-    );
-
-    new \Kirki\Field\Color(
-        [
-            'settings'    => 'color_primary',
-            'label'       => __('Primary Color', 'documentation'),
-            'description' => esc_html__('Primary color of the theme.', 'documentation'),
-            'section'     => 'colors',
-            'default'     => '#1d0370',
-        ]
-    );
-
-    // Header
-    new \Kirki\Section(
-        'header',
-        [
-            'priority'    => 40,
-            'title'       => esc_html__('Header', 'documentation'),
-            'description' => esc_html__('Customize the header.', 'documentation'),
-        ]
-    );
-
-    new \Kirki\Field\Text(
-        [
-            'settings'    => 'form_shortcode',
-            'label'       => esc_html__('Form Shortcode', 'documentation'),
-            'section'     => 'header',
-        ]
-    );
-
-    // Global
-    new \Kirki\Section(
-        'global',
-        [
-            'priority'    => 40,
-            'title'       => esc_html__('Global', 'documentation'),
-            'description' => esc_html__('Customize the global settings.', 'documentation'),
-        ]
-    );
-
-    new \Kirki\Field\Repeater(
-        [
-            'settings' => 'client_logos',
-            'label'    => esc_html__('Client Logos', 'documentation'),
-            'section'  => 'global',
-            'button_label' => esc_html__('Add New Logo', 'documentation'),
-            'fields'   => [
-                'image'  => [
-                    'type'        => 'image',
-                    'label'       => esc_html__('Logo', 'documentation'),
-                    'default'     => '',
-                    'choices'     => [
-                        'save_as' => 'array',
-                    ],
-                ]
-            ],
-        ]
-    );
-
-    // Contact Info
-    new \Kirki\Section(
-        'contact_info',
-        [
-            'priority'    => 45,
-            'title'       => esc_html__('Contact Info', 'documentation'),
-            'description' => esc_html__('Customize the contact info.', 'documentation'),
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'branch_address',
-            'label'       => esc_html__('Branch Address', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'registered_address',
-            'label'       => esc_html__('Registered Address', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'us_address',
-            'label'       => esc_html__('US Address', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'phone_number_india',
-            'label'       => esc_html__('Phone Number (India)', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'phone_number_us',
-            'label'       => esc_html__('Phone Number (US)', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'email_address',
-            'label'       => esc_html__('Email Address', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Text(
-        [
-            'settings'    => 'main_address_url',
-            'label'       => esc_html__('Main Address URL', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    new \Kirki\Field\Image(
-        [
-            'settings'    => 'main_address_image',
-            'label'       => esc_html__('Main Address Image', 'documentation'),
-            'section'     => 'contact_info',
-        ]
-    );
-
-    // Footer
-    new \Kirki\Panel(
-        'footer',
-        [
-            'priority'    => 50,
-            'title'       => esc_html__('Footer', 'documentation'),
-            'description' => esc_html__('Customize the footer.', 'documentation'),
-        ]
-    );
-
-    new \Kirki\Section(
-        'footer_content',
-        [
-            'title'       => esc_html__('Content', 'documentation'),
-            'description' => esc_html__('Change the content of the footer.', 'documentation'),
-            'panel'       => 'footer',
-            'priority'    => 160,
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'footer_description',
-            'label'       => esc_html__('Footer Description', 'documentation'),
-            'section'     => 'footer_content',
-            'default'     => 'Established in 2021, Documentation was formed with the sole purpose of making the Digital World more inclusive.',
-        ]
-    );
-
-    new \Kirki\Field\Repeater(
-        [
-            'settings' => 'footer_logos',
-            'label'    => esc_html__('Logos', 'documentation'),
-            'section'  => 'footer_content',
-            'button_label' => esc_html__('Add New Logo', 'documentation'),
-            'fields'   => [
-                'image'  => [
-                    'type'        => 'image',
-                    'label'       => esc_html__('Logo', 'documentation'),
-                    'default'     => '',
-                    'choices'     => [
-                        'save_as' => 'array',
-                    ],
-                ],
-                'url'  => [
-                    'type'  => 'url',
-                    'label' => esc_html__('Logo Link', 'documentation'),
-                ],
-            ],
-        ]
-    );
-
-    new \Kirki\Field\Repeater(
-        [
-            'settings' => 'social_icons',
-            'label'    => esc_html__('Social Icons', 'documentation'),
-            'section'  => 'footer_content',
-            'button_label' => esc_html__('Add New Icon', 'documentation'),
-            'row_label' => [
-                'type'  => 'field',
-                'field' => 'label',
-            ],
-            'fields' => [
-                'name' => [
-                    'type'        => 'text',
-                    'default'     => 'brand-facebook',
-                    'label'       => esc_html__('Icon Name (Tabler Icons)', 'documentation'),
-                ],
-                'label' => [
-                    'type'        => 'text',
-                    'label'       => esc_html__('Icon Label', 'documentation'),
-                    'default'     => esc_html__('Facebook', 'documentation')
-                ],
-                'url' => [
-                    'type'        => 'url',
-                    'label'       => esc_html__('Icon Link', 'documentation'),
-                    'default'     => 'https://example.com/',
-                ],
-            ],
-        ]
-    );
-
-    new \Kirki\Field\Repeater(
-        [
-            'settings' => 'footer_features',
-            'label'    => esc_html__('Footer Features', 'documentation'),
-            'section'  => 'footer_content',
-            'button_label' => esc_html__('Add New', 'documentation'),
-            'row_label' => [
-                'type'  => 'field',
-                'field' => 'label',
-            ],
-            'fields' => [
-                'icon' => [
-                    'type'        => 'text',
-                    'default'     => 'mail-fast',
-                    'label'       => esc_html__('Icon Name (Tabler Icons)', 'documentation'),
-                ],
-                'label' => [
-                    'type'        => 'text',
-                    'label'       => esc_html__('Label', 'documentation'),
-                    'default'     => esc_html__('Fast', 'documentation')
-                ],
-                'description' => [
-                    'type'        => 'textarea',
-                    'label'       => esc_html__('Description', 'documentation'),
-                    'default'     => esc_html__('We deliver fast and efficient service', 'documentation'),
-                ],
-            ],
-        ]
-    );
-
-    new \Kirki\Field\Editor(
-        [
-            'settings'    => 'copyright_notice',
-            'label'       => esc_html__('Copyright Notice', 'documentation'),
-            'section'     => 'footer_content',
-        ]
-    );
-};
-
-
-function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
+function documentation_get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
     $documents = array();
 
     foreach ($posts as $post) {
@@ -704,7 +405,7 @@ function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
 
         // If post has the specified parent, add it to the parent's children array
         if ($current_parent_id == $parent_id) {
-            $children = get_document_hierarchy_recursive($posts, $post_map, $post_id);
+            $children = documentation_get_document_hierarchy_recursive($posts, $post_map, $post_id);
 
             $documents[] = array(
                 'ID'       => $post_id,
@@ -720,7 +421,7 @@ function get_document_hierarchy_recursive($posts, $post_map, $parent_id = 0) {
     return $documents;
 };
 
-function get_document_hierarchy() {
+function documentation_get_document_hierarchy() {
     $args = array(
         'post_type'      => 'docs',
         'posts_per_page' => 10000,
@@ -743,7 +444,7 @@ function get_document_hierarchy() {
     }
 
     // Start the recursive process
-    $document_hierarchy = get_document_hierarchy_recursive($posts, $post_map);
+    $document_hierarchy = documentation_get_document_hierarchy_recursive($posts, $post_map);
 
     wp_reset_postdata();
 
@@ -847,42 +548,40 @@ function documentation_sanitize_heading_callback($matches) {
     return "<h$heading_level id=\"$heading_id\">$matches[2]</h$heading_level>";
 }
 
-if(!function_exists('documentation_flatten_pages_list')) {
-    function documentation_flatten_pages_list($pages, $parent_title = null) {
-        $titles = [];
-        $paths = [];
+function documentation_flatten_pages_list($pages, $parent_title = null) {
+    $titles = [];
+    $paths = [];
 
-        foreach ($pages as $i => $page) {
-            $page_title = $page['title'];
-            $page_path = $page['permalink'];
+    foreach ($pages as $i => $page) {
+        $page_title = $page['title'];
+        $page_path = $page['permalink'];
 
-            if($parent_title != null) {
-                $page_title = $parent_title . DOCUMENTATION_JOIN_SYMBOL . $page['title'];
-            }
-
-            $titles[] = $page_title;
-            $paths[] = $page_path;
-
-            if (!empty($page['headings'])) {
-                foreach ($page['headings'] as $j => $heading) {
-                    $titles[] = $page_title . DOCUMENTATION_JOIN_SYMBOL . $heading;
-                    $paths[] = $page_path ."#". sanitize_title($heading);
-                };
-            };
-
-            if (!empty($page['children'])) {
-                $recursed = array_merge($titles, documentation_flatten_pages_list($page['children'], $page_title));
-
-                $titles = array_merge($titles, $recursed['titles']);
-                $paths = array_merge($paths, $recursed['paths']);
-            }
+        if($parent_title != null) {
+            $page_title = $parent_title . DOCUMENTATION_JOIN_SYMBOL . $page['title'];
         }
 
-        return [
-            'titles' => $titles,
-            'paths' => $paths
-        ];
+        $titles[] = $page_title;
+        $paths[] = $page_path;
+
+        if (!empty($page['headings'])) {
+            foreach ($page['headings'] as $j => $heading) {
+                $titles[] = $page_title . DOCUMENTATION_JOIN_SYMBOL . $heading;
+                $paths[] = $page_path ."#". sanitize_title($heading);
+            };
+        };
+
+        if (!empty($page['children'])) {
+            $recursed = array_merge($titles, documentation_flatten_pages_list($page['children'], $page_title));
+
+            $titles = array_merge($titles, $recursed['titles']);
+            $paths = array_merge($paths, $recursed['paths']);
+        }
     }
+
+    return [
+        'titles' => $titles,
+        'paths' => $paths
+    ];
 }
 
 function documentation_set_file_cache($key, $data) {
@@ -930,60 +629,56 @@ function documentation_update_file_cache($key, $callback, $expiration = 3600) {
     return get_data_with_cache($key, $callback, $expiration);
 }
 
+function documentation_get_breadcrumb()
+{
+    $args = array(
+        'container' => 'nav',
+        'before' => '',
+        'after' => '',
+        'browse_tag' => 'h2',
+        'list_tag' => 'ul',
+        'item_tag' => 'li',
+        'divider' => documentation_svg('chevron-right'),
+        'show_on_front' => true,
+        'network' => false,
+        'show_title' => true,
+        'show_browse' => false,
+        'labels' => array(
+            'browse' => esc_html__('Browse:', 'selleradise-lite'),
+            'aria_label' => esc_attr_x('Breadcrumbs', 'breadcrumbs aria label', 'selleradise-lite'),
+            'aria_label_home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
+            'home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
+            'error_404' => esc_html__('404 Not Found', 'selleradise-lite'),
+            'archives' => esc_html__('Archives', 'selleradise-lite'),
+            // Translators: %s is the search query.
+            'search' => esc_html__('Search results for: %s', 'selleradise-lite'),
+            // Translators: %s is the page number.
+            'paged' => esc_html__('Page %s', 'selleradise-lite'),
+            // Translators: %s is the page number.
+            'paged_comments' => esc_html__('Comment Page %s', 'selleradise-lite'),
+            // Translators: Minute archive title. %s is the minute time format.
+            'archive_minute' => esc_html__('Minute %s', 'selleradise-lite'),
+            // Translators: Weekly archive title. %s is the week date format.
+            'archive_week' => esc_html__('Week %s', 'selleradise-lite'),
 
-if (!function_exists('documentation_get_breadcrumb')) {
+            // "%s" is replaced with the translated date/time format.
+            'archive_minute_hour' => '%s',
+            'archive_hour' => '%s',
+            'archive_day' => '%s',
+            'archive_month' => '%s',
+            'archive_year' => '%s',
+        ),
+        'post_taxonomy' => array(
+            // 'post'  => 'post_tag', // 'post' post type and 'post_tag' taxonomy
+            // 'book'  => 'genre',    // 'book' post type and 'genre' taxonomy
+        ),
+        'echo' => true,
+    );
 
-    function documentation_get_breadcrumb()
-    {
-        $args = array(
-            'container' => 'nav',
-            'before' => '',
-            'after' => '',
-            'browse_tag' => 'h2',
-            'list_tag' => 'ul',
-            'item_tag' => 'li',
-            'divider' => documentation_svg('chevron-right'),
-            'show_on_front' => true,
-            'network' => false,
-            'show_title' => true,
-            'show_browse' => false,
-            'labels' => array(
-                'browse' => esc_html__('Browse:', 'selleradise-lite'),
-                'aria_label' => esc_attr_x('Breadcrumbs', 'breadcrumbs aria label', 'selleradise-lite'),
-                'aria_label_home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
-                'home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
-                'error_404' => esc_html__('404 Not Found', 'selleradise-lite'),
-                'archives' => esc_html__('Archives', 'selleradise-lite'),
-                // Translators: %s is the search query.
-                'search' => esc_html__('Search results for: %s', 'selleradise-lite'),
-                // Translators: %s is the page number.
-                'paged' => esc_html__('Page %s', 'selleradise-lite'),
-                // Translators: %s is the page number.
-                'paged_comments' => esc_html__('Comment Page %s', 'selleradise-lite'),
-                // Translators: Minute archive title. %s is the minute time format.
-                'archive_minute' => esc_html__('Minute %s', 'selleradise-lite'),
-                // Translators: Weekly archive title. %s is the week date format.
-                'archive_week' => esc_html__('Week %s', 'selleradise-lite'),
+    $breadcrumb = new BreadcrumbsTrail;
+    $breadcrumb->register($args);
 
-                // "%s" is replaced with the translated date/time format.
-                'archive_minute_hour' => '%s',
-                'archive_hour' => '%s',
-                'archive_day' => '%s',
-                'archive_month' => '%s',
-                'archive_year' => '%s',
-            ),
-            'post_taxonomy' => array(
-                // 'post'  => 'post_tag', // 'post' post type and 'post_tag' taxonomy
-                // 'book'  => 'genre',    // 'book' post type and 'genre' taxonomy
-            ),
-            'echo' => true,
-        );
-
-        $breadcrumb = new BreadcrumbsTrail;
-        $breadcrumb->register($args);
-
-        return $breadcrumb->trail();
-    }
+    return $breadcrumb->trail();
 }
 
 function documentation_recursive_array_search($needle, $haystack, $keyToSearch) {
@@ -1000,17 +695,95 @@ function documentation_recursive_array_search($needle, $haystack, $keyToSearch) 
     return false;
 }
 
+if ( class_exists( 'Redux' ) ) {
+    $opt_name = "documentation"; // Change this to your option name
 
-add_filter('excerpt_length', function($length) {
-    if (is_post_type_archive('docs')) {
-        // Set the desired excerpt length for the 'docs' archive page
-        return 10; // Change this number to your desired length
-    } else if (get_post_type() === 'post') {
-        // Set the desired excerpt length for the 'docs' archive page
-        return 10; // Change this number to your desired length
-    } else {
-        // For other archives, use the default excerpt length
-        return $length;
-    }
-});
+    $theme = wp_get_theme(); // Get theme information
 
+    $args = array(
+        'opt_name'             => $opt_name,
+        'display_name'         => $theme->get( 'Name' ),
+        'display_version'      => $theme->get( 'Version' ),
+        'menu_type'            => 'menu',
+        'allow_sub_menu'       => true,
+        'menu_title'           => __( 'Theme Settings', 'documentation' ),
+        'page_title'           => __( 'Theme Settings', 'documentation' ),
+        'admin_bar'            => true,
+        'admin_bar_icon'       => 'dashicons-admin-generic',
+        'menu_icon'            => 'dashicons-admin-generic',
+        'customizer'           => true,
+        'page_priority'        => 81,
+        'page_parent'          => 'themes.php',
+        'page_permissions'     => 'manage_options',
+        'save_defaults'        => true,
+        'show_import_export'   => true,
+        'dev_mode'             => false,
+        'update_notice'        => true,
+        'admin_bar_priority'   => 50,
+    );
+
+    // Initialize Redux
+    Redux::set_args( $opt_name, $args );
+
+    Redux::set_section( $opt_name, array(
+        'title'            => __( 'Appearance', 'documentation' ),
+        'id'               => 'appearance',
+        'desc'             => __( 'Settings for appearance', 'documentation' ),
+        'customizer_width' => '400px',
+        'icon'             => 'el el-book',
+        'fields'           => array(
+            array(
+                'id'       => 'default_color_scheme',
+                'type'     => 'radio',
+                'title'    => __( 'Default Color Scheme', 'documentation' ),
+                'desc'     => __( 'Select the default Color Scheme.', 'documentation' ),
+                'options'  => array(
+                    'light' => 'Light',
+                    'dark'  => 'Dark',
+                )
+            )
+        )
+    ));
+
+    // Section for documentation settings
+    Redux::set_section( $opt_name, array(
+        'title'            => __( 'Docs Page Settings', 'documentation' ),
+        'id'               => 'docs_settings',
+        'desc'             => __( 'Settings for the documentation page', 'documentation' ),
+        'customizer_width' => '400px',
+        'icon'             => 'el el-book',
+        'fields'           => array(
+            array(
+                'id'       => 'docs_page_title',
+                'type'     => 'text',
+                'title'    => __( 'Docs Page Title', 'documentation' ),
+                'desc'     => __( 'Enter the title for the documentation page.', 'documentation' ),
+                'default'  => 'Documentation',
+            ),
+            array(
+                'id'       => 'docs_page_description',
+                'type'     => 'textarea',
+                'title'    => __( 'Docs Page Description', 'documentation' ),
+                'desc'     => __( 'Enter a description for the documentation page.', 'documentation' ),
+                'default'  => 'This is the description of the documentation page.',
+            ),
+        )
+    ));
+
+    Redux::set_section( $opt_name, array(
+        'title'            => __( 'Footer Settings', 'documentation' ),
+        'id'               => 'footer_settings',
+        'desc'             => __( 'Settings for the footer section', 'documentation' ),
+        'customizer_width' => '400px',
+        'icon'             => 'el el-book',
+        'fields'           => array(
+            array(
+                'id'       => 'footer_copyright_notice',
+                'type'     => 'text',
+                'title'    => __( 'Copyright Notice', 'documentation' ),
+                'desc'     => __( 'Enter the copyright notice.', 'documentation' ),
+                'default'  => 'All rights reserved © by RedOxbird',
+            )
+        )
+    ));
+}

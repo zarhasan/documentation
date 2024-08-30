@@ -9,7 +9,7 @@
 
 get_header(); 
 
-$documents = get_document_hierarchy();
+$documents = documentation_get_document_hierarchy();
 $toc = documentation_get_toc(get_the_content());
 
 ?>

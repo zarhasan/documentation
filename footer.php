@@ -8,7 +8,12 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package documentation
+ * 
  */
+
+
+$theme_options = get_option('documentation');
+
 ?>
 
 
@@ -46,7 +51,7 @@
   <div class="container">
     <div class="w-full py-8 border-t-1 border-gray-300 border-solid">
       <p class="text-sm text-gray-600">
-        <?php echo sprintf(__('All rights reserved %s by %s', 'documentation'), '&copy;', get_bloginfo('name')); ?>
+        <?php echo !empty($theme_options['footer_copyright_notice']) ? $theme_options['footer_copyright_notice'] :  sprintf(__('All rights reserved %s by %s', 'documentation'), '&copy;', get_bloginfo('name')); ?>
       </p>
     </div>
   </div>
