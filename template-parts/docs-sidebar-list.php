@@ -17,9 +17,15 @@ if ($args) {
       <li>
         <div class="w-full flex justify-start items-center gap-2 px-4">
           <a 
-            class="grow inline-block <?php echo is_singular('docs') && get_the_ID() === $document['ID'] ? 'underline' : '' ?>" 
+            class="grow inline-flex justify-start items-center <?php echo is_singular('docs') && get_the_ID() === $document['ID'] ? 'underline' : '' ?>" 
             href="<?php echo esc_attr($document['permalink']); ?>">
             <?php echo esc_html($document['title']); ?>
+            
+            <?php if(!empty($document['children'])): ?>
+              <span class="w-4 h-4 inline-flex justify-center items-center">
+                <?php echo documentation_svg('chevron-right'); ?>
+              </span>
+            <?php endif; ?>
           </a>
         </div>
 

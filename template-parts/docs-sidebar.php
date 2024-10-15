@@ -14,7 +14,7 @@ if ($args) {
   <ul class="text-sm flex flex-col gap-4">
     <?php foreach ($documents as $index => $document): ?>
       <li>
-        <a class="font-bold inline-flex justify-start items-center" href="<?php echo esc_attr($document['permalink']); ?>">
+        <a class="font-bold inline-flex justify-start items-center <?php echo is_singular('docs') && get_the_ID() === $document['ID'] ? 'underline' : '' ?>" href="<?php echo esc_attr($document['permalink']); ?>">
           <span class="inline-flex w-5 h-5 justify-center items-center"><?php echo documentation_svg('chevron-right'); ?></span>
           <?php echo esc_html($document['title']); ?>
         </a>
