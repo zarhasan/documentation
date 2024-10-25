@@ -115,7 +115,7 @@ $theme_options = get_option('documentation');
 		<?php get_template_part('template-parts/skip-link'); ?>
 
 		<div class="w-full x-container flex justify-start items-center gap-x-8 gap-y-4 flex-wrap sm:gap-0">
-			<a href="<?php echo site_url(); ?>" class="w-40 sm:w-80 py-2 pr-4">
+			<a href="<?php echo site_url(); ?>" class="w-40 sm:w-80 py-2 pr-16">
 				<?php if(has_custom_logo()): ?>
 					<span class="h-14 flex justify-start items-center">
 						<?php get_template_part('template-parts/header-logo'); ?>

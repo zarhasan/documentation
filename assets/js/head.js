@@ -11,6 +11,7 @@ twind.install({
         ["scrolled", "&.scrolled"],
         ["admin-bar", ".admin-bar &"],
         ["touch", "@media (hover: none)"],
+        ["dark", "[data-color-scheme='dark'] &"],
     ],
     theme: {
         fontFamily: {
