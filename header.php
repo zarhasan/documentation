@@ -115,7 +115,7 @@ $theme_options = get_option('documentation');
 		<?php get_template_part('template-parts/skip-link'); ?>
 
 		<div class="w-full x-container flex justify-start items-center gap-x-8 gap-y-4 flex-wrap sm:gap-0">
-			<a href="<?php echo site_url(); ?>" class="w-40 sm:w-80 py-2 pr-16">
+			<a href="<?php echo site_url(); ?>" class="w-60 sm:w-80 py-2 pr-16">
 				<?php if(has_custom_logo()): ?>
 					<span class="h-14 flex justify-start items-center">
 						<?php get_template_part('template-parts/header-logo'); ?>
@@ -196,7 +196,7 @@ $theme_options = get_option('documentation');
 			x-transition:leave-end="opacity-0 translate-x-28"
             x-on:keydown.escape.window="hide('showSidebar')">
 
-            <div class="x-container h-full bg-gray-50 border-l border-gray-200 py-8">
+            <div class="x-container h-full bg-gray-50 border border-gray-300 py-8">
                 <?php
                     wp_nav_menu(array(
                         'theme_location' => 'primary',
