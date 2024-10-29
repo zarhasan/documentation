@@ -43,7 +43,7 @@ $author_id = get_the_author_meta('ID');
             <?php endforeach; ?>
         </ul>
 
-        <div class="flex justify-between items-center gap-2 pt-6 mt-auto font-medium border-t-2 border-gray-900">
+        <div class="flex justify-start items-center gap-2 pt-6 mt-auto font-medium border-t-2 border-gray-900">
             <span class="w-8 h-8 rounded-full overflow-hidden">
                 <?php echo get_avatar($author_id, 100); ?>
             </span>

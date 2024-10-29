@@ -11,9 +11,7 @@ get_header(); ?>
 
 
 <div class="mx-auto w-full flex justify-start x-container">
-	<?php get_template_part('template-parts/post', 'sidebar'); ?>
-
-	<div id="primary" class="pt-8 lg:px-8 sm:w-7/12 grow">
+	<div id="primary" class="pt-8 lg:pr-8 sm:w-7/12 grow">
 		<?php
 			/* Start the Loop */
 			while (have_posts()):
@@ -32,6 +30,8 @@ get_header(); ?>
 
 		?>
 	</div>
+
+	<?php get_template_part('template-parts/post', 'sidebar'); ?>
 </div><!-- #primary -->
 
 
