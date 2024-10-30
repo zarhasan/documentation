@@ -53,7 +53,5 @@ $author_id = get_the_author_meta('ID');
             </a>
         </div>
     </div>
-
-    
 </article>
 
