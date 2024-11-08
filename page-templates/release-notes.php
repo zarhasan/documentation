@@ -4,55 +4,60 @@
  *
  */
 
-get_header(); 
+get_header();
+
+$release_notes = new WP_Query([
+    'post_type' => 'release-note',
+    'posts_per_page' => -1
+]);
 
 ?>
 
-<div x-data="changelog" class="px-10 mx-auto py-16">
-    <div class="flex flex-col justify-start items-start gap-4">
-        <template x-for="item in jsonValue">
-            <div class="w-full bg-gray-0 border-1 border-solid border-gray-200">
-                <button class="p-4 w-full flex items-center justify-between text-left">
-                    <span class="w-4 h-4 inline-flex justify-center items-center mr-2"><?php echo documentation_svg('file-text'); ?></span>
-                    <span class="font-semibold pr-2" x-text="item.version"></span>
-                    <span class="mr-auto" x-text="item.product"></span>
 
-                    <div class="flex justify-start items-start flex-wrap gap-1 mr-2">
-                        <template x-for="change in item.changes">
-                            <span class="inline-flex text-xs font-semibold bg-gray-100 border-1 border-gray-300 rounded-full px-2 py-1 shrink-0" x-text="change.name"></span>
-                        </template>
-                    </div>
+<?php if($release_notes->have_posts()): ?>
+    <section class="x-container !sm:max-w-4xl mx-auto py-16 flex flex-col gap-8">
+        <?php while ($release_notes->have_posts()): $release_notes->the_post(); ?>
+            <div>
+                <div class="flex justify-start items-center gap-4">
+                    <date class="inline-flex justify-start items-center">
+                        <span class="w-2 h-2 inline-flex justify-center items-center mr-3 bg-gray-1000 rounded-full"></span>
+                        <?php echo get_the_date(); ?>
+                    </date>
 
-                    <span class="text-sm" x-text="item.date"></span>
-                    <span class="w-5 h-5 inline-flex justify-center items-center ml-2">
-                        <?php echo documentation_svg('chevron-down') ?>
-                    </span>
-                </button>
+                    <?php $terms = get_the_terms(get_the_ID(), 'release-note-tags'); ?>
 
-                <div class="p-4">
-                    <template x-for="change in item.changes">
-                        <template x-if="change.log.length > 0">
-                            <div>
-                                <h2 class="font-semibold m-0 text-base" x-text="change.name"></h2>
-                                <ul class="mb-4 mt-2 flex flex-col gap-2 list-disc pl-4 text-sm text-gray-800">
-                                    <template x-for="log in change.log">
-                                        <li>
-                                            <span x-text="log.description"></span>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </div>
-                        </template>
-                    </template>
+                    <?php if ($terms && !is_wp_error($terms)): ?>
+                        <ul class="flex justify-end items-center gap-2">
+                            <?php foreach ($terms as $term): ?>
+                                <li>
+                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="text-sm font-medium border border-gray-300 border-solid px-3 py-1 rounded-full text-gray-600 hover:underline">
+                                        <?php echo esc_html($term->name); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+                
+                <h2 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl">
+                    <?php the_title(); ?>
+                </h2>
+
+                <div class="prose">
+                    <?php the_content(); ?>
                 </div>
             </div>
-        </template>
-    </div>
-
-    <textarea x-ref="textarea" class="hidden" id="changelog">
-        <?php echo get_field('release_notes'); ?>  
-    </textarea>  
-</div>
+        <?php endwhile; ?>
+    </section>
+<?php else: ?>
+    <?php 
+        get_template_part('template-parts/empty-state', null, [
+            'title' => __('No Release Notes', 'documentation'),
+            'description' => __('It seems that no release notes have been created yet.', 'documentation'),
+            'icon' => 'notes-off',
+        ]);
+    ?>
+<?php endif; ?>
 
 <?php
 get_footer();

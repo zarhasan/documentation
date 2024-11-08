@@ -240,8 +240,7 @@ header nav.desktop>ul li {
 }
 
 header nav.desktop > ul > li {
-    font-size: 0.875rem;
-    font-weight: bold;
+    font-size: 1rem;
 }
 
 header nav.desktop ul li.menu-item-has-children {

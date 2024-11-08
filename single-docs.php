@@ -35,7 +35,6 @@ $toc = documentation_get_toc(get_the_content());
         endif;
 
       endwhile;
-
     ?>
   </div><!-- #primary -->
 

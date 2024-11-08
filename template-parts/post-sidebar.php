@@ -12,7 +12,7 @@ $current_post_id = get_the_ID();
 $current_post_date = get_the_date('Y-m-d H:i:s', $current_post_id);
 
 $latest_posts = new WP_Query([
-    'post_type' => 'post',
+    'post_type' => get_post_type(),
     'posts_per_page' => 12,
     'order' => 'DESC',
     'orderby' => 'date',
