@@ -6,17 +6,25 @@
 
 get_header();
 
-$release_notes = new WP_Query([
+$term = get_queried_object();
+
+$wp_query = new WP_Query([
     'post_type' => 'release-note',
-    'posts_per_page' => -1
+    'posts_per_page' => -1,
+    'tax_query' => array(
+        array(
+            'taxonomy' => 'release-note-tags',
+            'field'    => 'slug',
+            'terms'    => $term->slug,
+        ),
+    ),
 ]);
 
 ?>
 
-
-<?php if($release_notes->have_posts()): ?>
-    <section class="x-container !sm:max-w-4xl mx-auto py-16 flex flex-col gap-8">
-        <?php while ($release_notes->have_posts()): $release_notes->the_post(); ?>
+<?php if($wp_query->have_posts()): ?>
+    <section class="x-container !sm:max-w-4xl mx-auto py-16 flex flex-col gap-12">
+        <?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
             <div>
                 <div class="flex justify-start items-center gap-4">
                     <date class="inline-flex justify-start items-center">
@@ -39,7 +47,7 @@ $release_notes = new WP_Query([
                     <?php endif; ?>
                 </div>
                 
-                <h2 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl">
+                <h2 class="mt-6 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl">
                     <?php the_title(); ?>
                 </h2>
 
@@ -48,6 +56,14 @@ $release_notes = new WP_Query([
                 </div>
             </div>
         <?php endwhile; ?>
+    </section>
+
+    <section class="x-container">
+        <?php 
+            if($wp_query->max_num_pages > 1) {
+                get_template_part('template-parts/pagination'); 
+            };
+        ?>
     </section>
 <?php else: ?>
     <?php 
