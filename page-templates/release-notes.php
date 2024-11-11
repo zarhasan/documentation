@@ -8,17 +8,22 @@ get_header();
 
 $term = get_queried_object();
 
-$wp_query = new WP_Query([
+$args = [
     'post_type' => 'release-note',
     'posts_per_page' => -1,
-    'tax_query' => array(
+];
+
+if(is_tax()) {
+    $args['tax_query'] = array(
         array(
             'taxonomy' => 'release-note-tags',
             'field'    => 'slug',
             'terms'    => $term->slug,
         ),
-    ),
-]);
+    );
+};
+
+$wp_query = new WP_Query($args);
 
 ?>
 
