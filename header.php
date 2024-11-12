@@ -20,16 +20,11 @@ $theme_options = get_option('documentation');
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
-	<link
-		rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css"
-	/>
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css" />
 	<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
 
 	<style>
-		<?php $primary_color = get_theme_mod("color_primary", "#31358A"); ?>
+		<?php $primary_color = !empty($theme_options['color_primary']) ? $theme_options['color_primary'] : "#31358A"; ?>
 
 		body {
 			--color-primary: <?php echo esc_html($primary_color); ?>;
@@ -67,7 +62,7 @@ $theme_options = get_option('documentation');
 			--line-height: 1.6;
 		}
 
-		<?php $primary_color__dark_mode = get_theme_mod("color_primary_dark", '#6f73cc'); ?>
+		<?php $primary_color__dark_mode = !empty($theme_options['color_primary_dark']) ? $theme_options['color_primary_dark'] : '#6f73cc'; ?>
 
 		body[data-color-scheme="dark"] {
 			--color-primary: <?php echo esc_html($primary_color__dark_mode); ?>;

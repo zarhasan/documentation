@@ -76,11 +76,27 @@
   margin-top: 0.8571429em;
 }
 
-.prose p a,
+/* .prose p a,
 .prose li a {
   text-decoration: underline;
   word-break: break-all;
   font-weight: 500;
+} */
+
+.prose p a,
+.prose li a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .prose p a,
+  .prose li a,
+  .prose p code,
+  .prose li code {
+    word-break: break-all;
+  }
 }
 
 .prose strong {
@@ -140,9 +156,9 @@
   background-color: var(--color-gray-100);
 }
 
-.prose p code {
+/* .prose p code {
   word-break: break-all;
-}
+} */
 
 
 .prose code::before {
