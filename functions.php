@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
@@ -644,22 +641,22 @@ function documentation_get_breadcrumb()
         'show_title' => true,
         'show_browse' => false,
         'labels' => array(
-            'browse' => esc_html__('Browse:', 'selleradise-lite'),
-            'aria_label' => esc_attr_x('Breadcrumbs', 'breadcrumbs aria label', 'selleradise-lite'),
-            'aria_label_home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
-            'home' => esc_attr_x('Home', 'breadcrumbs aria label', 'selleradise-lite'),
-            'error_404' => esc_html__('404 Not Found', 'selleradise-lite'),
-            'archives' => esc_html__('Archives', 'selleradise-lite'),
+            'browse' => esc_html__('Browse:', 'documentation'),
+            'aria_label' => esc_attr_x('Breadcrumbs', 'breadcrumbs aria label', 'documentation'),
+            'aria_label_home' => esc_attr_x('Home', 'breadcrumbs aria label', 'documentation'),
+            'home' => esc_attr_x('Home', 'breadcrumbs aria label', 'documentation'),
+            'error_404' => esc_html__('404 Not Found', 'documentation'),
+            'archives' => esc_html__('Archives', 'documentation'),
             // Translators: %s is the search query.
-            'search' => esc_html__('Search results for: %s', 'selleradise-lite'),
+            'search' => esc_html__('Search results for: %s', 'documentation'),
             // Translators: %s is the page number.
-            'paged' => esc_html__('Page %s', 'selleradise-lite'),
+            'paged' => esc_html__('Page %s', 'documentation'),
             // Translators: %s is the page number.
-            'paged_comments' => esc_html__('Comment Page %s', 'selleradise-lite'),
+            'paged_comments' => esc_html__('Comment Page %s', 'documentation'),
             // Translators: Minute archive title. %s is the minute time format.
-            'archive_minute' => esc_html__('Minute %s', 'selleradise-lite'),
+            'archive_minute' => esc_html__('Minute %s', 'documentation'),
             // Translators: Weekly archive title. %s is the week date format.
-            'archive_week' => esc_html__('Week %s', 'selleradise-lite'),
+            'archive_week' => esc_html__('Week %s', 'documentation'),
 
             // "%s" is replaced with the translated date/time format.
             'archive_minute_hour' => '%s',

@@ -45,7 +45,7 @@ if (is_category()) {
             } elseif (is_tax()) {
                 $archive_title = single_term_title('', false);
             } else if(is_home()) {
-                $archive_title = __('Blog Posts', 'Documentation');
+                $archive_title = __('Blog Posts', 'documentation');
             } else {
                 $archive_title = 'Archive';
             }
@@ -62,7 +62,7 @@ if (is_category()) {
                 <?php if(!is_category()): ?>
                     aria-current="page"
                 <?php endif; ?>>
-                <?php esc_html_e('All', 'wpresidence') ?>
+                <?php esc_html_e('All', 'documentation') ?>
             </a>
 
             <?php if(!empty($categories)): ?>
@@ -93,7 +93,7 @@ if (is_category()) {
                 ?>
             </div>
         <?php else: ?>
-            <?php get_template_part( 'template-parts/content/none'); ?>
+            <?php get_template_part('template-parts/content/none'); ?>
 
         <?php endif; ?>
 

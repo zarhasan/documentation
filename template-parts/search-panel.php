@@ -105,7 +105,7 @@ $label = !empty($label) ? $label : __('Search in site', 'documentation');
     </div>
 
     <div class="text-xs font-semibold mt-4">
-      <?php echo sprintf(__('Press %s %s to navigate, %s to select, and %s to close', 'documentation'), '<kbd>'.documentation_svg('arrow-narrow-up').'</kbd>', '<kbd>'.documentation_svg('arrow-narrow-down').'</kbd>',  '<kbd>'.documentation_svg('arrow-back').'</kbd>', '<kbd>'.__('Esc', 'documetation').'</kbd>') ?>
+      <?php echo sprintf(__('Press %s %s to navigate, %s to select, and %s to close', 'documentation'), '<kbd>'.documentation_svg('arrow-narrow-up').'</kbd>', '<kbd>'.documentation_svg('arrow-narrow-down').'</kbd>',  '<kbd>'.documentation_svg('arrow-back').'</kbd>', '<kbd>'.__('Esc', 'documentation').'</kbd>') ?>
     </div>
   </form>
 </div>
