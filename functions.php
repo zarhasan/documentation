@@ -692,6 +692,38 @@ function documentation_recursive_array_search($needle, $haystack, $keyToSearch) 
     return false;
 }
 
+
+// <REMOVE_IN_FREE_VERSION>
+add_filter('manage_edit-docs_columns', function($columns) {
+    $new_columns = [];
+
+    foreach ($columns as $key => $label) {
+        $new_columns[$key] = $label;
+        if ($key === 'categories') {
+            $new_columns['doc_versions'] = __('Versions', 'documentation');
+        }
+    }
+
+    return $new_columns;
+});
+
+add_action('manage_docs_posts_custom_column', function($column, $post_id) {
+    if ($column === 'doc_versions') {
+        $versions = wp_get_post_terms($post_id, 'doc_version', ['fields' => 'names']);
+        if (!empty($versions)) {
+            echo implode(', ', $versions);
+        } else {
+            echo __('No versions', 'documentation');
+        }
+    }
+}, 10, 2);
+
+add_filter('manage_edit-docs_sortable_columns', function($sortable_columns) {
+    unset($sortable_columns['doc_versions']); // Ensure Versions column is not sortable
+    return $sortable_columns;
+});
+// </REMOVE_IN_FREE_VERSION>
+
 if ( class_exists( 'Redux' ) ) {
     $opt_name = "documentation"; // Change this to your option name
 

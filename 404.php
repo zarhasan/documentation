@@ -18,17 +18,19 @@ $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] 
 	<p><?php esc_html_e( "Sorry, the page you are looking for doesn't exist or has been moved.", 'documentation') ?></p>
 
 	<div class="flex justify-start items-start gap-4 mt-8">
-		<?php if (!empty($previous_page_url)): ?>
-			
-		<?php endif; ?>
-		<a class="button button--secondary gap-2" href="<?php echo esc_url($previous_page_url); ?>">
-				<span class="flex justify-center items-center w-5 h-auto">
-					<?php echo documentation_svg('arrow-left'); ?>
-				</span>
-				<?php esc_html_e('Go Back', 'documentation'); ?>
-			</a>
+		<a 
+			class="inline-flex justify-center items-center gap-2 text-base bg-gray-1000 text-gray-0 px-4 py-3" 
+			href="<?php echo esc_url($previous_page_url); ?>">
+			<span class="flex justify-center items-center w-5 h-auto">
+				<?php echo documentation_svg('arrow-left'); ?>
+			</span>
+			<?php esc_html_e('Go Back', 'documentation'); ?>
+		</a>
 
-		<a class="button button--primary" href="<?php echo esc_url(home_url()); ?>">
+		<a class="inline-flex justify-center items-center gap-2 text-base bg-gray-1000 text-gray-0 px-4 py-3" href="<?php echo esc_url(home_url()); ?>">
+			<span class="flex justify-center items-center w-5 h-auto">
+				<?php echo documentation_svg('home'); ?>
+			</span>
 			<?php esc_html_e('Go to homepage', 'documentation'); ?>
 		</a>
 	</div>

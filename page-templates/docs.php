@@ -24,6 +24,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
       <h2 class="text-4xl tracking-tight text-gray-900 sm:text-7xl">
         <?php echo esc_html($data['title']); ?>
       </h2>
+      
       <p class="mt-6 text-lg leading-8 text-gray-600">
         <?php echo esc_html($data['subtitle']); ?>
       </p>

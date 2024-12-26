@@ -6,24 +6,7 @@
 
 get_header();
 
-$term = get_queried_object();
-
-$args = [
-    'post_type' => 'release-note',
-    'posts_per_page' => -1,
-];
-
-if(is_tax()) {
-    $args['tax_query'] = array(
-        array(
-            'taxonomy' => 'release-note-tags',
-            'field'    => 'slug',
-            'terms'    => $term->slug,
-        ),
-    );
-};
-
-$wp_query = new WP_Query($args);
+global $wp_query;
 
 ?>
 
@@ -66,7 +49,9 @@ $wp_query = new WP_Query($args);
     <section class="x-container">
         <?php 
             if($wp_query->max_num_pages > 1) {
-                get_template_part('template-parts/pagination'); 
+                get_template_part('template-parts/pagination', null, [
+                    'wp_query' => $wp_query
+                ]); 
             };
         ?>
     </section>

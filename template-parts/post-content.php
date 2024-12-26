@@ -16,7 +16,20 @@
 	</div>
 	
 	<div class="mt-8">
-		<h1 class="text-5xl sm:text-7xl font-semibold entry-title inline"><?php the_title(); ?></h1>
+		<?php
+			$title = get_the_title();
+			$title_words = explode(' ', $title);
+			
+			usort($title_words, function($a, $b) {
+				return strlen($b) - strlen($a);
+			});
+			
+			$largest_length = strlen($title_words[0]);
+		?>
+		
+		<h1 class="text-5xl sm:text-7xl font-semibold entry-title inline <?php echo $largest_length > 25 ? 'break-all' : ''; ?>">
+			<?php the_title(); ?>
+		</h1>
 	</div>
 
 	<div class="w-full mt-8 mb-8 pb-6 border-b-1 border-gray-300 border-dashed">

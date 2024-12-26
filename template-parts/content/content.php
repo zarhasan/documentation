@@ -12,6 +12,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
 		<?php
+
 			if ( is_single() ) :
 				the_title( '<h1 class="text-7xl font-semibold entry-title inline">', '</h1>' );
 			else :

@@ -169,8 +169,6 @@ $theme_options = get_option('documentation');
 			<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'sm:hidden']); ?>
 		</div>
 
-
-
 		<?php if(is_archive('docs') || is_singular('docs')): ?>
 			<?php get_template_part('template-parts/search-panel', null, ['ajax_action' => 'documentation_get_documents_list', 'label' => __('Search in docs', 'documentation')]); ?>
 		<?php else: ?>
@@ -193,13 +191,13 @@ $theme_options = get_option('documentation');
 
             <div class="x-container h-full bg-gray-50 border border-gray-300 py-8">
                 <?php
-                    wp_nav_menu(array(
+                    wp_nav_menu([
                         'theme_location' => 'primary',
                         'menu_class' => '',
                         'container' => 'nav',
                         'container_aria_label' => 'Primary',
-                        'container_class' => 'mobile',
-                    ));
+                        'container_class' => '',
+                    ]);
                 ?>
             </div>
         </div>
