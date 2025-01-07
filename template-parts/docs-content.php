@@ -113,8 +113,6 @@ $author_id = get_the_author_meta('ID');
 			);
 		?>
 	</div><!-- .entry-content -->
-
 	
-
 	<?php get_template_part('template-parts/content/partials/tags'); ?>
 </article><!-- #post-## -->

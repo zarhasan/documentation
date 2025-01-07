@@ -104,7 +104,7 @@ $theme_options = get_option('documentation');
 		x-data="header" 
 		x-on:keydown.window.ctrl.k.prevent="$store.searchPanel.show()"
 		role="banner" 
-		class="absolute top-0 left-0 w-full h-32 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo admin-bar:top-14 sm:admin-bar:top-8"
+		class="absolute top-0 left-0 w-full h-32 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo admin-bar:top-14 sm:admin-bar:top-8 print:hidden"
 		x-bind:class="[notTop ? '' : '']">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
@@ -205,3 +205,18 @@ $theme_options = get_option('documentation');
 
 	
 	<main id="content" class="site-content pt-32 sm:pt-24" role="main">
+
+			
+		<?php if(has_nav_menu('secondary')): ?>
+			<div class="container">
+				<?php
+					wp_nav_menu([
+						'theme_location' => 'secondary',
+						'menu_class' => 'flex justify-start items-center flex-wrap w-full gap-4 mt-8 whitespace-nowrap bg-gray-0 border border-gray-200 p-2',
+						'container' => 'nav',
+						'container_aria_label' => 'Secondary',
+						'container_class' => 'desktop--secondary',
+					]);
+				?>
+			</div>
+		<?php endif; ?>

@@ -364,6 +364,19 @@ header nav.mobile li.toggled>.menu-toggle {
     transform: rotateX(180deg);
 }
 
+/* Menu > Secondary */
+
+nav.desktop--secondary > ul > li > a {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    display: inline-block;
+}
+
+nav.desktop--secondary > ul > li.current-menu-item > a {
+    background-color: var(--color-gray-1000);
+    color: var(--color-gray-0);
+}
+
 /* Pagination */
 
 .documentation_pagination {

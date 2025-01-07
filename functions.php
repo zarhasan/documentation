@@ -169,6 +169,7 @@ function documentation_after_setup_theme() {
 
     register_nav_menus(array(
         'primary' => esc_html__('Primary', 'documentation'),
+        'secondary' => esc_html__('Secondary', 'documentation'),
         'footer' => esc_html__('Footer', 'documentation'),
     ));
 }
@@ -233,6 +234,11 @@ function documentation_register_required_plugins() {
         array(
             'name'      => 'Redux Framework',
             'slug'      => 'redux-framework',
+            'required'  => false,
+        ),
+        array(
+            'name'      => 'Contextual Related Posts',
+            'slug'      => 'contextual-related-posts',
             'required'  => false,
         )
     );
