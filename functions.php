@@ -432,6 +432,18 @@ function documentation_get_document_hierarchy() {
         'order' => 'ASC',
     );
 
+    if (is_tax('doc_version')) {
+        $current_term = get_queried_object();
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'doc_version',
+                'field'    => 'term_id', // Use 'slug' if you prefer
+                'terms'    => array($current_term->term_id),
+                'operator' => 'IN',
+            ),
+        );
+    };
+
     $query = new WP_Query($args);
 
     if (!$query->have_posts()) {
@@ -653,18 +665,11 @@ function documentation_get_breadcrumb()
             'home' => esc_attr_x('Home', 'breadcrumbs aria label', 'documentation'),
             'error_404' => esc_html__('404 Not Found', 'documentation'),
             'archives' => esc_html__('Archives', 'documentation'),
-            // Translators: %s is the search query.
             'search' => esc_html__('Search results for: %s', 'documentation'),
-            // Translators: %s is the page number.
             'paged' => esc_html__('Page %s', 'documentation'),
-            // Translators: %s is the page number.
             'paged_comments' => esc_html__('Comment Page %s', 'documentation'),
-            // Translators: Minute archive title. %s is the minute time format.
             'archive_minute' => esc_html__('Minute %s', 'documentation'),
-            // Translators: Weekly archive title. %s is the week date format.
             'archive_week' => esc_html__('Week %s', 'documentation'),
-
-            // "%s" is replaced with the translated date/time format.
             'archive_minute_hour' => '%s',
             'archive_hour' => '%s',
             'archive_day' => '%s',
@@ -672,7 +677,8 @@ function documentation_get_breadcrumb()
             'archive_year' => '%s',
         ),
         'post_taxonomy' => array(
-            // 'post'  => 'post_tag', // 'post' post type and 'post_tag' taxonomy
+            'docs'  => 'category',
+            'docs'  => 'doc_version',
             // 'book'  => 'genre',    // 'book' post type and 'genre' taxonomy
         ),
         'echo' => true,

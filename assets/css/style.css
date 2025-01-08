@@ -372,6 +372,10 @@ nav.desktop--secondary > ul > li > a {
     display: inline-block;
 }
 
+nav.desktop--secondary > ul > li > a:hover {
+    background-color: var(--color-gray-50);
+}
+
 nav.desktop--secondary > ul > li.current-menu-item > a {
     background-color: var(--color-gray-1000);
     color: var(--color-gray-0);

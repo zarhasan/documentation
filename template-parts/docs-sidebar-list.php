@@ -17,7 +17,7 @@ if ($args) {
     x-cloak
     x-collapse 
     x-show="expanded"
-    class="mt-4 flex flex-col gap-3 text-sm pl-4 border-l-2 border-gray-1000 border-solid <?php echo isset($level) && $level > 0 ? 'ml-4' : ''; ?>">
+    class="mt-4 flex flex-col gap-3 text-sm border-l-2 border-gray-1000 border-solid pl-4">
     <?php foreach ($documents as $index => $document): ?>
       <?php $is_current = is_singular('docs') && (get_the_ID() === $document['ID'] || in_array($document['ID'], get_post_ancestors(get_the_ID()))); ?>
 

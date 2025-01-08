@@ -24,6 +24,7 @@ if ($args) {
           <?php if (!empty($document['children'])): ?>
             <button 
               x-on:click="expanded = !expanded" 
+              x-bind:aria-label="expanded ? '<?php echo esc_html__('Collapse', 'documentation'); ?> <?php echo esc_html($document['title']); ?>' : '<?php echo esc_html__('Expand', 'documentation'); ?> <?php echo esc_html($document['title']); ?>'"
               class="inline-flex w-4 h-4 justify-center items-center shrink-0">
               <span x-show="!expanded" x-cloak>
                 <?php echo documentation_svg('chevron-right'); ?>
