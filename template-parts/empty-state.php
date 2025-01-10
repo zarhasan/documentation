@@ -16,10 +16,10 @@ if ($args) {
         <div class="flex justify-center items-center">
             <?php echo documentation_svg(!empty($icon) ? $icon : 'notes-off', 'w-16 h-16 stroke-1 text-gray-400 mb-4'); ?>
         </div>
-        <h1 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
+        <h1 class="mt-4 text-balance text-3xl font-semibold tracking-tight text-gray-900">
             <?php echo esc_html($title); ?>
         </h1>
-        <p class="mt-6 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
+        <p class="mt-6 text-pretty text-base font-medium text-gray-500 sm:text-xl/8">
             <?php echo esc_html($description); ?>
         </p>
     </div>
