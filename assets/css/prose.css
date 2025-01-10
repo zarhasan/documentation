@@ -85,9 +85,9 @@
 
 .prose p a,
 .prose li a {
-  color: var(--color-primary);
+  color: var(--color-gray-1000);
   text-decoration: underline;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 @media (max-width: 1024px) {

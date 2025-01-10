@@ -22,7 +22,7 @@ if ($args) {
 
             
             <h3 class="text-2xl m-0 mt-1 w-full font-primary font-bold">
-                <a class="hover:underline hover:text-primary-darker" href="<?php echo esc_url($document['permalink']); ?>" rel="bookmark">
+                <a class="hover:underline hover:text-gray-1000" href="<?php echo esc_url($document['permalink']); ?>" rel="bookmark">
                     <?php echo esc_html($document['title']); ?>
                 </a>
             </h3>
