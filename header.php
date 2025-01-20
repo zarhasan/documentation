@@ -206,7 +206,7 @@ $theme_options = get_option('documentation');
 	
 	<main id="content" class="site-content pt-32 sm:pt-24" role="main">
 		<?php if(has_nav_menu('secondary')): ?>
-			<div class="container relative z-1000">
+			<div class="x-container relative z-1000">
 				<?php
 					wp_nav_menu([
 						'theme_location' => 'secondary',
