@@ -12,10 +12,10 @@ get_header();
 $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 ?>
 
-<div class="container flex flex-col justify-center items-start py-28 min-h-[var(--hero-height)]">
+<div class="x-container flex flex-col justify-center items-start py-28 min-h-[var(--hero-height)]">
 	<p class="font-bold text-sm text-gray-1000"><?php esc_html_e('404 error', 'documentation'); ?></p>
 	<h1><?php esc_html_e('We can’t find that page', 'documentation'); ?></h1>
-	<p><?php esc_html_e( "Sorry, the page you are looking for doesn't exist or has been moved.", 'documentation') ?></p>
+	<p><?php esc_html_e("Sorry, the page you are looking for doesn't exist or has been moved.", 'documentation'); ?></p>
 
 	<div class="flex justify-start items-start gap-4 mt-8">
 		<a 

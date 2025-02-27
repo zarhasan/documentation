@@ -9,28 +9,9 @@ get_header();
 $documents = documentation_get_document_hierarchy();
 $theme_options = get_option('documentation');
 
-$data = [
-  'title' => isset( $theme_options['docs_page_title'] ) ? $theme_options['docs_page_title'] : __('RedOxbird Theme Documentation', 'documentation'),
-  'subtitle' => isset( $theme_options['docs_page_description'] ) ? $theme_options['docs_page_description'] :  __('Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.', 'documentation'),
-];
-
 $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky', 'emerald', 'fuchsia', 'lime'];
 
 ?>
-
-<div class="mt-16">
-  <div class="x-container">
-    <div class="max-w-4xl lg:mx-0">
-      <h2 class="text-4xl tracking-tight text-gray-900 sm:text-7xl">
-        <?php echo esc_html($data['title']); ?>
-      </h2>
-      
-      <p class="mt-6 text-lg leading-8 text-gray-600">
-        <?php echo esc_html($data['subtitle']); ?>
-      </p>
-    </div>
-  </div>
-</div>
 
 <div class="x-container mt-16"> 
   <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -51,15 +32,15 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 
           <ul class="mt-4 text-base text-gray-700 flex flex-col gap-2">
             <?php foreach ($document['children'] as $index => $children): ?>
-                <li 
-                    x-bind:class="expanded || '1' == '<?php echo $index < 5 ?>' ? 'block' : 'hidden'">
-                    <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
-                      <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
-                        <?php echo documentation_svg('clipboard-text'); ?>
-                      </span>
-                      <?php echo esc_html($children['title']); ?>
-                    </a>
-                </li>
+              <li 
+                x-bind:class="expanded || '1' == '<?php echo $index < 5 ?>' ? 'block' : 'hidden'">
+                <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
+                  <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
+                    <?php echo documentation_svg('clipboard-text'); ?>
+                  </span>
+                  <?php echo esc_html($children['title']); ?>
+                </a>
+              </li>
             <?php endforeach; ?>
           </ul>
 

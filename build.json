@@ -1,0 +1,14 @@
+{
+    "free": {
+        "NAME": "Documentation",
+        "SLUG": "documentation",
+        "PREFIX": "documentation",
+        "VERSION": "0.3.0"
+    },
+    "pro": {
+        "NAME": "Documentation Pro",
+        "SLUG": "documentation-pro",
+        "PREFIX": "documentation_pro",
+        "VERSION": "0.3.0"
+    }
+}

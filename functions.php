@@ -227,18 +227,13 @@ function documentation_register_required_plugins() {
             'required'  => false,
         ),
         array(
-            'name'      => 'Code Block Pro – Beautiful Syntax Highlighting',
+            'name'      => 'Code Block Pro - Beautiful Syntax Highlighting',
             'slug'      => 'code-block-pro',
             'required'  => false,
         ),
         array(
             'name'      => 'Redux Framework',
             'slug'      => 'redux-framework',
-            'required'  => false,
-        ),
-        array(
-            'name'      => 'Contextual Related Posts',
-            'slug'      => 'contextual-related-posts',
             'required'  => false,
         )
     );
