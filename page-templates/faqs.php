@@ -38,7 +38,7 @@ if (is_tax('faq_category')) {
       
         <div class="flex justify-start items-center flex-wrap w-full gap-4 mt-8 mb-8 whitespace-nowrap bg-gray-0 border border-gray-200 p-2">
             <a 
-                class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2" 
+                class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2 hover:bg-gray-50" 
                 href="<?php echo esc_url(get_post_type_archive_link('faq')); ?>"
                 <?php if(!is_tax('faq_category')): ?>
                     aria-current="page"
@@ -49,7 +49,7 @@ if (is_tax('faq_category')) {
             <?php if(!empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
                     <a 
-                        class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2" 
+                        class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2 hover:bg-gray-50" 
                         href="<?php echo esc_url(get_category_link($category->term_id)); ?>"
                         <?php if(!empty($current_category) && $current_category->term_id == $category->term_id): ?>
                             aria-current="page"

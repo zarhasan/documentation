@@ -27,7 +27,7 @@ $toc = documentation_get_toc(get_the_content());
       while (have_posts()):
         the_post();
 
-        get_template_part( 'template-parts/docs', 'content', ['documents' => $documents, 'toc' => $toc]);
+        get_template_part('template-parts/docs', 'content', ['documents' => $documents, 'toc' => $toc]);
 
         // If comments are open or we have at least one comment, load up the comment template.
         if ( comments_open() || get_comments_number() ) :

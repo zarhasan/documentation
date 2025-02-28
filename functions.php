@@ -300,8 +300,8 @@ function documentation_get_posts_list_callback() {
     ];
 
     $args = [
-        'post_type'      => 'any',
-        'public'       => true,
+        'post_type'     => 'any',
+        'public'        => true,
         'exclude_from_search' => false,
         'posts_per_page' => 10000,
         'orderby'        => 'menu_order',
@@ -636,7 +636,7 @@ function documentation_update_file_cache($key, $callback, $expiration = 3600) {
     documentation_delete_file_cache($key);
 
     // Use the get_data_with_cache function to update the cache
-    return get_data_with_cache($key, $callback, $expiration);
+    return documentation_get_file_cache($key, $expiration);
 }
 
 function documentation_get_breadcrumb()
@@ -698,38 +698,6 @@ function documentation_recursive_array_search($needle, $haystack, $keyToSearch) 
     }
     return false;
 }
-
-
-// <REMOVE_IN_FREE_VERSION>
-add_filter('manage_edit-docs_columns', function($columns) {
-    $new_columns = [];
-
-    foreach ($columns as $key => $label) {
-        $new_columns[$key] = $label;
-        if ($key === 'categories') {
-            $new_columns['doc_versions'] = __('Versions', 'documentation');
-        }
-    }
-
-    return $new_columns;
-});
-
-add_action('manage_docs_posts_custom_column', function($column, $post_id) {
-    if ($column === 'doc_versions') {
-        $versions = wp_get_post_terms($post_id, 'doc_version', ['fields' => 'names']);
-        if (!empty($versions)) {
-            echo implode(', ', $versions);
-        } else {
-            echo __('No versions', 'documentation');
-        }
-    }
-}, 10, 2);
-
-add_filter('manage_edit-docs_sortable_columns', function($sortable_columns) {
-    unset($sortable_columns['doc_versions']); // Ensure Versions column is not sortable
-    return $sortable_columns;
-});
-// </REMOVE_IN_FREE_VERSION>
 
 if ( class_exists( 'Redux' ) ) {
     $opt_name = "documentation"; // Change this to your option name
