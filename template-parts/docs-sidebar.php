@@ -15,9 +15,9 @@ if ($args) {
     <?php foreach ($documents as $index => $document): ?>
       <?php $is_current = is_singular('docs') && (get_the_ID() === $document['ID'] || in_array($document['ID'], get_post_ancestors(get_the_ID()))); ?>
 
-      <li x-data="{ expanded: <?php echo $is_current ? 'true' : 'false'; ?> }">
+      <li x-data="{ expanded: <?php echo esc_attr($is_current ? 'true' : 'false'); ?> }">
         <div class="flex justify-between items-center gap-2">
-          <a class="font-bold grow hover:bg-gray-100 active:bg-gray-200 <?php echo $is_current ? 'underline' : '' ?>" href="<?php echo esc_attr($document['permalink']); ?>">
+          <a class="font-bold grow hover:bg-gray-100 active:bg-gray-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" href="<?php echo esc_attr($document['permalink']); ?>">
             <?php echo esc_html($document['title']); ?>            
           </a>
 

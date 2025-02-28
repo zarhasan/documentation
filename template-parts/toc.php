@@ -18,7 +18,7 @@ if(!$toc) {
 ?>
 
 <div class="documentation_toc scrollbar col-span-3 h-screen py-10 lg:pl-10 self-start text-left sticky top-0 overflow-y-scroll when-md:hidden">
-  <?php echo $toc; ?>
+  <?php echo wp_kses_post($toc); ?>
 
   <a 
     class="inline-flex mt-8 text-sm font-semibold text-primary bg-primary-50 px-4 py-2 border-1 border-primary border-solid rounded-full" href="#header">

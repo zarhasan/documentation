@@ -15,9 +15,11 @@ if(!$toc) {
 
 ?>
 
-<div data-simplebar class="documentation_toc w-72 h-screen py-8 lg:pl-10 self-start text-left !sticky top-0 overflow-y-scroll hidden xl:block">
+<div 
+  data-simplebar 
+  class="documentation_toc w-72 h-screen py-8 lg:pl-10 self-start text-left !sticky top-0 overflow-y-scroll hidden xl:block">
   
-  <?php echo $toc; ?>
+  <?php echo wp_kses_post($toc); ?>
 
   <a 
     class="inline-flex mt-8 text-sm font-semibold justify-center items-center whitespace-nowrap" href="#header">

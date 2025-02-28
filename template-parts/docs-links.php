@@ -34,8 +34,10 @@ if($parent_id === 0) {
 
     <ul class="mt-4 flex flex-col gap-2 list-disc pl-4 font-medium">
         <?php foreach($items as $i => $item): ?>
-            <li class="<?php echo $item['ID'] === get_the_ID() ? 'list-none' : '' ?>">
-                <a href="<?php echo $item['ID'] === get_the_ID() ? '#' : esc_url($item['permalink']); ?>" class="w-full block <?php echo $item['ID'] === get_the_ID() ? 'no-underline text-gray-700' : 'underline text-primary hover:no-underline' ?>">
+            <li class="<?php echo esc_attr($item['ID'] === get_the_ID() ? 'list-none' : '') ?>">
+                <a 
+                    href="<?php echo esc_attr($item['ID'] === get_the_ID() ? '#' : $item['permalink']); ?>" 
+                    class="w-full block <?php echo esc_attr($item['ID'] === get_the_ID() ? 'no-underline text-gray-700' : 'underline text-primary hover:no-underline') ?>">
                     <?php echo esc_html($item['title']); ?>         
                 </a>
             </li>

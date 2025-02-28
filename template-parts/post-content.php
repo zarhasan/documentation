@@ -27,7 +27,7 @@
 			$largest_length = strlen($title_words[0]);
 		?>
 		
-		<h1 class="text-5xl sm:text-7xl font-semibold entry-title inline <?php echo $largest_length > 25 ? 'break-all' : ''; ?>">
+		<h1 class="text-5xl sm:text-7xl font-semibold entry-title inline <?php echo esc_attr($largest_length > 25 ? 'break-all' : ''); ?>">
 			<?php the_title(); ?>
 		</h1>
 	</div>

@@ -33,7 +33,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
           <ul class="mt-4 text-base text-gray-700 flex flex-col gap-2">
             <?php foreach ($document['children'] as $index => $children): ?>
               <li 
-                x-bind:class="expanded || '1' == '<?php echo $index < 5 ?>' ? 'block' : 'hidden'">
+                x-bind:class="expanded || '1' == '<?php echo esc_attr($index < 5) ?>' ? 'block' : 'hidden'">
                 <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
                   <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
                     <?php echo documentation_svg('clipboard-text'); ?>

@@ -19,10 +19,10 @@ if(!$image_id) {
 ?>
 
 <img 
-    src="<?php echo $image ? $image[0] : ''; ?>"
+    src="<?php echo esc_attr($image ? $image[0] : ''); ?>"
     class="w-full h-full object-cover"
     width="<?php echo esc_attr($image[1] ?? 0); ?>"
     height="<?php echo esc_attr($image[2] ?? 0); ?>"
-    alt="<?php echo esc_attr( $image_alt ); ?>"
+    alt="<?php echo esc_attr($image_alt); ?>"
     loading="lazy"
 >

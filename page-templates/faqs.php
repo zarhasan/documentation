@@ -55,7 +55,7 @@ if (is_tax('faq_category')) {
                             aria-current="page"
                         <?php endif; ?>
                         >
-                        <?php echo $category->name; ?>
+                        <?php echo esc_html($category->name); ?>
                     </a>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -77,24 +77,24 @@ if (is_tax('faq_category')) {
                         <button 
                             type="button" 
                             class="flex w-full items-start justify-between text-left text-gray-900 transition hover:bg-gray-50" 
-                            x-bind:aria-expanded="activeIndex === <?php echo $activeIndex; ?>" 
-                            x-bind:aria-controls="'faq-content-' + <?php echo $activeIndex; ?>" 
-                            id="faq-header-<?php echo $activeIndex; ?>" 
-                            x-on:click="activeIndex = activeIndex === <?php echo $activeIndex; ?> ? null : <?php echo $activeIndex; ?>">
+                            x-bind:aria-expanded="activeIndex === <?php echo esc_attr($activeIndex); ?>" 
+                            x-bind:aria-controls="'faq-content-' + <?php echo esc_attr($activeIndex); ?>" 
+                            id="faq-header-<?php echo esc_attr($activeIndex); ?>" 
+                            x-on:click="activeIndex = activeIndex === <?php echo esc_attr($activeIndex); ?> ? null : <?php echo esc_attr($activeIndex); ?>">
                             <span class="text-base/7 font-bold">
                                 <?php echo get_the_title(); ?>
                             </span>
 
                             <span 
                                 x-cloak
-                                x-show="activeIndex !== <?php echo $activeIndex; ?>" 
+                                x-show="activeIndex !== <?php echo esc_attr($activeIndex); ?>" 
                                 class="ml-6 flex h-7 items-center">
                                 <?php echo documentation_svg('chevron-down'); ?>
                             </span>
 
                             <span 
                                 x-cloak
-                                x-show="activeIndex === <?php echo $activeIndex; ?>" 
+                                x-show="activeIndex === <?php echo esc_attr($activeIndex); ?>" 
                                 class="ml-6 flex h-7 items-center">
                                 <?php echo documentation_svg('chevron-up'); ?>
                             </span>
@@ -104,10 +104,10 @@ if (is_tax('faq_category')) {
 
                     <dd 
                         class="mt-2 pr-12 prose" 
-                        x-show="activeIndex === <?php echo $activeIndex; ?>" 
+                        x-show="activeIndex === <?php echo esc_attr($activeIndex); ?>" 
                         role="region" 
-                        x-bind:id="'faq-content-' + <?php echo $activeIndex; ?>" 
-                        x-bind:aria-labelledby="'faq-header-' + <?php echo $activeIndex; ?>" 
+                        x-bind:id="'faq-content-' + <?php echo esc_attr($activeIndex); ?>" 
+                        x-bind:aria-labelledby="'faq-header-' + <?php echo esc_attr($activeIndex); ?>" 
                         style="display: none;"
                         x-collapse>
                         <?php echo get_the_content(); ?>

@@ -57,7 +57,7 @@ if (is_category()) {
 
         <div class="flex justify-start items-center flex-wrap w-full gap-4 mt-8 whitespace-nowrap bg-gray-0 border border-gray-200 p-2">
             <a 
-                class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2" 
+                class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2 hover:bg-gray-50" 
                 href="<?php echo esc_url($posts_page_id ? $posts_page_url : home_url()); ?>"
                 <?php if(!is_category()): ?>
                     aria-current="page"
@@ -68,13 +68,13 @@ if (is_category()) {
             <?php if(!empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
                     <a 
-                        class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2" 
+                        class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2 hover:bg-gray-50" 
                         href="<?php echo esc_url(get_category_link($category->term_id)); ?>"
                         <?php if(!empty($current_category) && $current_category->term_id == $category->term_id): ?>
                             aria-current="page"
                         <?php endif; ?>
                         >
-                        <?php echo $category->name; ?>
+                        <?php echo esc_html($category->name); ?>
                     </a>
                 <?php endforeach; ?>
             <?php endif; ?>
