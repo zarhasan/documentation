@@ -235,6 +235,11 @@ function documentation_register_required_plugins() {
             'name'      => 'Redux Framework',
             'slug'      => 'redux-framework',
             'required'  => false,
+        ),
+        array(
+            'name'      => 'Fast Fuzzy Search',
+            'slug'      => 'fast-fuzzy-search',
+            'required'  => false,
         )
     );
 

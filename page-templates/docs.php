@@ -14,7 +14,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 ?>
 
 <div class="x-container mt-16"> 
-  <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+  <div class="grid sm:grid-cols-3 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): ?>
       <div x-data="{expanded: false}" class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
         <div>

@@ -81,6 +81,20 @@ document.addEventListener("alpine:init", () => {
         }
     });
 
+    Alpine.data("toasty", () => ({
+        entries: Alpine.store("toast").entries,
+        dismiss() {
+            Alpine.store("toast").dismiss(parseInt(this.$el.dataset.index));
+        },
+        hasEntries() {
+            return this.entries.length > 0;
+        }
+    }));
+
+    Alpine.data("page", () => ({
+        colorSchemeName: Alpine.store('colorScheme').name,
+    }));
+
     Alpine.data("header", () => ({
         scroll: {
             x: 0,
@@ -115,7 +129,7 @@ document.addEventListener("alpine:init", () => {
 
             window.addEventListener(
                 "scroll",
-                throttle(() => {
+                documentation_throttle(() => {
                     this.update(this.scroll);
                 }, 250)
             );
@@ -141,6 +155,44 @@ document.addEventListener("alpine:init", () => {
                 this.pin = false;
             }
         },
+
+        showSearch() {
+            this.$store.searchPanel.show();
+        },
+
+        headerClass() {
+            return [this.notTop ? '' : ''];
+        },
+
+        colorSchemeToggle() {
+            this.$store.colorScheme.toggle();
+        },
+
+        isLight() {
+            return this.$store.colorScheme.name === 'light';
+        },
+
+        isDark() {
+            return this.$store.colorScheme.name === 'dark';
+        },
+
+        handleMenuButtonClick() {
+            return this.showSidebar ? this.hide('showSidebar') : this.show('showSidebar')
+        },
+
+        isSidebarVisible() {
+            return this.showSidebar;
+        },
+
+        isSidebarHidden() {
+            return !this.showSidebar;
+        },
+
+        handleSidebarWindowEscape(e) {
+            if (e.key === 'Escape') {
+                this.hide('showSidebar');
+            }
+        }
     }));
 
     Alpine.data("search", () => ({
@@ -159,7 +211,7 @@ document.addEventListener("alpine:init", () => {
                 clearTimeout(this.debounceTimeout);
 
                 if (e.target.value.length <= 2) {
-                    this.results = []
+                    this.results = [];
                     return;
                 }
 
@@ -203,6 +255,25 @@ document.addEventListener("alpine:init", () => {
             } else {
                 this.focused = false
             }
+        }
+    }));
+
+
+    Alpine.data("searchTrigger", () => ({
+        showSearch() {
+            this.$store.searchPanel.show();
+        },
+
+        isDisabled() {
+            return this.$store.searchPanel.loading ? 'disabled' : false;
+        },
+
+        isLoading() {
+            return this.$store.searchPanel.loading;
+        },
+
+        isNotLoading() {
+            return !this.$store.searchPanel.loading;
         }
     }));
 
@@ -502,10 +573,10 @@ jQuery(document).ready(() => {
         const observer = new IntersectionObserver(handleIntersection, { root: null, rootMargin: '0px', threshold: 0.75 });
 
         $('.single-docs .entry-content, .single-post .entry-content').find('h1, h2, h3, h4, h5, h6').each(function (i, heading) {
-            if(!heading.hasAttribute('id')) {
+            if (!heading.hasAttribute('id')) {
                 $(heading).attr('id', heading.textContent.trim().replace(/\s+/g, '-').toLowerCase());
             }
-            
+
             observer.observe(heading)
         });
     }
@@ -590,61 +661,61 @@ function handleDesktopMenu() {
 function parseChangelog(inputString) {
     const lines = inputString.split('\n');
     const changelog = [];
-  
+
     let currentVersion = null;
-  
+
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-  
-      if (line.startsWith('==') && line.endsWith('==')) {
-        // Ignore section headers
-        continue;
-      } else if (line.startsWith('=') && line.endsWith('=')) {
-        // Extract version and date
-        const versionDateLine = line.substring(1, line.length - 1).trim().split(' ');
-        const version = versionDateLine[0];
-        const date = versionDateLine[1];
-  
-        // Create a new entry for this version
-        currentVersion = {
-          version: version,
-          date: date,
-          changes: []
-        };
-        changelog.push(currentVersion);
-      } else if (line.startsWith('**') && line.endsWith('**') && currentVersion) {
-        // Extract product name
-        const productName = line.substring(2, line.length - 2).trim();
-        currentVersion.product = productName;
-      } else if (line.startsWith('*') && currentVersion) {
-        // Extract category and log details
-        const categoryEndIndex = line.indexOf(' - ');
-        const category = line.substring(2, categoryEndIndex).trim();
-        const logDetail = line.substring(categoryEndIndex + 3).trim();
-  
-        // Check if the category exists
-        let categoryObj = currentVersion.changes.find(item => item.name === category);
-        if (!categoryObj) {
-          categoryObj = {
-            name: category,
-            log: []
-          };
-          currentVersion.changes.push(categoryObj);
+        const line = lines[i].trim();
+
+        if (line.startsWith('==') && line.endsWith('==')) {
+            // Ignore section headers
+            continue;
+        } else if (line.startsWith('=') && line.endsWith('=')) {
+            // Extract version and date
+            const versionDateLine = line.substring(1, line.length - 1).trim().split(' ');
+            const version = versionDateLine[0];
+            const date = versionDateLine[1];
+
+            // Create a new entry for this version
+            currentVersion = {
+                version: version,
+                date: date,
+                changes: []
+            };
+            changelog.push(currentVersion);
+        } else if (line.startsWith('**') && line.endsWith('**') && currentVersion) {
+            // Extract product name
+            const productName = line.substring(2, line.length - 2).trim();
+            currentVersion.product = productName;
+        } else if (line.startsWith('*') && currentVersion) {
+            // Extract category and log details
+            const categoryEndIndex = line.indexOf(' - ');
+            const category = line.substring(2, categoryEndIndex).trim();
+            const logDetail = line.substring(categoryEndIndex + 3).trim();
+
+            // Check if the category exists
+            let categoryObj = currentVersion.changes.find(item => item.name === category);
+            if (!categoryObj) {
+                categoryObj = {
+                    name: category,
+                    log: []
+                };
+                currentVersion.changes.push(categoryObj);
+            }
+
+            // Extract log details
+            const logDetailParts = /(.+)\[#(\d+)\]/.exec(logDetail);
+            if (logDetailParts && logDetailParts.length === 3) {
+                const description = logDetailParts[1].trim();
+                const id = logDetailParts[2].trim();
+                categoryObj.log.push({ description, id });
+            }
         }
-  
-        // Extract log details
-        const logDetailParts = /(.+)\[#(\d+)\]/.exec(logDetail);
-        if (logDetailParts && logDetailParts.length === 3) {
-          const description = logDetailParts[1].trim();
-          const id = logDetailParts[2].trim();
-          categoryObj.log.push({ description, id });
-        }
-      }
     }
-  
+
     return changelog;
-  }
-  
+}
+
 
 let liveElementTimeout = null;
 
@@ -672,7 +743,7 @@ function announceToScreenReader(text, role, timeout = 1000, once = false) {
     }, timeout);
 }
 
-function throttle(func) {
+function documentation_throttle(func) {
     let queued = false;
 
     return function (...args) {
@@ -685,7 +756,6 @@ function throttle(func) {
         }
     };
 }
-
 function modifierValue(modifiers, key, fallback) {
     if (modifiers.indexOf(key) === -1) return fallback;
 

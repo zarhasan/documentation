@@ -91,9 +91,9 @@ $theme_options = get_option('documentation');
 <body 
 	<?php body_class("bg-gray-50 text-gray-1000"); ?> 
 	x-cloak 
-	x-data 
+	x-data="page"
 	data-color-scheme="<?php echo !empty($theme_options['default_color_scheme']) ? $theme_options['default_color_scheme'] : 'light' ; ?>"
-	x-bind:data-color-scheme="$store.colorScheme.name">
+	x-bind:data-color-scheme="colorSchemeName">
 
 <?php wp_body_open(); ?>
 
@@ -102,10 +102,10 @@ $theme_options = get_option('documentation');
 	<header 
 		id="header"
 		x-data="header" 
-		x-on:keydown.window.ctrl.k.prevent="$store.searchPanel.show()"
+		x-on:keydown.window.ctrl.k.prevent="showSearch"
 		role="banner" 
 		class="absolute top-0 left-0 w-full h-32 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo admin-bar:top-14 sm:admin-bar:top-8 print:hidden"
-		x-bind:class="[notTop ? '' : '']">
+		x-bind:class="headerClass">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
 
@@ -143,24 +143,24 @@ $theme_options = get_option('documentation');
 					};
 				?>
 
-				<button x-on:click="$store.colorScheme.toggle()" class="w-6 h-6 inline-flex justify-center items-center text-gray-600">
-					<span x-show="$store.colorScheme.name === 'light'" class="inline-flex justify-center items-center">
+				<button x-on:click="colorSchemeToggle" class="w-6 h-6 inline-flex justify-center items-center text-gray-600">
+					<span x-show="isLight" class="inline-flex justify-center items-center">
 						<?php echo documentation_svg('moon'); ?>
 					</span>
 
-					<span x-cloak x-show="$store.colorScheme.name === 'dark'" class="inline-flex justify-center items-center">
+					<span x-cloak x-show="isDark" class="inline-flex justify-center items-center">
 						<?php echo documentation_svg('sun'); ?>
 					</span>
 				</button>
 
 				<button 
-					x-on:click.prevent="showSidebar ? hide('showSidebar') : show('showSidebar')"
+					x-on:click.prevent="handleMenuButtonClick"
 					class="w-6 h-6 inline-flex justify-center items-center text-gray-600 lg:hidden"
 					>
-					<span x-show="!showSidebar">
+					<span x-show="isSidebarHidden">
 						<?php echo documentation_svg('menu'); ?>
 					</span>
-					<span x-cloak x-show="showSidebar">
+					<span x-cloak x-show="isSidebarVisible">
 						<?php echo documentation_svg('x'); ?>
 					</span>
 				</button>
@@ -168,12 +168,6 @@ $theme_options = get_option('documentation');
 
 			<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'sm:hidden']); ?>
 		</div>
-
-		<?php if(is_archive('docs') || is_singular('docs')): ?>
-			<?php get_template_part('template-parts/search-panel', null, ['ajax_action' => 'documentation_get_documents_list', 'label' => __('Search in docs', 'documentation')]); ?>
-		<?php else: ?>
-			<?php get_template_part('template-parts/search-panel'); ?>
-		<?php endif; ?>
 
 		<div 
             class="fixed top-32 sm:top-24 right-0 w-96 bottom-0 lg:hidden py-8" 
@@ -187,7 +181,7 @@ $theme_options = get_option('documentation');
 			x-transition:leave="transition ease-in duration-300"
 			x-transition:leave-start="opacity-100 translate-x-0"
 			x-transition:leave-end="opacity-0 translate-x-28"
-            x-on:keydown.escape.window="hide('showSidebar')">
+            x-on:keydown.escape.window="handleSidebarWindowEscape">
 
             <div class="x-container h-full bg-gray-50 border border-gray-300 py-8">
                 <?php
