@@ -20,9 +20,7 @@ $theme_options = get_option('documentation');
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css" />
-	<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
-
+	
 	<style>
 		<?php $primary_color = !empty($theme_options['color_primary']) ? $theme_options['color_primary'] : "#31358A"; ?>
 
@@ -122,7 +120,7 @@ $theme_options = get_option('documentation');
 				<?php endif; ?>
 			</a>
 
-			<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'hidden sm:flex']); ?>
+			<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'hidden !sm:flex']); ?>
 			
 			<div class="flex justify-end items-center w-auto shrink-0 ml-auto sm:pl-8 gap-6">
 				<?php
@@ -155,7 +153,7 @@ $theme_options = get_option('documentation');
 
 				<button 
 					x-on:click.prevent="handleMenuButtonClick"
-					class="w-6 h-6 inline-flex justify-center items-center text-gray-600 lg:hidden"
+					class="w-6 h-6 inline-flex justify-center items-center text-gray-600 !lg:hidden"
 					>
 					<span x-show="isSidebarHidden">
 						<?php echo documentation_svg('menu'); ?>
@@ -166,7 +164,7 @@ $theme_options = get_option('documentation');
 				</button>
 			</div>
 
-			<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'sm:hidden']); ?>
+			<?php get_template_part('template-parts/header-search-button', null, ['classes' => '!sm:hidden']); ?>
 		</div>
 
 		<div 

@@ -92,7 +92,9 @@ document.addEventListener("alpine:init", () => {
     }));
 
     Alpine.data("page", () => ({
-        colorSchemeName: Alpine.store('colorScheme').name,
+        get colorSchemeName() {
+            return Alpine.store('colorScheme').name;
+        }
     }));
 
     Alpine.data("header", () => ({
@@ -260,22 +262,27 @@ document.addEventListener("alpine:init", () => {
 
 
     Alpine.data("searchTrigger", () => ({
+        get loading() {
+            return Alpine.store('searchPanel').loading;
+        },
+    
         showSearch() {
             this.$store.searchPanel.show();
         },
-
-        isDisabled() {
-            return this.$store.searchPanel.loading ? 'disabled' : false;
+    
+        get isDisabled() {
+            return this.loading ? 'disabled' : false;
         },
-
-        isLoading() {
-            return this.$store.searchPanel.loading;
+    
+        get isLoading() {
+            return this.loading;
         },
-
-        isNotLoading() {
-            return !this.$store.searchPanel.loading;
+    
+        get isNotLoading() {
+            return !this.loading;
         }
     }));
+    
 
     let titles = [];
     let paths = [];
