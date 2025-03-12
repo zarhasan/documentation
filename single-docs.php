@@ -17,7 +17,7 @@ $toc = documentation_get_toc(get_the_content());
 <div class="w-full flex justify-start x-container when-md:px-6">
   <?php get_template_part('template-parts/docs', 'sidebar', ['documents' => $documents, 'class' => '!sticky top-0 sm:w-72 shrink-0 border-gray-300 text-gray-1000 border-solid h-screen overflow-y-scroll py-8 lg:pr-10 self-start hidden lg:block']); ?>
 	
-  <div id="primary" class="pt-8 lg:px-8 sm:w-7/12 w-full grow">
+  <div id="primary" class="pt-8 lg:px-8 !sm:w-7/12 w-full grow">
     <div class="documentation_breadcrumb">
       <?php echo documentation_get_breadcrumb(); ?>
     </div>

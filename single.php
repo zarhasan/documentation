@@ -11,7 +11,7 @@ get_header(); ?>
 
 
 <div class="mx-auto w-full flex justify-start x-container">
-	<div id="primary" class="pt-8 lg:pr-8 sm:w-7/12 grow">
+	<div id="primary" class="pt-8 lg:pr-8 !sm:w-7/12 grow">
 		<?php
 			/* Start the Loop */
 

@@ -263,26 +263,26 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data("searchTrigger", () => ({
         get loading() {
-            return Alpine.store('searchPanel').loading;
+            return Alpine.store('fastFuzzySearchPanel').loading;
         },
-    
+
         showSearch() {
-            this.$store.searchPanel.show();
+            Alpine.store('fastFuzzySearchPanel').show();
         },
-    
+
         get isDisabled() {
             return this.loading ? 'disabled' : false;
         },
-    
+
         get isLoading() {
             return this.loading;
         },
-    
+
         get isNotLoading() {
             return !this.loading;
         }
     }));
-    
+
 
     let titles = [];
     let paths = [];
@@ -589,6 +589,17 @@ jQuery(document).ready(() => {
     }
 
     $('.comment-content').addClass('prose');
+
+    window.addEventListener("hashchange", () => {
+        const hash = window.location.hash;
+        
+        if (hash) {
+            const element = document.querySelector(hash);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        };
+    });
 
     handleDesktopMenu();
     handleDocsHeadings();

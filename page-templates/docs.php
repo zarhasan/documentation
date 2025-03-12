@@ -15,10 +15,10 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 
 <div class="x-container mt-16"> 
   <div class="grid sm:grid-cols-3 xl:grid-cols-3 gap-8">
-    <?php foreach ($documents as $index => $document): ?>
+    <?php foreach ($documents as $index => $document): $color = $colors[$index % count($colors)]; ?>
       <div x-data="{expanded: false}" class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
         <div>
-          <span class="inline-flex rounded-lg bg-<?php echo esc_attr($colors[$index % count($colors)]); ?>-50 p-3 text-<?php echo esc_attr($colors[$index % count($colors)]); ?>-700">
+          <span class="inline-flex rounded-lg p-3 border border-solid bg-<?php echo esc_attr($color); ?>-50 text-<?php echo esc_attr($color); ?>-700 border-<?php echo esc_attr($color); ?>-700">
             <?php echo documentation_svg('folder'); ?>
           </span>
         </div>

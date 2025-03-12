@@ -23,6 +23,8 @@ add_action('save_post', function($post_id) {
     documentation_delete_file_cache('public_posts_haystack');
 });
 
+remove_action('wp_body_open', 'fast_fuzzy_search_render_search_field');
+
 // Filters
 add_filter("script_loader_tag", "documentation_add_defer_to_alpine_script", 10, 3);
 add_filter('the_content', 'documentation_add_ids_to_headings');
@@ -181,14 +183,14 @@ function documentation_enqueue_scripts() {
     // <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css" />
 	// <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
 
-    wp_enqueue_script('documentation-alpine-focus', documentation_assets('js/alpine-focus.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-alpine-collapse', documentation_assets('js/alpine-collapse.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-alpine-intersect', documentation_assets('js/alpine-intersect.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-alpine', documentation_assets('js/alpine.min.js'), array(), documentation_get_version(), false);
-    wp_enqueue_script('documentation-simplebar', documentation_assets('js/simplebar.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('alpine-focus', documentation_assets('js/alpine-focus.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('alpine-collapse', documentation_assets('js/alpine-collapse.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('alpine-intersect', documentation_assets('js/alpine-intersect.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('alpine-csp', documentation_assets('js/alpine-csp.min.js'), array(), documentation_get_version(), false);
+    wp_enqueue_script('simplebar', documentation_assets('js/simplebar.min.js'), array(), documentation_get_version(), false);
 
-    wp_enqueue_script('documentation-twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
-    wp_add_inline_script('documentation-twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
+    wp_enqueue_script('twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
+    wp_add_inline_script('twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
 
     wp_enqueue_script('embla-autoplay', documentation_assets('js/embla-carousel-autoplay.umd.js'), array(), "8.0.0", true);
     wp_enqueue_script('embla', documentation_assets('js/embla-carousel.umd.js'), array(), "8.0.0", true);
@@ -196,7 +198,7 @@ function documentation_enqueue_scripts() {
 
     wp_enqueue_script('documentation-main', documentation_assets('js/main.js'), array('jquery'), documentation_get_version(), true);
     wp_enqueue_style('animxyz', documentation_assets('css/animxyz.min.css'), array(), "0.6.7", 'all');
-    wp_enqueue_style('documentation-simplebar', documentation_assets('css/simplebar.css'), array(), documentation_get_version(), 'all');
+    wp_enqueue_style('simplebar', documentation_assets('css/simplebar.css'), array(), documentation_get_version(), 'all');
     wp_register_style('documentation-prose', get_template_directory_uri(). '/assets/css/prose.css', array(), documentation_get_version(), 'all');
     wp_enqueue_style('documentation-style', documentation_assets('css/style.css'), array(), documentation_get_version(), 'all');
     
@@ -346,7 +348,7 @@ function documentation_get_posts_list_callback() {
 
 
 function documentation_add_defer_to_alpine_script($tag, $handle, $src) {
-    $defer_scripts = array('documentation-alpine', 'documentation-alpine-focus', 'documentation-alpine-collapse', 'documentation-alpine-intersect');
+    $defer_scripts = array('alpine', 'alpine-focus', 'alpine-collapse', 'alpine-intersect', 'alpine-csp');
 
     if (in_array($handle, $defer_scripts)) {
         return str_replace(' src', ' defer src', $tag);

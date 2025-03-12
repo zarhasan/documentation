@@ -14,6 +14,8 @@
 
 $theme_options = get_option('documentation');
 
+
+
 ?>
 
 
@@ -22,7 +24,7 @@ $theme_options = get_option('documentation');
 <div class="sr-only live-status-region" role="status"></div>
 
 <footer class="mt-16 border-t-1 bg-gray-0 border-gray-300 border-dashed">
-  <div class="x-container flex flex-col md:justify-between md:items-center md:flex-row py-8 gap-8">
+  <div class="x-container flex flex-col !md:justify-between !md:items-center !md:flex-row py-8 gap-8">
     <a href="<?php echo site_url(); ?>" class="w-40 sm:w-80 py-2 pr-4">
       <?php if(has_custom_logo()): ?>
         <span class="h-20 sm:h-14 flex justify-start items-center">
@@ -40,7 +42,7 @@ $theme_options = get_option('documentation');
         'theme_location' => 'primary',
         'container' => 'nav',
         'container_class' => '',
-        'menu_class' => 'w-full flex justify-end gap-8 font-medium ml-auto flex-col sm:flex-row',
+        'menu_class' => 'w-full flex justify-end gap-8 font-medium ml-auto flex-col !sm:flex-row',
         'menu_id' => '',
         'fallback_cb' => false,
         'container_aria_label' => 'Primary',
@@ -63,6 +65,15 @@ $theme_options = get_option('documentation');
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
+
+<?php
+
+if(function_exists('fast_fuzzy_search_get_template_part')) {
+  $options = get_option('fast_fuzzy_search_options');
+  fast_fuzzy_search_get_template_part('template-parts/search-panel', null, ['is_inline' => true, 'options' => $options]);
+};
+
+?>
 
 </body>
 
