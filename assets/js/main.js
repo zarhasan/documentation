@@ -404,6 +404,46 @@ document.addEventListener("alpine:init", () => {
         }
     }));
 
+    Alpine.data("docsCard", () => ({
+        expanded: false,
+
+        get liClass() {
+            return this.expanded || parseInt(this.$el.dataset.index) < 5 ? 'block' : 'hidden'
+        },
+
+        isExpanded() {
+            return this.expanded;
+        },
+
+        isNotExpanded() {
+            return !this.expanded;
+        },
+
+        toggleExpanded() {
+            this.expanded = !this.expanded;
+        }
+    }));
+
+    Alpine.data("docsSidebarItem", () => ({
+        expanded: false,
+
+        get liClass() {
+            return this.expanded ? 'block' : 'hidden'
+        },
+
+        isExpanded() {
+            return this.expanded;
+        },
+
+        isNotExpanded() {
+            return !this.expanded;
+        },
+
+        toggleExpanded() {
+            this.expanded = !this.expanded;
+        }
+    }));
+
     Alpine.magic('clipboard', () => {
         if (!navigator.clipboard) {
             return

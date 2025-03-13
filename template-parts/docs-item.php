@@ -30,9 +30,7 @@ if ($args) {
             <ul class="mt-4 flex flex-col gap-2 list-disc pl-4 font-medium">
                 <?php foreach (array_slice($document['children'], 0, 5) as $index => $children): ?>
                     <li>
-                        <a 
-                        class="w-full block hover:underline" 
-                        href="<?php echo esc_attr($children['permalink']); ?>">
+                        <a class="w-full block hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
                             <?php echo esc_html($children['title']); ?>
                         </a>
                     </li>

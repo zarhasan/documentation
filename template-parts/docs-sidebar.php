@@ -15,7 +15,9 @@ if ($args) {
     <?php foreach ($documents as $index => $document): ?>
       <?php $is_current = is_singular('docs') && (get_the_ID() === $document['ID'] || in_array($document['ID'], get_post_ancestors(get_the_ID()))); ?>
 
-      <li x-data="{ expanded: <?php echo esc_attr($is_current ? 'true' : 'false'); ?> }">
+      <li 
+        data-is-current="<?php echo esc_attr($is_current ? 'true' : 'false'); ?>"
+        x-data="docsSidebarItem">
         <div class="flex justify-between items-center gap-2">
           <a class="font-bold grow hover:bg-gray-100 active:bg-gray-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" href="<?php echo esc_attr($document['permalink']); ?>">
             <?php echo esc_html($document['title']); ?>            
@@ -23,7 +25,7 @@ if ($args) {
 
           <?php if (!empty($document['children'])): ?>
             <button 
-              x-on:click="expanded = !expanded" 
+              x-on:click="toggleExpanded" 
               x-bind:aria-label="expanded ? '<?php echo esc_html__('Collapse', 'documentation'); ?> <?php echo esc_html($document['title']); ?>' : '<?php echo esc_html__('Expand', 'documentation'); ?> <?php echo esc_html($document['title']); ?>'"
               class="inline-flex w-4 h-4 justify-center items-center shrink-0">
               <span x-show="!expanded" x-cloak>

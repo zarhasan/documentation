@@ -16,7 +16,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 <div class="x-container mt-16"> 
   <div class="grid sm:grid-cols-3 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): $color = $colors[$index % count($colors)]; ?>
-      <div x-data="{expanded: false}" class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
+      <div x-data="docsCard" class="group relative border-gray-200 border-solid border p-8 bg-gray-0">
         <div>
           <span class="inline-flex rounded-lg p-3 border border-solid bg-<?php echo esc_attr($color); ?>-50 text-<?php echo esc_attr($color); ?>-700 border-<?php echo esc_attr($color); ?>-700">
             <?php echo documentation_svg('folder'); ?>
@@ -33,7 +33,8 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
           <ul class="mt-4 text-base text-gray-700 flex flex-col gap-2">
             <?php foreach ($document['children'] as $index => $children): ?>
               <li 
-                x-bind:class="expanded || '1' == '<?php echo esc_attr($index < 5) ?>' ? 'block' : 'hidden'">
+                data-index="<?php echo esc_attr($index); ?>"
+                x-bind:class="liClass">
                 <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
                   <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
                     <?php echo documentation_svg('clipboard-text'); ?>
@@ -45,9 +46,9 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
           </ul>
 
           <?php if (!empty($document['children']) && count($document['children']) > 5): ?>
-            <button class="inline-flex items-center justify-center mt-4 w-6 h-6 text-gray-600" x-on:click="expanded = !expanded">
-              <span x-show="!expanded" aria-hidden="true"><?php echo documentation_svg('chevron-down'); ?></span>
-              <span x-cloak x-show="expanded" aria-hidden="true"><?php echo documentation_svg('chevron-up'); ?></span>
+            <button class="inline-flex items-center justify-center mt-4 w-6 h-6 text-gray-600" x-on:click="toggleExpanded">
+              <span x-show="isNotExpanded" aria-hidden="true"><?php echo documentation_svg('chevron-down'); ?></span>
+              <span x-cloak x-show="isExpanded" aria-hidden="true"><?php echo documentation_svg('chevron-up'); ?></span>
             </button>
           <?php endif; ?>
         </div>
