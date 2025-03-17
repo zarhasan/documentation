@@ -29,21 +29,21 @@ $author_id = get_the_author_meta('ID');
 		</div>
 	</div>
 
-	<div x-data="{showSidebar: false, showToc: false}" class="lg:hidden flex justify-between items-center">
+	<div x-data="docsOverlays" class="!lg:hidden flex justify-between items-center">
 		<button 
 			class="fixed left-0 bottom-20 origin-left px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold bg-gray-0 border-1 border-gray-300 border-solid text-right transition-all"
-			x-on:click="showSidebar = !showSidebar"
-			x-bind:class="{ 'translate-x-[22.5rem] z-[1501]': showSidebar }"
-			x-show="!showToc">
-			<span x-show="!showSidebar" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-right'); ?></span>
-			<span x-cloak x-show="showSidebar" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-left'); ?></span>
+			x-on:click="toggleSidebar"
+			x-bind:class="sidebarClass"
+			x-show="isNotToc">
+			<span x-show="isNotSidebar" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-right'); ?></span>
+			<span x-cloak x-show="isSidebar" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-left'); ?></span>
 		</button>
 
 		<div 
 			x-show="showSidebar" 
 			x-cloak 
-			x-on:click.away="showSidebar = false"
-			x-on:keydown.escape="showSidebar = false"
+			x-on:click.away="hideSidebar"
+			x-on:keydown.escape="hideSidebar"
 			x-transition:enter="transition ease-out duration-300"
 			x-transition:enter-start="opacity-0 -translate-x-28"
 			x-transition:enter-end="opacity-100 -translate-x-0"
@@ -55,21 +55,21 @@ $author_id = get_the_author_meta('ID');
 		</div>
 
 		<button 
-			x-on:click="showToc = !showToc"
-			x-bind:class="{ '-translate-x-[22.5rem] z-[1501]': showToc }"
-			x-show="!showSidebar"
+			x-on:click="toggleToc"
+			x-bind:class="tocClass"
+			x-show="isNotSidebar"
 			class="fixed right-0 bottom-20 px-4 py-2 flex justify-end items-center gap-2 text-sm font-semibold bg-gray-0 border border-gray-300 border-solid text-right transition-all">
-			<span x-show="!showToc" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-left'); ?></span>
-			<span x-cloak x-show="showToc" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-right'); ?></span>
+			<span x-show="isNotToc" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-left'); ?></span>
+			<span x-cloak x-show="isToc" class="w-6 h-6 inline-flex justify-center items-center"><?php echo documentation_svg('arrow-bar-right'); ?></span>
 		</button>
 
 		<div 
 			data-simplebar
 			x-cloak 
 			x-show="showToc"
-			x-on:click.away="showToc = false"
-			x-on:keydown.escape="showToc = false"
-			x-on:hashchange.window="showToc = false"
+			x-on:click.away="hideToc"
+			x-on:keydown.escape="hideToc"
+			x-on:hashchange.window="hideToc"
 			x-transition:enter="transition ease-out duration-300"
 			x-transition:enter-start="opacity-0 translate-x-28"
 			x-transition:enter-end="opacity-100 translate-x-0"

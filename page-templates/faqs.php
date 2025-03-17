@@ -64,37 +64,38 @@ if (is_tax('faq_category')) {
     <?php if ($query->have_posts()): ?>
         <dl 
             class="relative mt-8 block space-y-6 divide-y divide-gray-900/10"
-            x-data="{ activeIndex: null }" 
-            x-on:keydown.window="
-            $event.key === 'ArrowDown' && (activeIndex = (activeIndex + 1) % 3);
-            $event.key === 'ArrowUp' && (activeIndex = (activeIndex + 3 - 1) % 3)">
+            x-data="faq" 
+            x-on:keydown.window="handleWindowEscape">
 
             <?php $activeIndex = 0; ?>
 
             <?php while ($query->have_posts()): $query->the_post(); ?>                
-                <div class="pt-6">
-                    <dt>
+                <div
+                    data-active-index="<?php echo esc_attr($activeIndex); ?>"
+                    class="pt-6">
+                    <dt
+                        >
                         <button 
                             type="button" 
                             class="flex w-full items-start justify-between text-left text-gray-900 transition hover:bg-gray-50" 
-                            x-bind:aria-expanded="activeIndex === <?php echo esc_attr($activeIndex); ?>" 
-                            x-bind:aria-controls="'faq-content-' + <?php echo esc_attr($activeIndex); ?>" 
+                            x-bind:aria-expanded="isActive" 
+                            aria-controls="faq-content-<?php echo esc_attr($activeIndex); ?>" 
                             id="faq-header-<?php echo esc_attr($activeIndex); ?>" 
-                            x-on:click="activeIndex = activeIndex === <?php echo esc_attr($activeIndex); ?> ? null : <?php echo esc_attr($activeIndex); ?>">
+                            x-on:click="handleClick">
                             <span class="text-base/7 font-bold">
                                 <?php echo get_the_title(); ?>
                             </span>
 
                             <span 
                                 x-cloak
-                                x-show="activeIndex !== <?php echo esc_attr($activeIndex); ?>" 
+                                x-show="isNotActive" 
                                 class="ml-6 flex h-7 items-center">
                                 <?php echo documentation_svg('chevron-down'); ?>
                             </span>
 
                             <span 
                                 x-cloak
-                                x-show="activeIndex === <?php echo esc_attr($activeIndex); ?>" 
+                                x-show="isActive" 
                                 class="ml-6 flex h-7 items-center">
                                 <?php echo documentation_svg('chevron-up'); ?>
                             </span>
@@ -104,10 +105,10 @@ if (is_tax('faq_category')) {
 
                     <dd 
                         class="mt-2 pr-12 prose" 
-                        x-show="activeIndex === <?php echo esc_attr($activeIndex); ?>" 
+                        x-show="isActive" 
                         role="region" 
-                        x-bind:id="'faq-content-' + <?php echo esc_attr($activeIndex); ?>" 
-                        x-bind:aria-labelledby="'faq-header-' + <?php echo esc_attr($activeIndex); ?>" 
+                        id="faq-content-<?php echo esc_attr($activeIndex); ?>" 
+                        aria-labelledby="faq-header-<?php echo esc_attr($activeIndex); ?>" 
                         style="display: none;"
                         x-collapse>
                         <?php echo get_the_content(); ?>

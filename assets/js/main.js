@@ -444,6 +444,76 @@ document.addEventListener("alpine:init", () => {
         }
     }));
 
+    Alpine.data("docsOverlays", () => ({
+        showSidebar: false,
+        showToc: false,
+
+        toggleSidebar() {
+            this.showSidebar = !this.showSidebar;
+        },
+
+        toggleToc() {
+            this.showToc = !this.showToc;
+        },
+
+        hideSidebar() {
+            this.showSidebar = false;
+        },
+
+        hideToc() {
+            this.showToc = false;
+        },
+
+        isSidebar() {
+            return this.showSidebar;
+        },
+
+        isNotSidebar() {
+            return !this.showSidebar;
+        },
+
+        isToc() {
+            return this.showToc;
+        },
+
+        isNotToc() {
+            return !this.showToc;
+        },
+
+        sidebarClass() {
+            return { 'translate-x-[22.5rem] z-[1501]': this.showSidebar }
+        },
+
+        tocClass() {
+            return { '-translate-x-[22.5rem] z-[1501]': this.showToc }
+        }
+    }));
+
+
+    Alpine.data("faq", () => ({
+        activeIndex: null,
+
+        handleWindowEscape(e) {
+            if (e.key === 'ArrowDown') {
+                this.activeIndex = (this.activeIndex + 1) % 3;
+            } else if (e.key === 'ArrowUp') {
+                this.activeIndex = (this.activeIndex + 3 - 1) % 3;
+            }
+        },
+
+        isActive() {
+            return this.activeIndex === parseInt(this.$el.closest('div[data-active-index]').dataset.activeIndex);
+        },
+
+        isNotActive() {
+            return !this.isActive();
+        },
+
+        handleClick() {
+            this.activeIndex = this.activeIndex === parseInt(this.$el.closest('div[data-active-index]').dataset.activeIndex) ? null : parseInt(this.$el.closest('div[data-active-index]').dataset.activeIndex)
+        }
+    }));
+
     Alpine.magic('clipboard', () => {
         if (!navigator.clipboard) {
             return
@@ -632,7 +702,7 @@ jQuery(document).ready(() => {
 
     window.addEventListener("hashchange", () => {
         const hash = window.location.hash;
-        
+
         if (hash) {
             const element = document.querySelector(hash);
             if (element) {
