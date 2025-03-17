@@ -21,7 +21,7 @@ if ($args) {
     <?php foreach ($documents as $index => $document): ?>
       <?php $is_current = is_singular('docs') && (get_the_ID() === $document['ID'] || in_array($document['ID'], get_post_ancestors(get_the_ID()))); ?>
 
-      <li class="w-full" x-data="{ expanded: <?php echo esc_attr($is_current ? 'true' : 'false'); ?> }">
+      <li class="w-full" x-data="docsSidebarItem">
         <div class="w-full flex justify-start items-center gap-2 <?php echo isset($level) && $level > 1 ? ' pl-4' : ''; ?>">
           <a 
             class="grow flex justify-between items-center text-sm hover:bg-gray-100 active:bg-gray-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" 
@@ -31,12 +31,12 @@ if ($args) {
 
           <?php if (!empty($document['children'])): ?>
             <button 
-              x-on:click="expanded = !expanded" 
+              x-on:click="toggleExpanded" 
               class="inline-flex w-4 h-4 justify-center items-center shrink-0">
-              <span x-show="!expanded" x-cloak>
+              <span x-show="isNotExpanded" x-cloak>
                 <?php echo documentation_svg('chevron-right'); ?>
               </span>
-              <span x-show="expanded" x-cloak>
+              <span x-show="isExpanded" x-cloak>
                 <?php echo documentation_svg('chevron-down'); ?>
               </span>
             </button>

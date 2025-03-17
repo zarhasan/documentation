@@ -26,12 +26,17 @@ if ($args) {
           <?php if (!empty($document['children'])): ?>
             <button 
               x-on:click="toggleExpanded" 
-              x-bind:aria-label="expanded ? '<?php echo esc_html__('Collapse', 'documentation'); ?> <?php echo esc_html($document['title']); ?>' : '<?php echo esc_html__('Expand', 'documentation'); ?> <?php echo esc_html($document['title']); ?>'"
               class="inline-flex w-4 h-4 justify-center items-center shrink-0">
-              <span x-show="!expanded" x-cloak>
+              <span x-show="isNotExpanded" x-cloak>
+                <span class="sr-only">
+                  <?php echo esc_html__('Expand', 'documentation'); ?> <?php echo esc_html($document['title']); ?>
+                </span>
                 <?php echo documentation_svg('chevron-right'); ?>
               </span>
               <span x-show="expanded" x-cloak>
+                <span class="sr-only">
+                  <?php echo esc_html__('Collapse', 'documentation'); ?> <?php echo esc_html($document['title']); ?>
+                </span>
                 <?php echo documentation_svg('chevron-down'); ?>
               </span>
             </button>
