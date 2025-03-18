@@ -12,21 +12,21 @@ $author_id = get_the_author_meta('ID');
 
 ?>
 
-<article class="relative group border border-gray-200 bg-gray-0 p-6 flex flex-col overflow-hidden">
+<article class="relative group border border-frost-200 bg-frost-0 p-6 flex flex-col overflow-hidden">
     <?php if(has_post_thumbnail()): ?>
-        <a href="<?php the_permalink(); ?>" class="block w-full h-44 rounded overflow-hidden mb-6 border-gray-300 border-1 border-solid">
+        <a href="<?php the_permalink(); ?>" class="block w-full h-44 rounded overflow-hidden mb-6 border-frost-300 border-1 border-solid">
             <?php the_post_thumbnail('large', ['class' => 'w-full h-full object-cover']); ?>
         </a>
     <?php endif; ?>
 
     <div class="flex flex-col grow gap-2">
-        <a href="<?php the_permalink(); ?>" class="block text-xs text-gray-700">
+        <a href="<?php the_permalink(); ?>" class="block text-xs text-frost-700">
             <span class="sr-only"><?php esc_html_e('Posted on: ', 'documentation'); ?></span>
             <?php echo date_i18n('F jS, Y', strtotime(get_the_date())); ?>
         </a>            
 
         <h2 class="text-2xl font-bold mt-4">
-            <a class="block text-gray-800 hover:underline" href="<?php the_permalink(); ?>">
+            <a class="block text-frost-800 hover:underline" href="<?php the_permalink(); ?>">
                 <?php the_title(); ?>
             </a>
         </h2>
@@ -43,7 +43,7 @@ $author_id = get_the_author_meta('ID');
             <?php endforeach; ?>
         </ul>
 
-        <div class="flex justify-start items-center gap-2 pt-6 mt-auto font-medium border-t-2 border-gray-900">
+        <div class="flex justify-start items-center gap-2 pt-6 mt-auto font-medium border-t-2 border-frost-900">
             <span class="w-8 h-8 rounded-full overflow-hidden">
                 <?php echo get_avatar($author_id, 100); ?>
             </span>

@@ -12,7 +12,7 @@
         x-for="(entry, index) in entries" 
         x-bind:key="index">
         <div
-            class="bg-white p-4 rounded-lg shrink-0 w-96 flex gap-2 border-1 border-solid border-gray-300 justify-start items-center focus-within:border-primary">
+            class="bg-white p-4 rounded-lg shrink-0 w-96 flex gap-2 border-1 border-solid border-frost-300 justify-start items-center focus-within:border-primary">
             <div class="grow flex flex-col gap-2 outline-non max-w-[90%]" tabindex="-1">
                 <h2 class="text-sm font-semibold" x-text="entry.title"></h2>
                 <p class="text-sm break-all" x-html="entry.message"></p>

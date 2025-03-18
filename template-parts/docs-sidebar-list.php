@@ -17,14 +17,14 @@ if ($args) {
     x-cloak
     x-collapse 
     x-show="expanded"
-    class="mt-4 flex flex-col gap-3 text-sm border-l-2 border-gray-1000 border-solid pl-4">
+    class="mt-4 flex flex-col gap-3 text-sm border-l-2 border-frost-1000 border-solid pl-4">
     <?php foreach ($documents as $index => $document): ?>
       <?php $is_current = is_singular('docs') && (get_the_ID() === $document['ID'] || in_array($document['ID'], get_post_ancestors(get_the_ID()))); ?>
 
       <li class="w-full" x-data="docsSidebarItem">
         <div class="w-full flex justify-start items-center gap-2 <?php echo isset($level) && $level > 1 ? ' pl-4' : ''; ?>">
           <a 
-            class="grow flex justify-between items-center text-sm hover:bg-gray-100 active:bg-gray-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" 
+            class="grow flex justify-between items-center text-sm hover:bg-frost-100 active:bg-frost-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" 
             href="<?php echo esc_attr($document['permalink']); ?>">
             <?php echo esc_html($document['title']); ?>
           </a>

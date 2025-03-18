@@ -42,18 +42,18 @@ $theme_options = get_option('documentation');
 			--color-red-300: #fca5a5;
 			--color-red-700: #b91c1c;
 
-			--color-gray-0: #ffffff;
-			--color-gray-50: #f9fafb;
-			--color-gray-100: #f3f4f6;
-			--color-gray-200: #e5e7eb;
-			--color-gray-300: #d1d5db;
-			--color-gray-400: #9ca3af;
-			--color-gray-500: #6b7280;
-			--color-gray-600: #4b5563;
-			--color-gray-700: #374151;
-			--color-gray-800: #1f2937;
-			--color-gray-900: #111827;
-			--color-gray-1000: #030712;
+			--color-frost-0: #ffffff;
+			--color-frost-50: #f9fafb;
+			--color-frost-100: #f3f4f6;
+			--color-frost-200: #e5e7eb;
+			--color-frost-300: #d1d5db;
+			--color-frost-400: #9ca3af;
+			--color-frost-500: #6b7280;
+			--color-frost-600: #4b5563;
+			--color-frost-700: #374151;
+			--color-frost-800: #1f2937;
+			--color-frost-900: #111827;
+			--color-frost-1000: #030712;
 
 			--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 			--font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -69,25 +69,25 @@ $theme_options = get_option('documentation');
 			--color-primary-300: <?php echo esc_html($primary_color__dark_mode.'4D'); ?>;
 			--color-primary-900: <?php echo esc_html($primary_color__dark_mode.'e6'); ?>;
 
-			--color-gray-0: #171717;
-			--color-gray-50: #0a0a0a;
-			--color-gray-100: #262626;
-			--color-gray-200: #404040;
-			--color-gray-300: #525252;
-			--color-gray-400: #737373;
-			--color-gray-500: #a3a3a3;
-			--color-gray-600: #d4d4d4;
-			--color-gray-700: #e5e5e5;
-			--color-gray-800: #f5f5f5;
-			--color-gray-900: #fafafa;
-			--color-gray-1000: #ffffff;
+			--color-frost-0: #171717;
+			--color-frost-50: #0a0a0a;
+			--color-frost-100: #262626;
+			--color-frost-200: #404040;
+			--color-frost-300: #525252;
+			--color-frost-400: #737373;
+			--color-frost-500: #a3a3a3;
+			--color-frost-600: #d4d4d4;
+			--color-frost-700: #e5e5e5;
+			--color-frost-800: #f5f5f5;
+			--color-frost-900: #fafafa;
+			--color-frost-1000: #ffffff;
 		}
 	</style>
 		
 </head>
 
 <body 
-	<?php body_class("bg-gray-50 text-gray-1000"); ?> 
+	<?php body_class("bg-frost-50 text-frost-1000"); ?> 
 	x-cloak 
 	x-data="page"
 	data-color-scheme="<?php echo !empty($theme_options['default_color_scheme']) ? $theme_options['default_color_scheme'] : 'light' ; ?>"
@@ -95,7 +95,7 @@ $theme_options = get_option('documentation');
 
 <?php wp_body_open(); ?>
 
-<div id="page" class="site bg-gray-50 text-gray-1000" x-clock>
+<div id="page" class="site bg-frost-50 text-frost-1000" x-clock>
 
 	<header 
 		id="header"
@@ -115,7 +115,7 @@ $theme_options = get_option('documentation');
 					</span>
 				<?php else: ?>
 					<span class="flex justify-start items-start flex-col gap-2">
-						<span class="text-sm sm:text-lg font-bold text-gray-900"><?php echo get_bloginfo('name'); ?></span>
+						<span class="text-sm sm:text-lg font-bold text-frost-900"><?php echo get_bloginfo('name'); ?></span>
 					</span>
 				<?php endif; ?>
 			</a>
@@ -141,7 +141,7 @@ $theme_options = get_option('documentation');
 					};
 				?>
 
-				<button x-on:click="colorSchemeToggle" class="w-6 h-6 inline-flex justify-center items-center text-gray-600">
+				<button x-on:click="colorSchemeToggle" class="w-6 h-6 inline-flex justify-center items-center text-frost-600">
 					<span x-show="isLight" class="inline-flex justify-center items-center">
 						<?php echo documentation_svg('moon'); ?>
 					</span>
@@ -153,7 +153,7 @@ $theme_options = get_option('documentation');
 
 				<button 
 					x-on:click.prevent="handleMenuButtonClick"
-					class="w-6 h-6 inline-flex justify-center items-center text-gray-600 !lg:hidden"
+					class="w-6 h-6 inline-flex justify-center items-center text-frost-600 !lg:hidden"
 					>
 					<span x-show="isSidebarHidden">
 						<?php echo documentation_svg('menu'); ?>
@@ -181,7 +181,7 @@ $theme_options = get_option('documentation');
 			x-transition:leave-end="opacity-0 translate-x-28"
             x-on:keydown.escape.window="handleSidebarWindowEscape">
 
-            <div class="x-container h-full bg-gray-50 border border-gray-300 py-8">
+            <div class="x-container h-full bg-frost-50 border border-frost-300 py-8">
                 <?php
                     wp_nav_menu([
                         'theme_location' => 'primary',
@@ -202,7 +202,7 @@ $theme_options = get_option('documentation');
 				<?php
 					wp_nav_menu([
 						'theme_location' => 'secondary',
-						'menu_class' => 'flex justify-start items-center flex-wrap w-full gap-4 mt-8 whitespace-nowrap bg-gray-0 border border-gray-200 p-2',
+						'menu_class' => 'flex justify-start items-center flex-wrap w-full gap-4 mt-8 whitespace-nowrap bg-frost-0 border border-frost-200 p-2',
 						'container' => 'nav',
 						'container_aria_label' => 'Secondary',
 						'container_class' => 'desktop--secondary',

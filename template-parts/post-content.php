@@ -32,7 +32,7 @@
 		</h1>
 	</div>
 
-	<div class="w-full mt-8 mb-8 pb-6 border-b-1 border-gray-300 border-dashed">
+	<div class="w-full mt-8 mb-8 pb-6 border-b-1 border-frost-300 border-dashed">
 		<div class="text-sm">
 			<a class="inline-flex justify-start items-center" href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
 				<span class="w-4 h-4 inline-flex justify-center items-center mr-2"><?php echo documentation_svg('edit'); ?></span>

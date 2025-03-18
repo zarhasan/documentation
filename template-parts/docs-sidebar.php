@@ -19,7 +19,7 @@ if ($args) {
         data-is-current="<?php echo esc_attr($is_current ? 'true' : 'false'); ?>"
         x-data="docsSidebarItem">
         <div class="flex justify-between items-center gap-2">
-          <a class="font-bold grow hover:bg-gray-100 active:bg-gray-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" href="<?php echo esc_attr($document['permalink']); ?>">
+          <a class="font-bold grow hover:bg-frost-100 active:bg-frost-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" href="<?php echo esc_attr($document['permalink']); ?>">
             <?php echo esc_html($document['title']); ?>            
           </a>
 

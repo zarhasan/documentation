@@ -34,11 +34,11 @@ if (is_tax('faq_category')) {
 <div class="">
   <div class="x-container my-16">
     <div class="">
-        <h2 class="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Frequently asked questions</h2>
+        <h2 class="text-4xl font-semibold tracking-tight text-frost-900 sm:text-5xl">Frequently asked questions</h2>
       
-        <div class="flex justify-start items-center flex-wrap w-full gap-4 mt-8 mb-8 whitespace-nowrap bg-gray-0 border border-gray-200 p-2">
+        <div class="flex justify-start items-center flex-wrap w-full gap-4 mt-8 mb-8 whitespace-nowrap bg-frost-0 border border-frost-200 p-2">
             <a 
-                class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2 hover:bg-gray-50" 
+                class="text-sm current:bg-frost-1000 current:text-frost-0 px-4 py-2 hover:bg-frost-50" 
                 href="<?php echo esc_url(get_post_type_archive_link('faq')); ?>"
                 <?php if(!is_tax('faq_category')): ?>
                     aria-current="page"
@@ -49,7 +49,7 @@ if (is_tax('faq_category')) {
             <?php if(!empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
                     <a 
-                        class="text-sm current:bg-gray-1000 current:text-gray-0 px-4 py-2 hover:bg-gray-50" 
+                        class="text-sm current:bg-frost-1000 current:text-frost-0 px-4 py-2 hover:bg-frost-50" 
                         href="<?php echo esc_url(get_category_link($category->term_id)); ?>"
                         <?php if(!empty($current_category) && $current_category->term_id == $category->term_id): ?>
                             aria-current="page"
@@ -63,7 +63,7 @@ if (is_tax('faq_category')) {
 
         <?php if ($query->have_posts()): ?>
             <dl 
-                class="relative mt-8 block space-y-6 divide-y divide-gray-900/10"
+                class="relative mt-8 block space-y-6 divide-y divide-frost-900/10"
                 x-data="faq" 
                 x-on:keydown.window="handleWindowEscape">
 
@@ -77,7 +77,7 @@ if (is_tax('faq_category')) {
                             >
                             <button 
                                 type="button" 
-                                class="flex w-full items-start justify-between text-left text-gray-900 transition hover:bg-gray-50" 
+                                class="flex w-full items-start justify-between text-left text-frost-900 transition hover:bg-frost-50" 
                                 x-bind:aria-expanded="isActive" 
                                 aria-controls="faq-content-<?php echo esc_attr($activeIndex); ?>" 
                                 id="faq-header-<?php echo esc_attr($activeIndex); ?>" 

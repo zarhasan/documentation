@@ -13,7 +13,7 @@ if ($args) {
 <div>
     <div class="flex justify-start items-center gap-4">
         <date class="inline-flex justify-start items-center">
-            <span class="w-2 h-2 inline-flex justify-center items-center mr-3 bg-gray-1000 rounded-full"></span>
+            <span class="w-2 h-2 inline-flex justify-center items-center mr-3 bg-frost-1000 rounded-full"></span>
             <?php echo get_the_date(); ?>
         </date>
 
@@ -23,7 +23,7 @@ if ($args) {
             <ul class="flex justify-end items-center gap-2">
                 <?php foreach ($terms as $term): ?>
                     <li>
-                        <a href="<?php echo esc_url(get_term_link($term)); ?>" class="text-sm font-medium border border-gray-300 border-solid px-3 py-1 rounded-full text-gray-600 hover:underline">
+                        <a href="<?php echo esc_url(get_term_link($term)); ?>" class="text-sm font-medium border border-frost-300 border-solid px-3 py-1 rounded-full text-frost-600 hover:underline">
                             <?php echo esc_html($term->name); ?>
                         </a>
                     </li>
@@ -32,7 +32,7 @@ if ($args) {
         <?php endif; ?>
     </div>
     
-    <h2 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl">
+    <h2 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-frost-900 sm:text-6xl">
         <?php the_title(); ?>
     </h2>
 

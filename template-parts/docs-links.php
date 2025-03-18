@@ -27,7 +27,7 @@ if($parent_id === 0) {
 
 ?>
 
-<section class="bg-gray-50 border-1 border-solid border-gray-300 rounded-2xl p-8 mt-16">
+<section class="bg-frost-50 border-1 border-solid border-frost-300 rounded-2xl p-8 mt-16">
     <h2 class="m-0 text-2xl">
         <?php esc_html_e('Continue', 'documentation') ?>
     </h2>
@@ -37,7 +37,7 @@ if($parent_id === 0) {
             <li class="<?php echo esc_attr($item['ID'] === get_the_ID() ? 'list-none' : '') ?>">
                 <a 
                     href="<?php echo esc_attr($item['ID'] === get_the_ID() ? '#' : $item['permalink']); ?>" 
-                    class="w-full block <?php echo esc_attr($item['ID'] === get_the_ID() ? 'no-underline text-gray-700' : 'underline text-primary hover:no-underline') ?>">
+                    class="w-full block <?php echo esc_attr($item['ID'] === get_the_ID() ? 'no-underline text-frost-700' : 'underline text-primary hover:no-underline') ?>">
                     <?php echo esc_html($item['title']); ?>         
                 </a>
             </li>

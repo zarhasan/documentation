@@ -29,7 +29,7 @@ $latest_posts = new WP_Query([
 
 <div 
     data-simplebar 
-    class="!sticky top-0 sm:w-72 shrink-0 border-gray-300 border-solid h-screen overflow-y-scroll py-8 lg:pr-10 self-start when-md:hidden">
+    class="!sticky top-0 sm:w-72 shrink-0 border-frost-300 border-solid h-screen overflow-y-scroll py-8 lg:pr-10 self-start when-md:hidden">
     <?php if ($latest_posts->have_posts()) : ?>
         <ul class="text-sm flex flex-col gap-3">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>

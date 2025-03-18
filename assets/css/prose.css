@@ -85,7 +85,7 @@
 
 .prose p a,
 .prose li a {
-  color: var(--color-gray-1000);
+  color: var(--color-frost-1000);
   text-decoration: underline;
   font-weight: 600;
 }
@@ -147,13 +147,13 @@
   font-weight: inherit;
   font-size: inherit;
   font-family: inherit;
-  border: 0.05em solid var(--color-gray-300);
+  border: 0.05em solid var(--color-frost-300);
   padding: 0.1em 0.5em;
   font-weight: 600;
   font-size: 0.8em;
   margin-bottom: 0;
   border-radius: 0.25em;
-  background-color: var(--color-gray-100);
+  background-color: var(--color-frost-100);
 }
 
 /* .prose p code {
@@ -178,7 +178,7 @@
 }
 
 a .prose code {
-  color: var(--color-gray-900);
+  color: var(--color-frost-900);
 }
 
 .prose ol {
@@ -284,9 +284,9 @@ a .prose code {
 }
 
 .prose pre {
-  background-color: var(--color-gray-100);
-  border: 0.1em solid var(--color-gray-300);
-  color: var(--color-gray-900);
+  background-color: var(--color-frost-100);
+  border: 0.1em solid var(--color-frost-300);
+  color: var(--color-frost-900);
   overflow-x: auto;
   font-weight: 400;
   font-size: 0.875em;
@@ -330,12 +330,12 @@ a .prose code {
   margin-bottom: 2em;
   font-size: 0.875em;
   line-height: 1.7142857;
-  background-color: var(--color-gray-50);
-  border: 0.1em solid var(--color-gray-300);
+  background-color: var(--color-frost-50);
+  border: 0.1em solid var(--color-frost-300);
 }
 
 .prose table tr:nth-child(even) {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-frost-100);
 }
 
 .prose table thead {
@@ -396,9 +396,9 @@ a .prose code {
 }
 
 .prose blockquote {
-  background-color: var(--color-gray-100);
-  border: 0.1em solid var(--color-gray-300);
-  color: var(--color-gray-900);
+  background-color: var(--color-frost-100);
+  border: 0.1em solid var(--color-frost-300);
+  color: var(--color-frost-900);
   padding: 1.5rem;
 }
 
@@ -413,7 +413,7 @@ a .prose code {
  */
 
 .prose pre[class*="language-"] {
-  border: 0.1em solid var(--color-gray-300);
+  border: 0.1em solid var(--color-frost-300);
 }
 
 .prose pre[class*="language-"] {
@@ -442,7 +442,7 @@ a .prose code {
 .prose pre[class*="language-"]::mozselection,
 .prose code[class*="language-"]::mozselection {
   text-shadow: none;
-  background: var(--color-gray-300);
+  background: var(--color-frost-300);
 }
 
 @media print {
@@ -457,7 +457,7 @@ a .prose code {
   padding: 1em;
   margin: .5em 0;
   overflow: auto;
-  background: var(--color-gray-50);
+  background: var(--color-frost-50);
 }
 
 
