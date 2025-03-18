@@ -51,6 +51,10 @@ add_filter('excerpt_length', function($length) {
     }
 });
 
+add_filter('fast_fuzzy_search_aesthetic', function() {
+    return 'newspaper';
+}, 10, 2);
+
 // <Helpers>
 
 function documentation_dd() {

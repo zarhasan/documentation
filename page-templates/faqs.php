@@ -61,64 +61,64 @@ if (is_tax('faq_category')) {
             <?php endif; ?>
         </div>
 
-    <?php if ($query->have_posts()): ?>
-        <dl 
-            class="relative mt-8 block space-y-6 divide-y divide-gray-900/10"
-            x-data="faq" 
-            x-on:keydown.window="handleWindowEscape">
+        <?php if ($query->have_posts()): ?>
+            <dl 
+                class="relative mt-8 block space-y-6 divide-y divide-gray-900/10"
+                x-data="faq" 
+                x-on:keydown.window="handleWindowEscape">
 
-            <?php $activeIndex = 0; ?>
+                <?php $activeIndex = 0; ?>
 
-            <?php while ($query->have_posts()): $query->the_post(); ?>                
-                <div
-                    data-active-index="<?php echo esc_attr($activeIndex); ?>"
-                    class="pt-6">
-                    <dt
-                        >
-                        <button 
-                            type="button" 
-                            class="flex w-full items-start justify-between text-left text-gray-900 transition hover:bg-gray-50" 
-                            x-bind:aria-expanded="isActive" 
-                            aria-controls="faq-content-<?php echo esc_attr($activeIndex); ?>" 
-                            id="faq-header-<?php echo esc_attr($activeIndex); ?>" 
-                            x-on:click="handleClick">
-                            <span class="text-base/7 font-bold">
-                                <?php echo get_the_title(); ?>
-                            </span>
+                <?php while ($query->have_posts()): $query->the_post(); ?>                
+                    <div
+                        data-active-index="<?php echo esc_attr($activeIndex); ?>"
+                        class="pt-6">
+                        <dt
+                            >
+                            <button 
+                                type="button" 
+                                class="flex w-full items-start justify-between text-left text-gray-900 transition hover:bg-gray-50" 
+                                x-bind:aria-expanded="isActive" 
+                                aria-controls="faq-content-<?php echo esc_attr($activeIndex); ?>" 
+                                id="faq-header-<?php echo esc_attr($activeIndex); ?>" 
+                                x-on:click="handleClick">
+                                <span class="text-base/7 font-bold">
+                                    <?php echo get_the_title(); ?>
+                                </span>
 
-                            <span 
-                                x-cloak
-                                x-show="isNotActive" 
-                                class="ml-6 flex h-7 items-center">
-                                <?php echo documentation_svg('chevron-down'); ?>
-                            </span>
+                                <span 
+                                    x-cloak
+                                    x-show="isNotActive" 
+                                    class="ml-6 flex h-7 items-center">
+                                    <?php echo documentation_svg('chevron-down'); ?>
+                                </span>
 
-                            <span 
-                                x-cloak
-                                x-show="isActive" 
-                                class="ml-6 flex h-7 items-center">
-                                <?php echo documentation_svg('chevron-up'); ?>
-                            </span>
+                                <span 
+                                    x-cloak
+                                    x-show="isActive" 
+                                    class="ml-6 flex h-7 items-center">
+                                    <?php echo documentation_svg('chevron-up'); ?>
+                                </span>
 
-                        </button>
-                    </dt>
+                            </button>
+                        </dt>
 
-                    <dd 
-                        class="mt-2 pr-12 prose" 
-                        x-show="isActive" 
-                        role="region" 
-                        id="faq-content-<?php echo esc_attr($activeIndex); ?>" 
-                        aria-labelledby="faq-header-<?php echo esc_attr($activeIndex); ?>" 
-                        style="display: none;"
-                        x-collapse>
-                        <?php echo get_the_content(); ?>
-                    </dd>
-                </div>
+                        <dd 
+                            class="mt-2 pr-12 prose" 
+                            x-show="isActive" 
+                            role="region" 
+                            id="faq-content-<?php echo esc_attr($activeIndex); ?>" 
+                            aria-labelledby="faq-header-<?php echo esc_attr($activeIndex); ?>" 
+                            style="display: none;"
+                            x-collapse>
+                            <?php echo get_the_content(); ?>
+                        </dd>
+                    </div>
 
-                <?php $activeIndex++; ?>
-            <?php endwhile; ?>
-        </dl>
-    <?php else: ?>
+                    <?php $activeIndex++; ?>
+                <?php endwhile; ?>
+            </dl>
+        <?php else: ?>
         <?php 
             get_template_part('template-parts/empty-state', null, [
                 'title' => __('No FAQs', 'documentation'),
