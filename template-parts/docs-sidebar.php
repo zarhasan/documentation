@@ -33,7 +33,7 @@ if ($args) {
                 </span>
                 <?php echo documentation_svg('chevron-right'); ?>
               </span>
-              <span x-show="expanded" x-cloak>
+              <span x-show="isExpanded" x-cloak>
                 <span class="sr-only">
                   <?php echo esc_html__('Collapse', 'documentation'); ?> <?php echo esc_html($document['title']); ?>
                 </span>

@@ -21,7 +21,10 @@ if ($args) {
     <?php foreach ($documents as $index => $document): ?>
       <?php $is_current = is_singular('docs') && (get_the_ID() === $document['ID'] || in_array($document['ID'], get_post_ancestors(get_the_ID()))); ?>
 
-      <li class="w-full" x-data="docsSidebarItem">
+      <li 
+        class="w-full" 
+        x-data="docsSidebarItem"
+        data-is-current="<?php echo esc_attr($is_current ? 'true' : 'false'); ?>">
         <div class="w-full flex justify-start items-center gap-2 <?php echo isset($level) && $level > 1 ? ' pl-4' : ''; ?>">
           <a 
             class="grow flex justify-between items-center text-sm hover:bg-frost-100 active:bg-frost-200 <?php echo esc_attr($is_current ? 'underline' : '') ?>" 

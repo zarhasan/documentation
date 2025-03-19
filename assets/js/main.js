@@ -427,6 +427,10 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("docsSidebarItem", () => ({
         expanded: false,
 
+        init() {
+            return this.$root.dataset.isCurrent === 'true' ? this.expanded = true : this.expanded = false;
+        },
+
         get liClass() {
             return this.expanded ? 'block' : 'hidden'
         },
