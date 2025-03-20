@@ -14,7 +14,7 @@ if ($args) {
     x-data="searchTrigger"
     x-on:click="showSearch" 
     x-bind:disabled="isDisabled"
-    class="lg:max-w-3xl h-12 shrink-0 grow mr-auto text-frost-700 border-b-2 border-frost-1000 border-solid flex justify-start items-center focus-within:outline-2 focus-within:border-frost-900 when-md:text-sm disabled:opacity-50 <?php echo !empty($classes) ? $classes : ''; ?>">
+    class="lg:max-w-3xl h-12 shrink-0 grow mr-auto text-frost-700 border-b-2 border-frost-1000 border-solid justify-start items-center focus-within:outline-2 focus-within:border-frost-900 when-md:text-sm disabled:opacity-50 <?php echo !empty($classes) ? $classes : ''; ?>">
     <span x-cloak x-show="isNotLoading" class="inline-flex justify-center items-center w-5 h-5 mr-4">
         <?php echo documentation_svg('search'); ?>
     </span>

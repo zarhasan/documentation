@@ -1022,7 +1022,6 @@ footer .footer__form .forminator-button-submit:hover {
 }
 
 .fast-fuzzy-search__panel-close--newspaper {
-    border-radius: 9999px;
     background-color: var(--color-frost-0);
     color: var(--color-frost-700);
     padding: 0.5rem;

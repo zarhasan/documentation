@@ -102,12 +102,12 @@ $theme_options = get_option('documentation');
 		x-data="header" 
 		x-on:keydown.window.ctrl.k.prevent="showSearch"
 		role="banner" 
-		class="absolute top-0 left-0 w-full h-32 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo admin-bar:top-14 sm:admin-bar:top-8 print:hidden"
+		class="absolute top-0 left-0 w-full h-16 sm:h-24 z-[1001] flex justify-start items-center transition-all duration-500 ease-out-expo admin-bar:top-14 sm:admin-bar:top-8 print:hidden"
 		x-bind:class="headerClass">
 		
 		<?php get_template_part('template-parts/skip-link'); ?>
 
-		<div class="w-full x-container flex justify-start items-center gap-x-8 gap-y-4 flex-wrap sm:gap-0">
+		<div class="w-full x-container flex justify-start items-center gap-x-8 gap-y-4 sm:gap-0">
 			<a href="<?php echo site_url(); ?>" class="w-60 sm:w-80 py-2 pr-16">
 				<?php if(has_custom_logo()): ?>
 					<span class="h-14 flex justify-start items-center">
@@ -141,6 +141,8 @@ $theme_options = get_option('documentation');
 					};
 				?>
 
+				<?php get_template_part('template-parts/header-search-icon-button', null, ['classes' => '!sm:hidden']); ?>
+
 				<button x-on:click="colorSchemeToggle" class="w-6 h-6 inline-flex justify-center items-center text-frost-600">
 					<span x-show="isLight" class="inline-flex justify-center items-center">
 						<?php echo documentation_svg('moon'); ?>
@@ -164,11 +166,10 @@ $theme_options = get_option('documentation');
 				</button>
 			</div>
 
-			<?php get_template_part('template-parts/header-search-button', null, ['classes' => '!sm:hidden']); ?>
 		</div>
 
 		<div 
-            class="fixed top-32 sm:top-24 right-0 w-96 bottom-0 lg:hidden py-8" 
+            class="fixed top-0 right-0 w-96 bottom-0 lg:hidden" 
             style="z-index: 1000;"
             x-cloak
             x-show="showSidebar"
@@ -182,6 +183,16 @@ $theme_options = get_option('documentation');
             x-on:keydown.escape.window="handleSidebarWindowEscape">
 
             <div class="x-container h-full bg-frost-50 border border-frost-300 py-8">
+				<div class="w-full flex justify-end items-center">
+					<button 
+						x-on:click.prevent="handleMenuButtonClick"
+						class="w-6 h-6 inline-flex justify-center items-center text-frost-600 !lg:hidden">
+						<span x-cloak x-show="isSidebarVisible">
+							<?php echo documentation_svg('x'); ?>
+						</span>
+					</button>
+				</div>
+
                 <?php
                     wp_nav_menu([
                         'theme_location' => 'primary',
@@ -196,7 +207,7 @@ $theme_options = get_option('documentation');
 	</header>
 
 	
-	<main id="content" class="site-content pt-32 sm:pt-24" role="main">
+	<main id="content" class="site-content pt-16 sm:pt-24" role="main">
 		<?php if(has_nav_menu('secondary')): ?>
 			<div class="x-container relative z-1000">
 				<?php

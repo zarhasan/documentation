@@ -73,8 +73,7 @@ if (is_tax('faq_category')) {
                     <div
                         data-active-index="<?php echo esc_attr($activeIndex); ?>"
                         class="pt-6">
-                        <dt
-                            >
+                        <dt>
                             <button 
                                 type="button" 
                                 class="flex w-full items-start justify-between text-left text-frost-900 transition hover:bg-frost-50" 
@@ -89,14 +88,14 @@ if (is_tax('faq_category')) {
                                 <span 
                                     x-cloak
                                     x-show="isNotActive" 
-                                    class="ml-6 flex h-7 items-center">
+                                    class="ml-6 flex h-7 items-center shrink-0">
                                     <?php echo documentation_svg('chevron-down'); ?>
                                 </span>
 
                                 <span 
                                     x-cloak
                                     x-show="isActive" 
-                                    class="ml-6 flex h-7 items-center">
+                                    class="ml-6 flex h-7 items-center shrink-0">
                                     <?php echo documentation_svg('chevron-up'); ?>
                                 </span>
 
@@ -119,6 +118,7 @@ if (is_tax('faq_category')) {
                 <?php endwhile; ?>
             </dl>
         <?php else: ?>
+        
         <?php 
             get_template_part('template-parts/empty-state', null, [
                 'title' => __('No FAQs', 'documentation'),
