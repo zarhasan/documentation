@@ -3,12 +3,12 @@
         "NAME": "Documentation",
         "SLUG": "documentation",
         "PREFIX": "documentation",
-        "VERSION": "0.6.0"
+        "VERSION": "0.6.1"
     },
     "pro": {
         "NAME": "Documentation Pro",
         "SLUG": "documentation-pro",
         "PREFIX": "documentation_pro",
-        "VERSION": "0.6.0"
+        "VERSION": "0.6.1"
     }
 }

@@ -34,7 +34,7 @@ if (is_tax('faq_category')) {
 <div class="">
   <div class="x-container my-16">
     <div class="">
-        <h2 class="text-4xl font-semibold tracking-tight text-frost-900 sm:text-5xl">Frequently asked questions</h2>
+        <h2 class="text-4xl tracking-tight text-frost-900 sm:text-5xl">Frequently asked questions</h2>
       
         <div class="flex justify-start items-center flex-wrap w-full gap-4 mt-8 mb-8 whitespace-nowrap bg-frost-0 border border-frost-200 p-2">
             <a 

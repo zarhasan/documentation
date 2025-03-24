@@ -24,7 +24,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
         </div>
 
         <div class="mt-8">
-          <h3 class="text-lg font-bold leading-6 text-frost-900">
+          <h3 class="text-lg leading-6 text-frost-900">
             <a href="<?php echo esc_url($document['permalink']); ?>" rel="bookmark" class="focus:outline-none">
               <?php echo esc_html($document['title']); ?>
             </a>

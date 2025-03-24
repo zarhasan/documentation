@@ -14,9 +14,9 @@
 		<?php
 
 			if ( is_single() ) :
-				the_title( '<h1 class="text-7xl font-semibold entry-title inline">', '</h1>' );
+				the_title( '<h1 class="text-7xl entry-title inline">', '</h1>' );
 			else :
-				the_title( '<h2 class="text-7xl font-semibold entry-title inline"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
+				the_title( '<h2 class="text-7xl entry-title inline"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 			endif;
 
 			if ( 'post' === get_post_type() ) :

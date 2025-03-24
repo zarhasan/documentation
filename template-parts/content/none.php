@@ -14,7 +14,7 @@
 
 	<div class="page-content flex flex-col justify-center items-center">
 
-		<h1 class="page-title text-5xl font-bold mb-4"><?php esc_html_e( 'Nothing Found', 'documentation' ); ?></h1>
+		<h1 class="page-title text-5xl mb-4"><?php esc_html_e( 'Nothing Found', 'documentation' ); ?></h1>
 
 		<?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
 

@@ -17,10 +17,6 @@ $theme_options = get_option('documentation');
 	
 	<?php wp_head(); ?>
 
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-	
 	<style>
 		<?php $primary_color = !empty($theme_options['color_primary']) ? $theme_options['color_primary'] : "#31358A"; ?>
 
@@ -183,7 +179,7 @@ $theme_options = get_option('documentation');
             x-on:keydown.escape.window="handleSidebarWindowEscape">
 
             <div class="x-container h-full bg-frost-50 border border-frost-300 py-8">
-				<div class="w-full flex justify-end items-center">
+				<div class="w-full flex justify-end items-center mb-4">
 					<button 
 						x-on:click.prevent="handleMenuButtonClick"
 						class="w-6 h-6 inline-flex justify-center items-center text-frost-600 !lg:hidden">
@@ -199,7 +195,7 @@ $theme_options = get_option('documentation');
                         'menu_class' => '',
                         'container' => 'nav',
                         'container_aria_label' => 'Primary',
-                        'container_class' => '',
+                        'container_class' => 'primary--mobile',
                     ]);
                 ?>
             </div>
@@ -207,7 +203,7 @@ $theme_options = get_option('documentation');
 	</header>
 
 	
-	<main id="content" class="site-content pt-16 sm:pt-24" role="main">
+	<main id="content" class="site-content pt-20 sm:pt-24" role="main">
 		<?php if(has_nav_menu('secondary')): ?>
 			<div class="x-container relative z-1000">
 				<?php

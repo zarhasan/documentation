@@ -21,7 +21,7 @@ if ($args) {
             </span>
 
             
-            <h3 class="text-2xl m-0 mt-1 w-full font-primary font-bold">
+            <h3 class="text-2xl m-0 mt-1 w-full font-primary">
                 <a class="hover:underline hover:text-frost-1000" href="<?php echo esc_url($document['permalink']); ?>" rel="bookmark">
                     <?php echo esc_html($document['title']); ?>
                 </a>

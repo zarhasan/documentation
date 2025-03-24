@@ -32,7 +32,7 @@ if ($args) {
         <?php endif; ?>
     </div>
     
-    <h2 class="mt-4 text-balance text-5xl font-semibold tracking-tight text-frost-900 sm:text-6xl">
+    <h2 class="mt-4 text-balance text-5xl tracking-tight text-frost-900 sm:text-6xl">
         <?php the_title(); ?>
     </h2>
 

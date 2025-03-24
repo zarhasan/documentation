@@ -25,7 +25,7 @@ $author_id = get_the_author_meta('ID');
             <?php echo date_i18n('F jS, Y', strtotime(get_the_date())); ?>
         </a>            
 
-        <h2 class="text-2xl font-bold mt-4">
+        <h2 class="text-2xl mt-4">
             <a class="block text-frost-800 hover:underline" href="<?php the_permalink(); ?>">
                 <?php the_title(); ?>
             </a>
