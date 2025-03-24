@@ -18,6 +18,41 @@ $theme_options = get_option('documentation');
 	<?php wp_head(); ?>
 
 	<style>
+		@font-face {
+			font-family: 'Roboto Serif';
+			src: url('<?php echo documentation_assets('fonts/RobotoSerif-Medium.woff2') ?>') format('woff2');
+			font-weight: 500;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Open Sans';
+			src: url('<?php echo documentation_assets('fonts/OpenSans-Regular.woff2') ?>') format('woff2');
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Open Sans';
+			src: url('<?php echo documentation_assets('fonts/OpenSans-Medium.woff2') ?>') format('woff2');
+			font-weight: 500;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Open Sans';
+			src: url('<?php echo documentation_assets('fonts/OpenSans-SemiBold.woff2') ?>') format('woff2');
+			font-weight: 600;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Open Sans';
+			src: url('<?php echo documentation_assets('fonts/OpenSans-Bold.woff2') ?>') format('woff2');
+			font-weight: 700;
+			font-style: normal;
+		}
+
 		<?php $primary_color = !empty($theme_options['color_primary']) ? $theme_options['color_primary'] : "#31358A"; ?>
 
 		body {
