@@ -151,7 +151,9 @@ $theme_options = get_option('documentation');
 				<?php endif; ?>
 			</a>
 
-			<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'hidden !sm:flex']); ?>
+			<?php if(defined('FAST_FUZZY_SEARCH_VERSION')): ?>
+				<?php get_template_part('template-parts/header-search-button', null, ['classes' => 'hidden !sm:flex']); ?>
+			<?php endif; ?>
 			
 			<div class="flex justify-end items-center w-auto shrink-0 ml-auto sm:pl-8 gap-6">
 				<?php
@@ -159,10 +161,10 @@ $theme_options = get_option('documentation');
 						'theme_location' => 'primary',
 						'container' => 'nav',
 						'container_class' => 'desktop ml-auto hidden lg:flex pl-8',
+						'container_aria_label' => 'Primary',
 						'menu_class' => '',
 						'menu_id' => '',
 						'fallback_cb' => false,
-						'container_aria_label' => 'Primary',
 					));
 				?>
 
@@ -172,7 +174,9 @@ $theme_options = get_option('documentation');
 					};
 				?>
 
-				<?php get_template_part('template-parts/header-search-icon-button', null, ['classes' => '!sm:hidden']); ?>
+				<?php if(defined('FAST_FUZZY_SEARCH_VERSION')): ?>
+					<?php get_template_part('template-parts/header-search-icon-button', null, ['classes' => '!sm:hidden']); ?>
+				<?php endif; ?>
 
 				<button x-on:click="colorSchemeToggle" class="w-6 h-6 inline-flex justify-center items-center text-frost-600">
 					<span x-show="isLight" class="inline-flex justify-center items-center">

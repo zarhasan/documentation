@@ -790,65 +790,6 @@ function handleDesktopMenu() {
 }
 
 
-function parseChangelog(inputString) {
-    const lines = inputString.split('\n');
-    const changelog = [];
-
-    let currentVersion = null;
-
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-
-        if (line.startsWith('==') && line.endsWith('==')) {
-            // Ignore section headers
-            continue;
-        } else if (line.startsWith('=') && line.endsWith('=')) {
-            // Extract version and date
-            const versionDateLine = line.substring(1, line.length - 1).trim().split(' ');
-            const version = versionDateLine[0];
-            const date = versionDateLine[1];
-
-            // Create a new entry for this version
-            currentVersion = {
-                version: version,
-                date: date,
-                changes: []
-            };
-            changelog.push(currentVersion);
-        } else if (line.startsWith('**') && line.endsWith('**') && currentVersion) {
-            // Extract product name
-            const productName = line.substring(2, line.length - 2).trim();
-            currentVersion.product = productName;
-        } else if (line.startsWith('*') && currentVersion) {
-            // Extract category and log details
-            const categoryEndIndex = line.indexOf(' - ');
-            const category = line.substring(2, categoryEndIndex).trim();
-            const logDetail = line.substring(categoryEndIndex + 3).trim();
-
-            // Check if the category exists
-            let categoryObj = currentVersion.changes.find(item => item.name === category);
-            if (!categoryObj) {
-                categoryObj = {
-                    name: category,
-                    log: []
-                };
-                currentVersion.changes.push(categoryObj);
-            }
-
-            // Extract log details
-            const logDetailParts = /(.+)\[#(\d+)\]/.exec(logDetail);
-            if (logDetailParts && logDetailParts.length === 3) {
-                const description = logDetailParts[1].trim();
-                const id = logDetailParts[2].trim();
-                categoryObj.log.push({ description, id });
-            }
-        }
-    }
-
-    return changelog;
-}
-
-
 let liveElementTimeout = null;
 
 function announceToScreenReader(text, role, timeout = 1000, once = false) {
