@@ -242,7 +242,7 @@ $theme_options = get_option('documentation');
 	</header>
 
 	
-	<main id="content" class="site-content pt-20 sm:pt-24" role="main">
+	<main id="content" class="site-content pt-16 sm:pt-24" role="main">
 		<?php if(has_nav_menu('secondary')): ?>
 			<div class="x-container relative z-1000">
 				<?php
