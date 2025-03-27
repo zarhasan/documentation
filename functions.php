@@ -1,4 +1,11 @@
 <?php
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+require_once get_template_directory() . '/includes/settings-framework.php';
 require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/lib/BreadcrumbsTrail.php';
 
@@ -55,7 +62,145 @@ add_filter('fast_fuzzy_search_aesthetic', function() {
     return 'newspaper';
 }, 10, 2);
 
+
+add_action('init', function() {
+    $add_field = documentation_register_settings_framework(
+        __('Documentation', 'fast-fuzzy-search'), 
+        __('Documentation', 'fast-fuzzy-search'), 
+        'documentation_options'
+    );
+
+    $add_field([
+        'id' => 'primary_color',
+        'label' => 'Primary Color',
+        'type' => 'color_picker',
+        'default' => '#ff5733',
+    ]);
+
+
+    $add_field([
+        'id' => 'position',
+        'label' => 'Position',
+        'type' => 'tabbed_radio',
+        'options' => [
+            'bottom-left' => [
+                'label' => 'Bottom Left',
+                'template' => '',
+            ],
+            'bottom-center' => [
+                'label' => 'Bottom Center',
+                'template' => '',
+            ],
+            'bottom-right' => [
+                'label' => 'Bottom Right',
+                'template' => '',
+            ]
+        ],
+    ]);
+
+    $add_field([
+        'id' => 'placeholder',
+        'label' => 'Placeholder Text',
+        'type' => 'text',
+        'default' => __('Search for something here...', 'fast-fuzzy-search'),
+    ]);
+
+    $add_field([
+        'id' => 'cache_expiration_time',
+        'label' => 'Index Cache Expiration Time (in Seconds)',
+        'type' => 'number',
+        'default' => HOUR_IN_SECONDS * 8
+    ]);
+
+    $add_field([
+        'id' => 'post_types',
+        'label' => 'Post Types',
+        'type' => 'checkbox_group',
+        'options' => documentation_get_searchable_post_types(),
+    ]);
+
+    $add_field([
+        'id' => 'hide_on_scroll',
+        'label' => 'Hide on Scroll',
+        'type' => 'switch',
+        'default' => false,
+    ]);
+
+    $settings = get_option('documentation_options', []);
+
+    if (empty($settings)) {
+        $settings = documentation_get_default_options();
+
+        update_option('documentation_options', $settings);
+    }
+}, 20);
+
+
 // <Helpers>
+
+if(!function_exists('documentation_get_default_options')) {
+    function documentation_get_default_options() {
+        return [
+            'post_types' => array_keys(documentation_get_searchable_post_types()),
+            'position' => 'bottom-center',
+            'aesthetic' => 'minimal-light',
+            'cache_expiration_time' => HOUR_IN_SECONDS * 8,
+            'placeholder' => __('Search for something here...', 'fast-fuzzy-search'),
+            'primary_color' => '#2271b1',
+            'mode' => 'auto',
+            'type' => 'input-field',
+            'hide_on_scroll' => false,
+        ];
+    };
+}
+
+
+
+if(!function_exists('documentation_get_searchable_post_types')) {
+    function documentation_get_searchable_post_types() {
+        $post_types = get_post_types();
+    
+        // Filter post types and map them to their labels
+        $post_types = array_filter($post_types, function ($post_type) {
+            $args = get_post_type_object($post_type);
+    
+            // Ensure post type is publicly queryable and not excluded from search
+            $is_searchable = isset($args->publicly_queryable) && $args->publicly_queryable &&
+                             (isset($args->exclude_from_search) ? !$args->exclude_from_search : true);
+    
+            // Explicitly exclude 'attachment'
+            $is_not_attachment = $post_type !== 'attachment';
+    
+            return $is_searchable && $is_not_attachment;
+        });
+    
+        // Ensure 'post' and 'page' are always included
+        $required_post_types = ['post', 'page'];
+        foreach ($required_post_types as $required_post_type) {
+            if (!isset($post_types[$required_post_type])) {
+                $args = get_post_type_object($required_post_type);
+                if ($args) {
+                    $post_types[$required_post_type] = $args->label;
+                }
+            }
+        }
+    
+        // Map remaining post types to their labels
+        foreach ($post_types as $post_type => $value) {
+            $args = get_post_type_object($post_type);
+            $post_types[$post_type] = $args->label;
+        }
+    
+        return $post_types;
+    }
+}
+
+
+if(!function_exists('documentation_is_pro')) {
+    function documentation_is_pro() {
+        return true;
+    }
+}
 
 function documentation_dd() {
     echo '<pre>';

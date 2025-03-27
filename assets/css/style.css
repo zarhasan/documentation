@@ -711,6 +711,10 @@ nav.desktop--secondary>ul>li.current-menu-item>a {
     margin-bottom: 0.5em;
 }
 
+.comment-form p label {
+    margin-bottom: 0;
+}
+
 .comment-form [type='submit'] {
     background-color: var(--color-frost-1000);
     color: var(--color-frost-0);
@@ -1025,10 +1029,10 @@ body [x-data="fastFuzzySearchOverlayPanel"] {
 
 .fast-fuzzy-search__panel-close--newspaper {
     background-color: transparent;
-    color: var(--color-frost-0);
+    color: #fff;
     padding: 0.5rem;
 }
 
 .fast-fuzzy-search__panel-close--newspaper:hover {
-    background-color: var(--color-frost-1000);
+    background-color: #000;
 }
