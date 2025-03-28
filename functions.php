@@ -371,6 +371,24 @@ function documentation_enqueue_scripts() {
 }
 
 
+add_action('admin_enqueue_scripts', function() {
+    $settings_page_slug = 'documentation_options';
+    $screen = get_current_screen();
+
+    if (isset($screen->id) && $screen->id === 'toplevel_page_'.$settings_page_slug) {
+        wp_enqueue_script('alpine-csp', documentation_assets('js/alpine-csp.min.js'), array(), documentation_get_version(), false);
+        wp_enqueue_script('twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
+        wp_add_inline_script('twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
+
+        wp_localize_script('documentation-admin', 'DocumentationData', array(
+            '_wpnonce' => wp_create_nonce('documentation_options'),
+            'homeURL' => esc_url(home_url()),
+            'ajax_url' => admin_url('admin-ajax.php'),
+        ));
+    }
+});
+
+
 function documentation_register_required_plugins() {
     $plugins = array(
         array(
