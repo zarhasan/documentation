@@ -376,9 +376,11 @@ add_action('admin_enqueue_scripts', function() {
     $screen = get_current_screen();
 
     if (isset($screen->id) && $screen->id === 'toplevel_page_'.$settings_page_slug) {
-        wp_enqueue_script('alpine-csp', documentation_assets('js/alpine-csp.min.js'), array(), documentation_get_version(), false);
+        wp_enqueue_script('alpine', documentation_assets('js/alpine.min.js'), array(), documentation_get_version(), false);
         wp_enqueue_script('twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
         wp_add_inline_script('twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
+
+        wp_enqueue_script('documentation-admin', documentation_assets('js/admin.js'), array('jquery'), documentation_get_version(), true);
 
         wp_localize_script('documentation-admin', 'DocumentationData', array(
             '_wpnonce' => wp_create_nonce('documentation_options'),
