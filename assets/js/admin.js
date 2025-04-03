@@ -22,14 +22,14 @@ document.addEventListener("alpine:init", () => {
             this.state = 'loading';
 
             try {
-                const response = await fetch(FastFuzzySearch.ajax_url, {
+                const response = await fetch(DocumentationData.ajax_url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: new URLSearchParams({
-                        action: 'fast_fuzzy_search_get_initial_options',
-                        security: FastFuzzySearch._wpnonce,
+                        action: 'documentation_get_initial_options',
+                        security: DocumentationData._wpnonce,
                     }),
                 });
 
@@ -47,14 +47,14 @@ document.addEventListener("alpine:init", () => {
             this.state = 'updating';
 
             try {
-                const response = await fetch(FastFuzzySearch.ajax_url, {
+                const response = await fetch(DocumentationData.ajax_url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: new URLSearchParams({
-                        action: 'fast_fuzzy_search_save_custom_options',
-                        security: FastFuzzySearch._wpnonce,
+                        action: 'documentation_save_custom_options',
+                        security: DocumentationData._wpnonce,
                         options: JSON.stringify(this.options),
                     }),
                 });

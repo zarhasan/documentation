@@ -535,13 +535,13 @@ nav.desktop--secondary>ul>li.current-menu-item>a {
     width: 100%;
     border-radius: 9999px;
     font-size: 0.875rem;
-    font-weight: 500;
     margin: 0.25rem 0;
 }
 
 .documentation_toc ul a:hover,
 .documentation_toc ul a.active {
     text-decoration: underline;
+    font-weight: 500;
 }
 
 .documentation_toc ul a:target {

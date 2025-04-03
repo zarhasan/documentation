@@ -679,12 +679,16 @@ jQuery(document).ready(() => {
 
         const handleTocAnchor = (entry) => {
             if (entry.target.id) {
-                const targetElement = document.querySelector(`.documentation_toc a[href="#${entry.target.id}"]`);
+                const targetElements = document.querySelectorAll(`.documentation_toc a[href="#${entry.target.id}"]`);
 
                 if (entry.isIntersecting) {
-                    targetElement?.classList.add('active');
+                    targetElements.forEach(targetElement => {
+                        targetElement.classList.add('active');
+                    });
                 } else {
-                    targetElement?.classList.remove('active');
+                    targetElements.forEach(targetElement => {
+                        targetElement.classList.remove('active');
+                    });
                 }
             }
         };

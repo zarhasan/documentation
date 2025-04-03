@@ -77,6 +77,12 @@ add_action('init', function() {
         'default' => '#ff5733',
     ]);
 
+    $add_field([
+        'id' => 'secondary_color',
+        'label' => 'Secondary Color',
+        'type' => 'color_picker',
+        'default' => '#ff5733',
+    ]);
 
     $add_field([
         'id' => 'position',
@@ -127,12 +133,14 @@ add_action('init', function() {
     ]);
 
     $settings = get_option('documentation_options', []);
+    $default_settings = documentation_get_default_options();
+    $updated_settings = array_merge($default_settings, $settings);
 
-    if (empty($settings)) {
-        $settings = documentation_get_default_options();
-
-        update_option('documentation_options', $settings);
+    // Update the option only if changes were made
+    if ($updated_settings !== $settings) {
+        update_option('documentation_options', $updated_settings);
     }
+
 }, 20);
 
 
@@ -147,6 +155,7 @@ if(!function_exists('documentation_get_default_options')) {
             'cache_expiration_time' => HOUR_IN_SECONDS * 8,
             'placeholder' => __('Search for something here...', 'fast-fuzzy-search'),
             'primary_color' => '#2271b1',
+            'secondary_color' => '#2271b1',
             'mode' => 'auto',
             'type' => 'input-field',
             'hide_on_scroll' => false,
@@ -195,6 +204,30 @@ if(!function_exists('documentation_get_searchable_post_types')) {
     }
 }
 
+if(!function_exists('documentation_allowed_svg_tags')) {
+    function documentation_allowed_svg_tags() {
+        return [
+            'svg'    => ['xmlns' => true, 'width' => true, 'height' => true, 'viewbox' => true, 'fill' => true, 'class' => true, 'aria-hidden' => true, 'role' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true],
+            'g'      => ['fill' => true, 'stroke' => true, 'stroke-width' => true],
+            'path'   => ['d' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true],
+            'circle' => ['cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true],
+            'rect'   => ['x' => true, 'y' => true, 'width' => true, 'height' => true, 'fill' => true, 'stroke' => true],
+            'line'   => ['x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true, 'stroke-width' => true],
+            'polyline' => ['points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true],
+            'polygon'  => ['points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true],
+            'title'  => [], // Allows adding a title inside SVG
+            'desc'   => [], // Allows adding a description inside SVG
+            'use'    => ['href' => true, 'x' => true, 'y' => true, 'width' => true, 'height' => true],
+            'animatetransform' => [
+                'attributename'  => true, 'attributetype' => true, 'type' => true, 
+                'from' => true, 'to' => true, 'dur' => true, 'repeatcount' => true, 
+                'calcmode' => true, 'values' => true, 'keytimes' => true, 
+                'keysplines' => true, 'additive' => true, 'accumulate' => true, 
+                'begin' => true, 'end' => true, 'restart' => true, 'fill' => true
+            ],
+        ];
+    }
+}
 
 if(!function_exists('documentation_is_pro')) {
     function documentation_is_pro() {
@@ -378,12 +411,12 @@ add_action('admin_enqueue_scripts', function() {
     if (isset($screen->id) && $screen->id === 'toplevel_page_'.$settings_page_slug) {
         wp_enqueue_script('alpine', documentation_assets('js/alpine.min.js'), array(), documentation_get_version(), false);
         wp_enqueue_script('twind', documentation_assets('js/twind.min.js'), array(), documentation_get_version(), false);
+        wp_enqueue_script('documentation-admin', documentation_assets('js/admin.js'), array('jquery'), documentation_get_version(), true);
+        
         wp_add_inline_script('twind', file_get_contents(get_template_directory(). "/assets/js/head.js"), "after");
 
-        wp_enqueue_script('documentation-admin', documentation_assets('js/admin.js'), array('jquery'), documentation_get_version(), true);
-
         wp_localize_script('documentation-admin', 'DocumentationData', array(
-            '_wpnonce' => wp_create_nonce('documentation_options'),
+            '_wpnonce' => wp_create_nonce('documentation_ajax'),
             'homeURL' => esc_url(home_url()),
             'ajax_url' => admin_url('admin-ajax.php'),
         ));

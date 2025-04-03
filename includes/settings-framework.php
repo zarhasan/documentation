@@ -135,6 +135,110 @@ function documentation_render_field($field, $option_name) {
     }
 }
 
+
+add_action('wp_ajax_documentation_save_custom_options', 'documentation_save_custom_options');
+
+if (!function_exists('documentation_save_custom_options')) {
+    function documentation_save_custom_options() {
+        // Verify nonce
+        if (!isset($_POST['security']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['security'])), 'documentation_ajax')) {
+            wp_send_json_error(['message' => 'Invalid nonce']);
+        }
+
+        // Get and unslash options from POST data
+        if (!isset($_POST['options'])) {
+            wp_send_json_error(['message' => 'No options provided']);
+        }
+
+        $options_raw = wp_unslash($_POST['options']);  // Unslash the options JSON string
+
+        // Decode the JSON options
+        $options = json_decode($options_raw, true);
+
+        if (!$options || !is_array($options)) {
+            wp_send_json_error(['message' => 'Invalid options data']);
+        }
+
+        // Sanitize each field based on its expected type
+        $sanitized_options = [];
+
+        if (isset($options['post_types']) && is_array($options['post_types'])) {
+            $sanitized_options['post_types'] = array_map('sanitize_key', $options['post_types']); // sanitize_key for slugs like 'post' or 'page'
+        }
+
+        if (isset($options['position'])) {
+            $sanitized_options['position'] = sanitize_text_field($options['position']);
+        }
+
+        if (isset($options['aesthetic'])) {
+            $sanitized_options['aesthetic'] = sanitize_text_field($options['aesthetic']);
+        }
+
+        if (isset($options['cache_expiration_time'])) {
+            $sanitized_options['cache_expiration_time'] = intval($options['cache_expiration_time']); // Ensure it's an integer
+        }
+
+        if (isset($options['placeholder'])) {
+            $sanitized_options['placeholder'] = sanitize_text_field($options['placeholder']);
+        }
+
+        if (isset($options['primary_color'])) {
+            $sanitized_options['primary_color'] = sanitize_hex_color($options['primary_color']); // Validate and sanitize hex color
+        }
+
+        if (isset($options['secondary_color'])) {
+            $sanitized_options['secondary_color'] = sanitize_hex_color($options['secondary_color']); // Validate and sanitize hex color
+        }
+
+        if (isset($options['mode'])) {
+            $sanitized_options['mode'] = sanitize_text_field($options['mode']);
+        }
+
+        if (isset($options['type'])) {
+            $sanitized_options['type'] = sanitize_text_field($options['type']);
+        }
+
+        if (isset($options['hide_on_scroll'])) {
+            $sanitized_options['hide_on_scroll'] = (bool) $options['hide_on_scroll']; // Cast to boolean
+        }
+
+        // Validate user capability
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'Unauthorized']);
+        }
+
+        // Save the sanitized options to the database
+        $option_name = 'documentation_options';
+        if (update_option($option_name, $sanitized_options)) {
+            wp_send_json_success(['message' => 'Options saved successfully']);
+        } else {
+            wp_send_json_error(['message' => 'Failed to save options']);
+        }
+    }
+}
+
+add_action('wp_ajax_documentation_get_initial_options', 'documentation_get_initial_options');
+
+if(!function_exists('documentation_get_initial_options')) {
+    function documentation_get_initial_options() {
+        // Verify nonce
+        if (!isset($_POST['security']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['security'])), 'documentation_ajax')) {
+            wp_send_json_error(['message' => 'Invalid nonce']);
+        }
+
+        // Check if the user has the correct capability to view the settings
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'Permission Denied']);
+        }
+
+        // Retrieve all plugin settings from the options table
+        $settings = get_option('documentation_options', []);
+
+        wp_send_json_success($settings);
+    }
+}
+
+
 function documentation_render_settings_page($page_title, $option_name, &$fields) {
     ?>
     <div class="wrap">
