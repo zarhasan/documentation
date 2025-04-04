@@ -16,6 +16,7 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
 <div class="x-container mt-16"> 
   <div class="grid sm:grid-cols-3 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): $color = $colors[$index % count($colors)]; ?>
+    
       <div x-data="docsCard" class="group relative flex flex-col border-frost-300 border-solid border bg-frost-0">
         <div class="p-8">
           <div>
@@ -59,11 +60,10 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
               <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
             </svg>
           </span>
-
         </div>
 
         <div class="w-full px-8 py-4 bg-frost-50 text-frost-700 border-t border-frost-300 text-sm font-semibold flex justify-between items-center mt-auto">
-          <span><?php echo count($document['children']); ?> Topics</span>
+          <span><?php echo count($document['children']); ?> <?php esc_html_e('Topics', 'documentation'); ?></span>
         </div>
       </div>
       

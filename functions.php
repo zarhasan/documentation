@@ -76,14 +76,7 @@ add_action('init', function() {
         'type' => 'color_picker',
         'default' => '#ff5733',
     ]);
-
-    $add_field([
-        'id' => 'secondary_color',
-        'label' => 'Secondary Color',
-        'type' => 'color_picker',
-        'default' => '#ff5733',
-    ]);
-
+    
     $add_field([
         'id' => 'position',
         'label' => 'Position',

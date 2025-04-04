@@ -348,9 +348,12 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
                                 <p class="text-base font-semibold text-gray-600">
                                     <?php esc_html_e('White-Glove Integration Service', 'fast-fuzzy-search'); ?>
                                 </p>
+
                                 <p class="mt-6 flex items-baseline justify-center gap-x-2">
                                     <span class="text-5xl font-semibold tracking-tight text-gray-900">$299</span>
-                                    <span class="text-sm/6 font-semibold tracking-wide text-gray-600"><?php esc_html_e('one-time fee', 'fast-fuzzy-search'); ?></span>
+                                    <span class="text-sm/6 font-semibold tracking-wide text-gray-600">
+                                        <?php esc_html_e('one-time fee', 'fast-fuzzy-search'); ?>
+                                    </span>
                                 </p>
                                 
                                 <a 
