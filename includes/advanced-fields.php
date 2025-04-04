@@ -122,7 +122,9 @@ $default = $field['default'] ?? '';
                 name="<?php echo esc_attr($name); ?>"
                 value="<?php echo esc_attr($value); ?>"
             />
-            <span class="text-sm inline-flex px-2 py-1 pointer-events-none font-semibold"><?php esc_html_e('Primary Color', 'fast-fuzzy-search') ?></span>
+            <span class="text-sm inline-flex px-2 py-1 pointer-events-none font-semibold">
+                <?php echo esc_attr($label); ?>
+            </span>
         </label>
 
     <?php elseif ($type === 'range'): ?>
