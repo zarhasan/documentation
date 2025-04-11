@@ -1,5 +1,5 @@
 twind.install({
-    hash: false,
+    hash: true,
     variants: [
         ['when-sm', '@media screen and (max-width: 768px)'],
         ['when-md', '@media screen and (max-width: 1024px)'],

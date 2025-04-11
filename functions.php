@@ -76,6 +76,26 @@ add_action('init', function() {
         'type' => 'color_picker',
         'default' => '#ff5733',
     ]);
+
+    $add_field([
+        'id' => 'docs_home_layout',
+        'label' => 'Docs Home Layout',
+        'type' => 'tabbed_radio',
+        'options' => [
+            'default' => [
+                'label' => 'Default',
+                'template' => '',
+            ],
+            'quick_links' => [
+                'label' => 'Quick Links',
+                'template' => '',
+            ],
+            'search_bar' => [
+                'label' => 'Search Bar',
+                'template' => '',
+            ]
+        ],
+    ]);
     
     $add_field([
         'id' => 'position',
@@ -144,6 +164,7 @@ if(!function_exists('documentation_get_default_options')) {
         return [
             'post_types' => array_keys(documentation_get_searchable_post_types()),
             'position' => 'bottom-center',
+            'layout' => 'default',
             'aesthetic' => 'minimal-light',
             'cache_expiration_time' => HOUR_IN_SECONDS * 8,
             'placeholder' => __('Search for something here...', 'fast-fuzzy-search'),
@@ -901,6 +922,30 @@ function documentation_recursive_array_search($needle, $haystack, $keyToSearch) 
     }
     return false;
 }
+
+add_filter( 'rwmb_meta_boxes', 'documentation_meta_boxes' );
+
+function documentation_meta_boxes( $meta_boxes ) {
+    $meta_boxes[] = [
+        'title'      => 'Docs Custom Fields',
+        'post_types' => ['docs'],
+        'fields'     => [
+            [
+                'id'   => 'custom_title',
+                'name' => 'Custom Title',
+                'type' => 'text',
+            ],
+            [
+                'id'   => 'custom_image',
+                'name' => 'Image',
+                'type' => 'single_image',
+            ],
+        ],
+    ];
+
+    return $meta_boxes;
+}
+
 
 if ( class_exists( 'Redux' ) ) {
     $opt_name = "documentation"; // Change this to your option name

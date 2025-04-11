@@ -199,6 +199,7 @@ $default = $field['default'] ?? '';
         </div>
 
     <?php elseif ($type === 'tabbed_radio'): ?>
+        <pre x-text="JSON.stringify($data.options)"></pre>
         <div class="flex flex-wrap gap-4">
             <div class="flex justify-center items-center p-2 gap-2 bg-white border border-solid border-gray-300 rounded-md">
                 <?php foreach ($options as $option_value => $option): ?>
