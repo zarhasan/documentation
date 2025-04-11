@@ -170,6 +170,10 @@ if (!function_exists('documentation_save_custom_options')) {
             $sanitized_options['position'] = sanitize_text_field($options['position']);
         }
 
+        if (isset($options['docs_home_layout'])) {
+            $sanitized_options['docs_home_layout'] = sanitize_text_field($options['docs_home_layout']);
+        }
+
         if (isset($options['aesthetic'])) {
             $sanitized_options['aesthetic'] = sanitize_text_field($options['aesthetic']);
         }
@@ -247,6 +251,7 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
         </h1>
 
         <h2 class="mt-8"><?php esc_html_e('Settings', 'fast-fuzzy-search') ?></h2>
+        
         <form class="fast-fuzzy-search-settings" method="post" action="options.php" x-data="optionsForm" x-bind:data-state="state">
             <div x-cloak x-show="state === 'saved'" class="notice notice-success is-dismissible !fixed z-[1000] bottom-4 right-4">
                 <p><?php esc_html_e('Successfully saved the settings.', 'fast-fuzzy-search') ?></p>
@@ -263,115 +268,7 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
             ?>
         </form>
 
-        <div class="card max-w-7xl !px-6 py-8">
-            <div>
-                <div class="mx-auto max-w-2xl ring-1 ring-gray-200 lg:mx-0 lg:flex lg:max-w-none lg:justify-between">
-                    <div class="pr-4">
-                        <h2 class="text-2xl m-0 font-semibold tracking-tight text-gray-900"><?php esc_html_e('Fast Fuzzy Search Pro', 'fast-fuzzy-search'); ?></h2>
-                        <p class="mt-4 text-base/7 text-gray-600">
-                            <?php esc_html_e('Unlock the full potential of the fastest search plugin for WordPress. Upgrade to Fast Fuzzy Search Pro today and beat the competition with advanced search features.', 'fast-fuzzy-search'); ?>
-                        </p>
-                        
-                        <div class="mt-4 flex items-center gap-x-4">
-                            <h3 class="flex-none text-sm/6 font-semibold text-primary-700">
-                                <?php esc_html_e('Get the extra features', 'fast-fuzzy-search'); ?>
-                            </h3>
-                            <div class="h-px flex-auto bg-gray-100"></div>
-                        </div>
-                        
-                        <ul role="list" class="mt-4 grid grid-cols-1 gap-2 text-sm/6 text-gray-600 sm:grid-cols-2">
-                            <li class="flex gap-x-3">
-                                <?php echo wp_kses(documentation_svg('check', 'h-6 w-5 flex-none text-primary-700'), documentation_allowed_svg_tags()); ?>
-                                <?php esc_html_e('Unlock all themes', 'fast-fuzzy-search'); ?>
-                            </li>
-                            
-
-                            <li class="flex gap-x-3">
-                                <?php echo wp_kses(documentation_svg('check', 'h-6 w-5 flex-none text-primary-700'), documentation_allowed_svg_tags()); ?>
-                                <?php esc_html_e('Expanded third-party integration', 'fast-fuzzy-search'); ?>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:shrink-0">
-                        <div class="bg-gray-50 border border-gray-300 border-solid py-6 text-center ring-1 ring-gray-900/5 ring-inset lg:flex lg:flex-col lg:justify-center">
-                            <div class="mx-auto max-w-xs px-8">
-                                <p class="text-base font-semibold text-gray-600"><?php esc_html_e('Use on unlimited websites', 'fast-fuzzy-search'); ?></p>
-                                <p class="mt-6 flex items-baseline justify-center gap-x-2">
-                                    <span class="text-5xl font-semibold tracking-tight text-gray-900">$29</span>
-                                    <span class="text-sm/6 font-semibold tracking-wide text-gray-600"><?php esc_html_e('one-time fee', 'fast-fuzzy-search'); ?></span>
-                                </p>
-                                <a 
-                                    href="https://redoxbird.com/product/fast-fuzzy-search/" 
-                                    target="_blank"
-                                    class="mt-10 block w-full button button-primary">
-                                    <?php esc_html_e('Download Now', 'fast-fuzzy-search'); ?>
-                                </a>
-                                <p class="mt-6 text-xs/5 text-gray-600"><?php esc_html_e('Includes all the features of Fast Fuzzy Search.', 'fast-fuzzy-search') ?></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card max-w-7xl !px-6 py-8">
-            <div>
-                <div class="mx-auto max-w-2xl ring-1 ring-gray-200 lg:mx-0 lg:flex lg:max-w-none lg:justify-between">
-                    <div class="pr-4">
-                        <h2 class="text-2xl m-0 font-semibold tracking-tight text-gray-900"><?php esc_html_e('Fast Fuzzy Search Pro + Custom Integration', 'fast-fuzzy-search'); ?></h2>
-                        <p class="mt-4 text-base/7 text-gray-600">
-                            <?php esc_html_e('Our experts will customize and integrate the solution perfectly with your theme - no technical skills required. Get pixel-perfect implementation that matches your site identity.', 'fast-fuzzy-search'); ?>
-                        </p>
-                        
-                        <div class="mt-4 flex items-center gap-x-4">
-                            <h3 class="flex-none text-sm/6 font-semibold text-primary-700"><?php esc_html_e('Features included:', 'fast-fuzzy-search'); ?></h3>
-                            <div class="h-px flex-auto bg-gray-100"></div>
-                        </div>
-                        
-                        <ul role="list" class="mt-4 grid grid-cols-1 gap-2 text-sm/6 text-gray-600 sm:grid-cols-2">
-                            <li class="flex gap-x-3">
-                                <?php echo wp_kses(documentation_svg('check', 'h-6 w-5 flex-none text-primary-700'), documentation_allowed_svg_tags()); ?>
-                                <?php esc_html_e('Get custom style that matches your theme', 'fast-fuzzy-search'); ?>
-                            </li>
-
-                            <li class="flex gap-x-3">
-                                <?php echo wp_kses(documentation_svg('check', 'h-6 w-5 flex-none text-primary-700'), documentation_allowed_svg_tags()); ?>
-                                <?php esc_html_e('Seamless integration', 'fast-fuzzy-search'); ?>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:shrink-0">
-                        <div class="bg-gray-50 border border-gray-300 border-solid py-6 text-center ring-1 ring-gray-900/5 ring-inset lg:flex lg:flex-col lg:justify-center">
-                            <div class="mx-auto max-w-xs px-8">
-                                <p class="text-base font-semibold text-gray-600">
-                                    <?php esc_html_e('White-Glove Integration Service', 'fast-fuzzy-search'); ?>
-                                </p>
-
-                                <p class="mt-6 flex items-baseline justify-center gap-x-2">
-                                    <span class="text-5xl font-semibold tracking-tight text-gray-900">$299</span>
-                                    <span class="text-sm/6 font-semibold tracking-wide text-gray-600">
-                                        <?php esc_html_e('one-time fee', 'fast-fuzzy-search'); ?>
-                                    </span>
-                                </p>
-                                
-                                <a 
-                                    href="https://redoxbird.com/request-integration/" 
-                                    target="_blank" 
-                                    class="mt-10 block w-full button button-primary">
-                                    <?php esc_html_e('Get Custom Integration Now', 'fast-fuzzy-search'); ?>
-                                </a>
-
-                                <p class="mt-6 text-xs/5 text-gray-600">
-                                    <?php esc_html_e('Includes full Pro features, priority support, and expert implementation', 'fast-fuzzy-search') ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php get_template_part('template-parts/admin/pricing'); ?>
 
     </div>
     <?php

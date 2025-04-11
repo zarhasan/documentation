@@ -110,8 +110,7 @@ $default = $field['default'] ?? '';
         </select>
 
     <?php elseif ($type === 'color_picker'): ?>
-        <label 
-            class="inline-flex w-auto justify-start items-stretch cursor-pointer overflow-hidden bg-gray-50 border border-solid border-gray-500 rounded p-0">
+        <label class="inline-flex w-auto justify-start items-stretch cursor-pointer overflow-hidden bg-gray-50 border border-solid border-gray-500 rounded p-0">
             <input
                 class="w-8 m-0 p-0 !border-none !outline-none !rounded-none"
                 style="block-size: auto;"
@@ -199,14 +198,13 @@ $default = $field['default'] ?? '';
         </div>
 
     <?php elseif ($type === 'tabbed_radio'): ?>
-        <pre x-text="JSON.stringify($data.options)"></pre>
         <div class="flex flex-wrap gap-4">
-            <div class="flex justify-center items-center p-2 gap-2 bg-white border border-solid border-gray-300 rounded-md">
+            <div class="flex justify-center items-center p-2 gap-2 bg-white border border-solid border-gray-300 rounded-md ">
                 <?php foreach ($options as $option_value => $option): ?>
                     <label 
-                        x-on:click="selected = '<?php echo esc_attr($option_value); ?>'" 
-                        class="px-4 py-2 cursor-pointer rounded"
-                        x-bind:class="{ 'bg-[#2271b1] text-white': $data.options.<?php echo esc_attr($name); ?> === '<?php echo esc_attr($option_value); ?>', 'border-gray-300': $data.options.<?php echo esc_attr($name); ?> !== '<?php echo esc_attr($option_value); ?>' }">
+                        x-on:click="$data.options['<?php echo esc_attr($name); ?>'] = '<?php echo esc_attr($option_value); ?>'" 
+                        class="px-4 py-2 cursor-pointer rounded selected:bg-[#2271b1] selected:text-white"
+                        x-bind:aria-selected="[$data.options.<?php echo esc_attr($name); ?> === '<?php echo esc_attr($option_value); ?>']">
                         <div class="flex justify-start items-center gap-2">
                             <input
                                 x-model="$data.options.<?php echo esc_attr($name); ?>"

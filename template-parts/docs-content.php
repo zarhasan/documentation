@@ -30,12 +30,9 @@ $author_id = get_the_author_meta('ID');
 			x-cloak 
 			x-on:click.away="hideSidebar"
 			x-on:keydown.escape="hideSidebar"
-			x-transition:enter="transition ease-out duration-300"
-			x-transition:enter-start="opacity-0 -translate-x-28"
-			x-transition:enter-end="opacity-100 -translate-x-0"
-			x-transition:leave="transition ease-in duration-300"
-			x-transition:leave-start="opacity-100 -translate-x-0"
-			x-transition:leave-end="opacity-0 -translate-x-28"
+			xyz="fade left-5 duration-2"
+			x-transition:enter="xyz-in"
+			x-transition:leave="xyz-out"
 			data-simplebar
 			class="!fixed z-[1500] bg-frost-50 px-6 py-8 top-0 left-0 w-96 bottom-0 h-screen border border-frost-300">
 			<div class="w-full flex justify-end items-center mb-4">
@@ -64,12 +61,9 @@ $author_id = get_the_author_meta('ID');
 			x-on:click.away="hideToc"
 			x-on:keydown.escape="hideToc"
 			x-on:hashchange.window="hideToc"
-			x-transition:enter="transition ease-out duration-300"
-			x-transition:enter-start="opacity-0 translate-x-28"
-			x-transition:enter-end="opacity-100 translate-x-0"
-			x-transition:leave="transition ease-in duration-300"
-			x-transition:leave-start="opacity-100 translate-x-0"
-			x-transition:leave-end="opacity-0 translate-x-28"
+			xyz="fade right-5 duration-2"
+			x-transition:enter="xyz-in"
+			x-transition:leave="xyz-out"
 			class="documentation_toc !fixed z-[1500] bg-frost-50 px-6 py-8 top-0 w-96 right-0 bottom-0 h-screen overflow-y-scroll text-right border border-frost-300">
 			<div class="w-full flex justify-end items-center mb-4">
 				<button 

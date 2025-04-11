@@ -164,7 +164,7 @@ if(!function_exists('documentation_get_default_options')) {
         return [
             'post_types' => array_keys(documentation_get_searchable_post_types()),
             'position' => 'bottom-center',
-            'layout' => 'default',
+            'docs_home_layout' => 'default',
             'aesthetic' => 'minimal-light',
             'cache_expiration_time' => HOUR_IN_SECONDS * 8,
             'placeholder' => __('Search for something here...', 'fast-fuzzy-search'),
@@ -995,7 +995,7 @@ if ( class_exists( 'Redux' ) ) {
             array(
                 'id'       => 'color_primary_dark',
                 'type'     => 'color',
-                'title'    => esc_html__('Primary Color for dark more', 'documentation'), 
+                'title'    => esc_html__('Primary Color for dark mode', 'documentation'), 
                 'subtitle' => esc_html__('Pick a primary color for the dark mode of the theme (default: #6f73cc).', 'documentation'),
                 'default'  => '#6f73cc',
                 'validate' => 'color',
@@ -1048,9 +1048,9 @@ if ( class_exists( 'Redux' ) ) {
             array(
                 'id'       => 'footer_copyright_notice',
                 'type'     => 'text',
-                'title'    => __( 'Copyright Notice', 'documentation' ),
-                'desc'     => __( 'Enter the copyright notice.', 'documentation' ),
-                'default'  => 'All rights reserved © by RedOxbird',
+                'title'    => __('Copyright Notice', 'documentation'),
+                'desc'     => __('Enter the copyright notice.', 'documentation'),
+                'default'  => __('All rights reserved © by %', 'documentation'),
             )
         )
     ));
