@@ -13,11 +13,13 @@ if ($args) {
 
 ?>
 
-<div x-data="docsCard" class="group relative flex flex-col border-frost-300 border-solid border bg-frost-0">
+<div 
+    x-data="docsCard"
+    class="group relative flex flex-col border-frost-300 border-solid border bg-frost-0">
     <div class="p-8">
         <div>
             <span class="inline-flex rounded-lg p-3 border border-solid bg-<?php echo esc_attr($color); ?>-50 text-<?php echo esc_attr($color); ?>-700 border-<?php echo esc_attr($color); ?>-700">
-                <?php echo documentation_svg('folder'); ?>
+                <?php echo documentation_svg('book'); ?>
             </span>
         </div>
 
@@ -28,15 +30,13 @@ if ($args) {
                 </a>
             </h3>
 
-            <ul class="mt-4 text-base text-frost-700 flex flex-col gap-2">
+            <ul class="mt-4 text-base text-frost-700 flex flex-col gap-2 list-disc pl-4">
                 <?php foreach ($document['children'] as $index => $children): ?>
                     <li 
                         data-index="<?php echo esc_attr($index); ?>"
-                        x-bind:class="liClass">
-                        <a class="w-full inline-flex justify-start items-center hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
-                            <span class="w-4 h-4 inline-flex justify-center items-center mr-2">
-                                <?php echo documentation_svg('clipboard-text'); ?>
-                            </span>
+                        x-show="isListItemVisible"
+                        x-collapse>
+                        <a class="w-full inline-flex justify-start items-start hover:underline" href="<?php echo esc_attr($children['permalink']); ?>">
                             <?php echo esc_html($children['title']); ?>
                         </a>
                     </li>

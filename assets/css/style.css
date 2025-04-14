@@ -814,6 +814,10 @@ body [x-data="fastFuzzySearchOverlayPanel"] {
     background-color: rgb(0 0 0 / 0.75);
 }
 
+body [x-data="fastFuzzySearchOverlayPanel"] .fast-fuzzy-search {
+    width: 40rem;
+}
+
 .fast-fuzzy-search--newspaper .fast-fuzzy-search__field {
     display: flex;
     height: 3rem;

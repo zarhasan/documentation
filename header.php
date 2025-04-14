@@ -204,17 +204,14 @@ $theme_options = get_option('documentation');
 		</div>
 
 		<div 
+			x-cloak
             class="fixed top-0 right-0 w-96 bottom-0 lg:hidden" 
             style="z-index: 1000;"
-            x-cloak
             x-show="showSidebar"
             x-trap.inert="showSidebar"
-            x-transition:enter="transition ease-out duration-300"
-			x-transition:enter-start="opacity-0 translate-x-28"
-			x-transition:enter-end="opacity-100 translate-x-0"
-			x-transition:leave="transition ease-in duration-300"
-			x-transition:leave-start="opacity-100 translate-x-0"
-			x-transition:leave-end="opacity-0 translate-x-28"
+            xyz="fade right-5 duration-2"
+			x-transition:enter="xyz-in"
+			x-transition:leave="xyz-out"
             x-on:keydown.escape.window="handleSidebarWindowEscape">
 
             <div class="x-container h-full bg-frost-50 border border-frost-300 py-8">

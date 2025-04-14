@@ -10,6 +10,12 @@ $documents = documentation_get_document_hierarchy();
 $theme_options = get_option('documentation');
 
 $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky', 'emerald', 'fuchsia', 'lime'];
+
+$faqs_query = new WP_Query([
+  'post_type' => 'faq',
+  'posts_per_page' => 10
+]);
+
 ?>
 
 <section class="bg-frost-100 py-16 mt-0 border-y border-frost-300">
@@ -32,52 +38,90 @@ $colors = ['teal', 'purple', 'yellow', 'rose', 'indigo', 'pink', 'amber', 'sky',
         <?php echo documentation_svg('spinner'); ?>
       </span>
     </button>
-
-    <ul class="mt-4 grid gap-4 grid-cols-2">
-
-      <li>
-        <a class="flex justify-start items-center flex-col sm:flex-row bg-frost-0 text-frost-1000 border-frost-300 border px-6 py-6 sm:py-4 gap-2 hover:bg-frost-50" href="#" class="#">
-          <span class="w-4 h-4 inline-flex justify-center items-center"><?php echo documentation_svg('rocket'); ?></span>
-          <span class="font-semibold text-sm"><?php esc_html_e('Getting Started', 'documentation'); ?></span>
-          <span class="w-4 h-4 sm:inline-flex justify-center items-center hidden"><?php echo documentation_svg('chevron-right'); ?></span>
-        </a>
-      </li>
-
-      <li>
-        <a class="flex justify-start items-center flex-col sm:flex-row bg-frost-0 text-frost-1000 border-frost-300 border px-6 py-6 sm:py-4 gap-2 hover:bg-frost-50" href="#" class="#">
-          <span class="w-4 h-4 inline-flex justify-center items-center"><?php echo documentation_svg('settings'); ?></span>
-          <span class="font-semibold text-sm"><?php esc_html_e('Installation', 'documentation'); ?></span>
-          <span class="w-4 h-4 sm:inline-flex justify-center items-center hidden"><?php echo documentation_svg('chevron-right'); ?></span>
-        </a>
-      </li>
-
-      <li>
-        <a class="flex justify-start items-center flex-col sm:flex-row bg-frost-0 text-frost-1000 border-frost-300 border px-6 py-6 sm:py-4 gap-2 hover:bg-frost-50" href="#" class="#">
-          <span class="w-4 h-4 inline-flex justify-center items-center"><?php echo documentation_svg('code'); ?></span>
-          <span class="font-semibold text-sm"><?php esc_html_e('API Reference', 'documentation'); ?></span>
-          <span class="w-4 h-4 sm:inline-flex justify-center items-center hidden"><?php echo documentation_svg('chevron-right'); ?></span>
-        </a>
-      </li>
-
-      <li>
-        <a class="flex justify-start items-center flex-col sm:flex-row bg-frost-0 text-frost-1000 border-frost-300 border px-6 py-6 sm:py-4 gap-2 hover:bg-frost-50" href="#" class="#">
-          <span class="w-4 h-4 inline-flex justify-center items-center"><?php echo documentation_svg('help-circle'); ?></span>
-          <span class="font-semibold text-sm"><?php esc_html_e('Help', 'documentation'); ?></span>
-          <span class="w-4 h-4 sm:inline-flex justify-center items-center hidden"><?php echo documentation_svg('chevron-right'); ?></span>
-        </a>
-      </li>
-
-      
-    </ul>
-
   </div>
 </section>
 
-<div class="x-container mt-16"> 
-  <div class="grid sm:grid-cols-3 xl:grid-cols-3 gap-8">
+<section class="container mt-16"> 
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): $color = $colors[$index % count($colors)]; ?>
       <?php get_template_part('template-parts/docs-card', null, ['document' => $document, 'color' => $color]); ?>
     <?php endforeach; ?>
+  </div>
+</section>
+
+
+<div class="container">
+  <div class="max-w-4xl mx-auto my-16 sm:my-24">
+    <div class="">
+        <h2 class="text-4xl text-center tracking-tight text-frost-900 sm:text-5xl">Frequently asked questions</h2>
+
+        <?php if ($faqs_query->have_posts()): ?>
+            <dl 
+                class="relative mt-8 sm:mt-16 block space-y-6 divide-y divide-frost-900/10 bg-frost-0 border-frost-300 border-solid border pt-4 px-8 pb-8"
+                x-data="faq" 
+                x-on:keydown.window="handleWindowEscape">
+
+                <?php $activeIndex = 0; ?>
+
+                <?php while ($faqs_query->have_posts()): $faqs_query->the_post(); ?>                
+                    <div
+                        data-active-index="<?php echo esc_attr($activeIndex); ?>"
+                        class="pt-6">
+                        <dt>
+                            <button 
+                                type="button" 
+                                class="flex w-full items-start justify-between text-left text-frost-900 transition hover:bg-frost-50" 
+                                x-bind:aria-expanded="isActive" 
+                                aria-controls="faq-content-<?php echo esc_attr($activeIndex); ?>" 
+                                id="faq-header-<?php echo esc_attr($activeIndex); ?>" 
+                                x-on:click="handleClick">
+                                <span class="text-base/7 font-bold">
+                                    <?php echo get_the_title(); ?>
+                                </span>
+
+                                <span 
+                                    x-cloak
+                                    x-show="isNotActive" 
+                                    class="ml-6 flex h-7 items-center shrink-0">
+                                    <?php echo documentation_svg('chevron-down'); ?>
+                                </span>
+
+                                <span 
+                                    x-cloak
+                                    x-show="isActive" 
+                                    class="ml-6 flex h-7 items-center shrink-0">
+                                    <?php echo documentation_svg('chevron-up'); ?>
+                                </span>
+
+                            </button>
+                        </dt>
+
+                        <dd 
+                            class="mt-2 pr-12 prose" 
+                            x-show="isActive" 
+                            role="region" 
+                            id="faq-content-<?php echo esc_attr($activeIndex); ?>" 
+                            aria-labelledby="faq-header-<?php echo esc_attr($activeIndex); ?>" 
+                            style="display: none;"
+                            x-collapse>
+                            <?php echo get_the_content(); ?>
+                        </dd>
+                    </div>
+
+                    <?php $activeIndex++; ?>
+                <?php endwhile; ?>
+            </dl>
+        <?php else: ?>
+        
+        <?php 
+            get_template_part('template-parts/empty-state', null, [
+                'title' => __('No FAQs', 'documentation'),
+                'description' => __('It seems that no FAQs have been created yet.', 'documentation'),
+                'icon' => 'notes-off',
+            ]);
+        ?>
+      <?php endif; ?>
+    </div>
   </div>
 </div>
 

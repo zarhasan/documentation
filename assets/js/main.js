@@ -83,9 +83,11 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data("toasty", () => ({
         entries: Alpine.store("toast").entries,
+
         dismiss() {
             Alpine.store("toast").dismiss(parseInt(this.$el.dataset.index));
         },
+        
         hasEntries() {
             return this.entries.length > 0;
         }
@@ -407,8 +409,8 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("docsCard", () => ({
         expanded: false,
 
-        get liClass() {
-            return this.expanded || parseInt(this.$el.dataset.index) < 5 ? 'block' : 'hidden'
+        get isListItemVisible() {
+            return this.expanded || parseInt(this.$el.dataset.index) < 5;
         },
 
         isExpanded() {
