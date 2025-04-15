@@ -18,18 +18,6 @@ add_action("after_setup_theme", "documentation_after_setup_theme");
 add_action("wp_enqueue_scripts", "documentation_enqueue_scripts");
 add_action('tgmpa_register', 'documentation_register_required_plugins');
 
-// Actions -> Ajax
-add_action('wp_ajax_documentation_get_documents_list', 'documentation_get_documents_list_callback');
-add_action('wp_ajax_nopriv_documentation_get_documents_list', 'documentation_get_documents_list_callback');
-
-add_action('wp_ajax_documentation_get_posts_list', 'documentation_get_posts_list_callback');
-add_action('wp_ajax_nopriv_documentation_get_posts_list', 'documentation_get_posts_list_callback');
-
-add_action('save_post', function($post_id) {
-    documentation_delete_file_cache('public_documents_haystack');
-    documentation_delete_file_cache('public_posts_haystack');
-});
-
 remove_action('wp_body_open', 'fast_fuzzy_search_render_search_field');
 
 // Filters
@@ -171,47 +159,6 @@ if(!function_exists('documentation_get_default_options')) {
             'footer_copyright_notice' => __('All rights reserved © by %', 'documentation'),
         ];
     };
-}
-
-
-
-if(!function_exists('documentation_get_searchable_post_types')) {
-    function documentation_get_searchable_post_types() {
-        $post_types = get_post_types();
-    
-        // Filter post types and map them to their labels
-        $post_types = array_filter($post_types, function ($post_type) {
-            $args = get_post_type_object($post_type);
-    
-            // Ensure post type is publicly queryable and not excluded from search
-            $is_searchable = isset($args->publicly_queryable) && $args->publicly_queryable &&
-                             (isset($args->exclude_from_search) ? !$args->exclude_from_search : true);
-    
-            // Explicitly exclude 'attachment'
-            $is_not_attachment = $post_type !== 'attachment';
-    
-            return $is_searchable && $is_not_attachment;
-        });
-    
-        // Ensure 'post' and 'page' are always included
-        $required_post_types = ['post', 'page'];
-        foreach ($required_post_types as $required_post_type) {
-            if (!isset($post_types[$required_post_type])) {
-                $args = get_post_type_object($required_post_type);
-                if ($args) {
-                    $post_types[$required_post_type] = $args->label;
-                }
-            }
-        }
-    
-        // Map remaining post types to their labels
-        foreach ($post_types as $post_type => $value) {
-            $args = get_post_type_object($post_type);
-            $post_types[$post_type] = $args->label;
-        }
-    
-        return $post_types;
-    }
 }
 
 if(!function_exists('documentation_allowed_svg_tags')) {
@@ -371,10 +318,6 @@ function documentation_after_setup_theme() {
 
 function documentation_enqueue_scripts() {
     // Scripts
-
-    // <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css" />
-	// <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
-
     wp_enqueue_script('alpine-focus', documentation_assets('js/alpine-focus.min.js'), array(), documentation_get_version(), false);
     wp_enqueue_script('alpine-collapse', documentation_assets('js/alpine-collapse.min.js'), array(), documentation_get_version(), false);
     wp_enqueue_script('alpine-intersect', documentation_assets('js/alpine-intersect.min.js'), array(), documentation_get_version(), false);
@@ -452,8 +395,8 @@ function documentation_register_required_plugins() {
             'required'  => false,
         ),
         array(
-            'name'      => 'Fast Fuzzy Search',
-            'slug'      => 'documentation',
+            'name'      => 'Fast Fuzzy Search - WordPress & WooCommerce Search Plugin',
+            'slug'      => 'fast-fuzzy-search',
             'required'  => false,
         )
     );
@@ -473,86 +416,6 @@ function documentation_register_required_plugins() {
 
     tgmpa($plugins, $config);
 }
-
-function documentation_get_documents_list_callback() {
-    // Ensure the request came from a valid source
-    check_ajax_referer('documentation_ajax', 'security');
-
-    $list = documentation_get_file_cache('public_documents_haystack', HOUR_IN_SECONDS * 1);
-
-    if(!empty($list)) {
-        wp_send_json($list);
-        wp_die();
-    }
-
-    // Your function to get data
-    $list = documentation_flatten_pages_list(documentation_get_document_hierarchy());
-    
-    documentation_set_file_cache('public_documents_haystack', $list);
-
-    wp_send_json($list);
-
-    // Don't forget to exit
-    wp_die();
-}
-
-function documentation_get_posts_list_callback() {
-    // Ensure the request came from a valid source
-    check_ajax_referer('documentation_ajax', 'security');
-
-    $list = documentation_get_file_cache('public_posts_haystack', HOUR_IN_SECONDS * 1);
-
-    if(!empty($list)) {
-        wp_send_json($list);
-        wp_die();
-    }
-
-    $post_types = get_post_types();
-
-    $searchable_post_types = array_filter($post_types, function ($post_type) {
-        $args = get_post_type_object($post_type);
-        return isset($args->publicly_queryable) && $args->publicly_queryable && isset($args->exclude_from_search) && !$args->exclude_from_search;
-    });
-
-    $list = [
-        "titles" => [],
-        "paths" => []
-    ];
-
-    $args = [
-        'post_type'     => 'any',
-        'public'        => true,
-        'exclude_from_search' => false,
-        'posts_per_page' => 10000,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-        'post_status' => 'publish',
-        '_builtin'     => false,  
-    ];
-
-    $query = new WP_Query($args);
-
-    if (!$query->have_posts()) {
-       wp_send_json($list);
-    }
-
-    foreach ($query->posts as $post) {
-        $post_type = get_post_type($post->ID);
-        $post_type_labels = get_post_type_labels(get_post_type_object($post_type));
-
-        $list['titles'][] = $post_type_labels->name. DOCUMENTATION_JOIN_SYMBOL .get_the_title($post->ID);
-        $list['paths'][] = get_the_permalink($post->ID);
-    }
-
-    documentation_set_file_cache('public_posts_haystack', $list);
-
-    // Return the data
-    wp_send_json($list);
-
-    // Don't forget to exit
-    wp_die();
-}
-
 
 function documentation_add_defer_to_alpine_script($tag, $handle, $src) {
     $defer_scripts = array('alpine', 'alpine-focus', 'alpine-collapse', 'alpine-intersect', 'alpine-csp');
@@ -814,50 +677,6 @@ function documentation_flatten_pages_list($pages, $parent_title = null) {
     ];
 }
 
-function documentation_set_file_cache($key, $data) {
-    if (!file_exists(DOCUMENTATION_CACHE_DIR)) {
-        mkdir(DOCUMENTATION_CACHE_DIR, 0777, true); // Create directory recursively with full permissions
-    }
-
-    $cache_file = DOCUMENTATION_CACHE_DIR . get_locale(). '-' . md5($key) . '.json';
-
-    // Save the data to the cache file
-    file_put_contents($cache_file, json_encode($data));
-}
-
-function documentation_get_file_cache($key, $expiration = 3600) {
-    $cache_file = DOCUMENTATION_CACHE_DIR . get_locale(). '-' . md5($key) . '.json';
-
-    // Check if the cache file exists and is still valid
-    if (file_exists($cache_file) && (time() - filemtime($cache_file) < $expiration)) {
-        // Cache hit, return the cached data
-        return json_decode(file_get_contents($cache_file), true);
-    } else {
-        // Cache miss or expired, delete the cache file if it exists
-        if (file_exists($cache_file)) {
-            unlink($cache_file);
-        }
-    }
-
-    return null;
-}
-
-function documentation_delete_file_cache($key) {
-    $cache_file = DOCUMENTATION_CACHE_DIR . get_locale(). '-' . md5($key) . '.json';
-
-    // Check if the cache file exists and delete it
-    if (file_exists($cache_file)) {
-        unlink($cache_file);
-    }
-}
-
-function documentation_update_file_cache($key, $callback, $expiration = 3600) {
-    // Delete existing cache data
-    documentation_delete_file_cache($key);
-
-    // Use the get_data_with_cache function to update the cache
-    return documentation_get_file_cache($key, $expiration);
-}
 
 function documentation_get_breadcrumb()
 {
@@ -917,137 +736,4 @@ function documentation_recursive_array_search($needle, $haystack, $keyToSearch) 
         }
     }
     return false;
-}
-
-add_filter( 'rwmb_meta_boxes', 'documentation_meta_boxes' );
-
-function documentation_meta_boxes( $meta_boxes ) {
-    $meta_boxes[] = [
-        'title'      => 'Docs Custom Fields',
-        'post_types' => ['docs'],
-        'fields'     => [
-            [
-                'id'   => 'custom_title',
-                'name' => 'Custom Title',
-                'type' => 'text',
-            ],
-            [
-                'id'   => 'custom_image',
-                'name' => 'Image',
-                'type' => 'single_image',
-            ],
-        ],
-    ];
-
-    return $meta_boxes;
-}
-
-
-if ( class_exists( 'Redux' ) ) {
-    $opt_name = "documentation"; // Change this to your option name
-
-    $theme = wp_get_theme(); // Get theme information
-
-    $args = array(
-        'opt_name'             => $opt_name,
-        'display_name'         => $theme->get( 'Name' ),
-        'display_version'      => $theme->get( 'Version' ),
-        'menu_type'            => 'menu',
-        'allow_sub_menu'       => true,
-        'menu_title'           => __( 'Theme Settings', 'documentation' ),
-        'page_title'           => __( 'Theme Settings', 'documentation' ),
-        'admin_bar'            => true,
-        'admin_bar_icon'       => 'dashicons-admin-generic',
-        'menu_icon'            => 'dashicons-admin-generic',
-        'customizer'           => true,
-        'page_priority'        => 81,
-        'page_parent'          => 'themes.php',
-        'page_permissions'     => 'manage_options',
-        'save_defaults'        => true,
-        'show_import_export'   => true,
-        'dev_mode'             => false,
-        'update_notice'        => true,
-        'admin_bar_priority'   => 50,
-    );
-
-    // Initialize Redux
-    Redux::set_args($opt_name, $args);
-
-    Redux::set_section($opt_name, array(
-        'title'            => __( 'Appearance', 'documentation' ),
-        'id'               => 'appearance',
-        'desc'             => __( 'Settings for appearance', 'documentation' ),
-        'customizer_width' => '400px',
-        'icon'             => 'el el-book',
-        'fields'           => array(
-            array(
-                'id'       => 'color_primary',
-                'type'     => 'color',
-                'title'    => esc_html__('Primary Color', 'documentation'), 
-                'subtitle' => esc_html__('Pick a primary color for the theme (default: #31358A).', 'documentation'),
-                'default'  => '#31358A',
-                'validate' => 'color',
-            ),
-            array(
-                'id'       => 'color_primary_dark',
-                'type'     => 'color',
-                'title'    => esc_html__('Primary Color for dark mode', 'documentation'), 
-                'subtitle' => esc_html__('Pick a primary color for the dark mode of the theme (default: #6f73cc).', 'documentation'),
-                'default'  => '#6f73cc',
-                'validate' => 'color',
-            ),
-            array(
-                'id'       => 'default_color_scheme',
-                'type'     => 'radio',
-                'title'    => __( 'Default Color Scheme', 'documentation' ),
-                'desc'     => __( 'Select the default Color Scheme.', 'documentation' ),
-                'options'  => array(
-                    'light' => 'Light',
-                    'dark'  => 'Dark',
-                )
-            )
-        )
-    ));
-
-    // Section for documentation settings
-    Redux::set_section( $opt_name, array(
-        'title'            => __( 'Docs Page Settings', 'documentation' ),
-        'id'               => 'docs_settings',
-        'desc'             => __( 'Settings for the documentation page', 'documentation' ),
-        'customizer_width' => '400px',
-        'icon'             => 'el el-book',
-        'fields'           => array(
-            array(
-                'id'       => 'docs_page_title',
-                'type'     => 'text',
-                'title'    => __( 'Docs Page Title', 'documentation' ),
-                'desc'     => __( 'Enter the title for the documentation page.', 'documentation' ),
-                'default'  => 'Documentation',
-            ),
-            array(
-                'id'       => 'docs_page_description',
-                'type'     => 'textarea',
-                'title'    => __( 'Docs Page Description', 'documentation' ),
-                'desc'     => __( 'Enter a description for the documentation page.', 'documentation' ),
-                'default'  => 'This is the description of the documentation page.',
-            ),
-        )
-    ));
-
-    Redux::set_section( $opt_name, array(
-        'title'            => __( 'Footer Settings', 'documentation' ),
-        'id'               => 'footer_settings',
-        'desc'             => __( 'Settings for the footer section', 'documentation' ),
-        'customizer_width' => '400px',
-        'icon'             => 'el el-book',
-        'fields'           => array(
-            array(
-                'id'       => 'footer_copyright_notice',
-                'type'     => 'text',
-                'title'    => __('Copyright Notice', 'documentation'),
-                'desc'     => __('Enter the copyright notice.', 'documentation'),
-                'default'  => __('All rights reserved © by %', 'documentation'),
-            )
-        )
-    ));
 }

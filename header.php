@@ -5,7 +5,7 @@
  */
 
 
-$theme_options = get_option('documentation');
+$theme_options = get_option('documentation_options', documentation_get_default_options());
 ?>
 
 <!DOCTYPE html>

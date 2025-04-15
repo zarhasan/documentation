@@ -32,8 +32,9 @@ $faqs_query = new WP_Query([
       x-data="fastFuzzySearchTrigger"
       x-on:click="showSearch" 
       x-bind:disabled="isDisabled" 
+      data-context="<?php esc_attr_e('Docs', 'documentation'); ?>"
       class="inline-flex items-center justify-between gap-2 px-4 py-2 text-sm font-semibold text-frost-900 bg-frost-0 border border-frost-300 mt-4 w-full !lg:w-1/2 max-w-full h-12 disabled:opacity-50">
-      <p class="text-frost-700"><?php esc_html_e('Search for docs, posts, and pages', 'documentation'); ?></p>
+      <p class="text-frost-700"><?php esc_html_e('Search for docs...', 'documentation'); ?></p>
       
       <span x-cloak x-show="isNotLoading" class="w-4 h-4 inline-flex justify-center items-center">
         <?php echo documentation_svg('search'); ?>

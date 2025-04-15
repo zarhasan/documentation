@@ -64,7 +64,7 @@ $author_id = get_the_author_meta('ID');
 			xyz="fade right-5 duration-2"
 			x-transition:enter="xyz-in"
 			x-transition:leave="xyz-out"
-			class="documentation_toc !fixed z-[1500] bg-frost-50 px-6 py-8 top-0 w-96 right-0 bottom-0 h-screen overflow-y-scroll text-right border border-frost-300">
+			class="documentation_toc !fixed z-[1500] bg-frost-50 px-6 py-8 top-0 w-96 right-0 bottom-0 h-screen overflow-y-scroll border border-frost-300">
 			<div class="w-full flex justify-end items-center mb-4">
 				<button 
 					x-on:click.prevent="hideToc"
