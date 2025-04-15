@@ -12,9 +12,7 @@
  */
 
 
-$theme_options = get_option('documentation');
-
-
+$theme_options = get_option('documentation_options', documentation_get_default_options());
 
 ?>
 
@@ -53,7 +51,7 @@ $theme_options = get_option('documentation');
   <div class="x-container">
     <div class="w-full py-8 border-t-1 border-frost-300 border-solid">
       <p class="text-sm text-frost-600">
-        <?php echo !empty($theme_options['footer_copyright_notice']) ? $theme_options['footer_copyright_notice'] :  sprintf(__('All rights reserved %s by %s', 'documentation'), '&copy;', get_bloginfo('name')); ?>
+        <?php echo !empty($theme_options['footer_copyright_notice']) ? esc_html__($theme_options['footer_copyright_notice']) : sprintf(__('All rights reserved %s by %s', 'documentation'), '&copy;', get_bloginfo('name')); ?>
       </p>
     </div>
   </div>

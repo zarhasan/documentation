@@ -65,8 +65,8 @@ add_filter('fast_fuzzy_search_aesthetic', function() {
 
 add_action('init', function() {
     $add_field = documentation_register_settings_framework(
-        __('Documentation', 'fast-fuzzy-search'), 
-        __('Documentation', 'fast-fuzzy-search'), 
+        __('Documentation', 'documentation'), 
+        __('Documentation', 'documentation'), 
         'documentation_options'
     );
 
@@ -74,7 +74,34 @@ add_action('init', function() {
         'id' => 'primary_color',
         'label' => 'Primary Color',
         'type' => 'color_picker',
-        'default' => '#ff5733',
+        'default' => '#31358A',
+    ]);
+
+    $add_field([
+        'id' => 'color_primary_dark',
+        'label' => 'Primary Color (Dark Mode)',
+        'type' => 'color_picker',
+        'default' => '#6f73cc',
+    ]);
+
+    $add_field([
+        'id' => 'default_color_scheme',
+        'label' => 'Default Color Scheme',
+        'type' => 'tabbed_radio',
+        'options' => [
+            'auto' => [
+                'label' => 'Auto',
+                'template' => '',
+            ],
+            'light' => [
+                'label' => 'Light',
+                'template' => '',
+            ],
+            'dark' => [
+                'label' => 'Dark',
+                'template' => '',
+            ],
+        ],
     ]);
 
     $add_field([
@@ -96,53 +123,26 @@ add_action('init', function() {
             ]
         ],
     ]);
-    
-    $add_field([
-        'id' => 'position',
-        'label' => 'Position',
-        'type' => 'tabbed_radio',
-        'options' => [
-            'bottom-left' => [
-                'label' => 'Bottom Left',
-                'template' => '',
-            ],
-            'bottom-center' => [
-                'label' => 'Bottom Center',
-                'template' => '',
-            ],
-            'bottom-right' => [
-                'label' => 'Bottom Right',
-                'template' => '',
-            ]
-        ],
-    ]);
 
     $add_field([
-        'id' => 'placeholder',
-        'label' => 'Placeholder Text',
+        'id' => 'docs_page_title',
+        'label' => 'Docs Page Title',
         'type' => 'text',
-        'default' => __('Search for something here...', 'fast-fuzzy-search'),
+        'default' => __('Documentation', 'documentation'),
     ]);
 
     $add_field([
-        'id' => 'cache_expiration_time',
-        'label' => 'Index Cache Expiration Time (in Seconds)',
-        'type' => 'number',
-        'default' => HOUR_IN_SECONDS * 8
+        'id' => 'docs_page_description',
+        'label' => 'Docs Page Description',
+        'type' => 'textarea',
+        'default' => __('The fastest way to build documentaion for products', 'documentation'),
     ]);
 
     $add_field([
-        'id' => 'post_types',
-        'label' => 'Post Types',
-        'type' => 'checkbox_group',
-        'options' => documentation_get_searchable_post_types(),
-    ]);
-
-    $add_field([
-        'id' => 'hide_on_scroll',
-        'label' => 'Hide on Scroll',
-        'type' => 'switch',
-        'default' => false,
+        'id' => 'footer_copyright_notice',
+        'label' => 'Copyright Notice',
+        'type' => 'text',
+        'default' => __('All rights reserved %s by %s', 'documentation'),
     ]);
 
     $settings = get_option('documentation_options', []);
@@ -162,17 +162,13 @@ add_action('init', function() {
 if(!function_exists('documentation_get_default_options')) {
     function documentation_get_default_options() {
         return [
-            'post_types' => array_keys(documentation_get_searchable_post_types()),
-            'position' => 'bottom-center',
             'docs_home_layout' => 'default',
-            'aesthetic' => 'minimal-light',
-            'cache_expiration_time' => HOUR_IN_SECONDS * 8,
-            'placeholder' => __('Search for something here...', 'fast-fuzzy-search'),
-            'primary_color' => '#2271b1',
-            'secondary_color' => '#2271b1',
-            'mode' => 'auto',
-            'type' => 'input-field',
-            'hide_on_scroll' => false,
+            'primary_color' => '#31358A',
+            'color_primary_dark' => '#6f73cc',
+            'default_color_scheme' => 'auto',
+            'docs_page_title' => __('Documentation', 'documentation'),
+            'docs_page_description' => __('The fastest way to build documentaion for products', 'documentation'),
+            'footer_copyright_notice' => __('All rights reserved © by %', 'documentation'),
         ];
     };
 }
@@ -457,7 +453,7 @@ function documentation_register_required_plugins() {
         ),
         array(
             'name'      => 'Fast Fuzzy Search',
-            'slug'      => 'fast-fuzzy-search',
+            'slug'      => 'documentation',
             'required'  => false,
         )
     );
@@ -975,9 +971,9 @@ if ( class_exists( 'Redux' ) ) {
     );
 
     // Initialize Redux
-    Redux::set_args( $opt_name, $args );
+    Redux::set_args($opt_name, $args);
 
-    Redux::set_section( $opt_name, array(
+    Redux::set_section($opt_name, array(
         'title'            => __( 'Appearance', 'documentation' ),
         'id'               => 'appearance',
         'desc'             => __( 'Settings for appearance', 'documentation' ),

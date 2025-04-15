@@ -162,48 +162,32 @@ if (!function_exists('documentation_save_custom_options')) {
         // Sanitize each field based on its expected type
         $sanitized_options = [];
 
-        if (isset($options['post_types']) && is_array($options['post_types'])) {
-            $sanitized_options['post_types'] = array_map('sanitize_key', $options['post_types']); // sanitize_key for slugs like 'post' or 'page'
+        if (isset($options['primary_color'])) {
+            $sanitized_options['primary_color'] = sanitize_hex_color($options['primary_color']); // Validate and sanitize hex color
         }
 
-        if (isset($options['position'])) {
-            $sanitized_options['position'] = sanitize_text_field($options['position']);
+        if (isset($options['color_primary_dark'])) {
+            $sanitized_options['color_primary_dark'] = sanitize_hex_color($options['color_primary_dark']); // Validate and sanitize hex color
+        }
+
+        if (isset($options['default_color_scheme'])) {
+            $sanitized_options['default_color_scheme'] = sanitize_text_field($options['default_color_scheme']);
         }
 
         if (isset($options['docs_home_layout'])) {
             $sanitized_options['docs_home_layout'] = sanitize_text_field($options['docs_home_layout']);
         }
 
-        if (isset($options['aesthetic'])) {
-            $sanitized_options['aesthetic'] = sanitize_text_field($options['aesthetic']);
+        if (isset($options['docs_page_title'])) {
+            $sanitized_options['docs_page_title'] = sanitize_text_field($options['docs_page_title']);
         }
 
-        if (isset($options['cache_expiration_time'])) {
-            $sanitized_options['cache_expiration_time'] = intval($options['cache_expiration_time']); // Ensure it's an integer
+        if (isset($options['docs_page_description'])) {
+            $sanitized_options['docs_page_description'] = sanitize_text_field($options['docs_page_description']);
         }
 
-        if (isset($options['placeholder'])) {
-            $sanitized_options['placeholder'] = sanitize_text_field($options['placeholder']);
-        }
-
-        if (isset($options['primary_color'])) {
-            $sanitized_options['primary_color'] = sanitize_hex_color($options['primary_color']); // Validate and sanitize hex color
-        }
-
-        if (isset($options['secondary_color'])) {
-            $sanitized_options['secondary_color'] = sanitize_hex_color($options['secondary_color']); // Validate and sanitize hex color
-        }
-
-        if (isset($options['mode'])) {
-            $sanitized_options['mode'] = sanitize_text_field($options['mode']);
-        }
-
-        if (isset($options['type'])) {
-            $sanitized_options['type'] = sanitize_text_field($options['type']);
-        }
-
-        if (isset($options['hide_on_scroll'])) {
-            $sanitized_options['hide_on_scroll'] = (bool) $options['hide_on_scroll']; // Cast to boolean
+        if (isset($options['footer_copyright_notice'])) {
+            $sanitized_options['footer_copyright_notice'] = sanitize_text_field($options['footer_copyright_notice']);
         }
 
         // Validate user capability
@@ -250,11 +234,11 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
             <?php echo esc_html($page_title); ?>
         </h1>
 
-        <h2 class="mt-8"><?php esc_html_e('Settings', 'fast-fuzzy-search') ?></h2>
+        <h2 class="mt-8"><?php esc_html_e('Settings', 'documentation') ?></h2>
         
         <form class="fast-fuzzy-search-settings" method="post" action="options.php" x-data="optionsForm" x-bind:data-state="state">
             <div x-cloak x-show="state === 'saved'" class="notice notice-success is-dismissible !fixed z-[1000] bottom-4 right-4">
-                <p><?php esc_html_e('Successfully saved the settings.', 'fast-fuzzy-search') ?></p>
+                <p><?php esc_html_e('Successfully saved the settings.', 'documentation') ?></p>
             </div>
 
             <div x-cloak x-show="state === 'error'" class="notice notice-error">

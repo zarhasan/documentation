@@ -11,7 +11,7 @@ if ($args) {
 ?>
 
 <button 
-    x-data="searchTrigger"
+    x-data="fastFuzzySearchTrigger"
     x-on:click="showSearch" 
     x-bind:disabled="isDisabled"
     class="w-6 h-6 inline-flex justify-center items-center text-frost-600 <?php echo !empty($classes) ? $classes : ''; ?>">
