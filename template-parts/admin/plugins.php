@@ -3,8 +3,6 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-$fast_fuzzy_search_state = documentation_get_plugin_state_by_slug('fast-fuzzy-search');
-
 $plugins = [
     [
         'icon' => documentation_assets('images/icon-fast-fuzzy-search.png'),

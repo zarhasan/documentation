@@ -22,7 +22,7 @@ $author_id = get_the_author_meta('ID');
 			class="origin-left flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all"
 			x-on:click="toggleSidebar">
 			<span x-show="isNotSidebar" class="w-5 h-5 inline-flex justify-center items-center"><?php echo documentation_svg('layout-sidebar-left-expand'); ?></span>
-			<span><?php esc_html_e('Navigation', 'documentation') ?></span>
+			<span><?php esc_html_e('All Pages', 'documentation') ?></span>
 		</button>
 
 		<div 
@@ -51,7 +51,7 @@ $author_id = get_the_author_meta('ID');
 			x-on:click="toggleToc"
 			class="flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all">
 			<span x-show="isNotToc" class="w-5 h-5 inline-flex justify-center items-center"><?php echo documentation_svg('list'); ?></span>
-			<span><?php esc_html_e('Table Of Contents', 'documentation') ?></span>
+			<span><?php esc_html_e('On This Page', 'documentation') ?></span>
 		</button>
 
 		<div 

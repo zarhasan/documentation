@@ -178,6 +178,10 @@ if (!function_exists('documentation_save_custom_options')) {
             $sanitized_options['docs_home_layout'] = sanitize_text_field($options['docs_home_layout']);
         }
 
+        if (isset($options['single_doc_layout'])) {
+            $sanitized_options['single_doc_layout'] = sanitize_text_field($options['single_doc_layout']);
+        }
+
         if (isset($options['docs_page_title'])) {
             $sanitized_options['docs_page_title'] = sanitize_text_field($options['docs_page_title']);
         }

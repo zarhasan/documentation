@@ -113,6 +113,26 @@ add_action('init', function() {
     ]);
 
     $add_field([
+        'id' => 'single_doc_layout',
+        'label' => 'Single Doc Layout',
+        'type' => 'tabbed_radio',
+        'options' => [
+            'default' => [
+                'label' => 'Default',
+                'template' => '',
+            ],
+            'minimal' => [
+                'label' => 'Minimal',
+                'template' => '',
+            ],
+            'no_toc' => [
+                'label' => 'No TOC',
+                'template' => '',
+            ]
+        ],
+    ]);
+
+    $add_field([
         'id' => 'docs_page_title',
         'label' => 'Docs Page Title',
         'type' => 'text',
@@ -151,6 +171,7 @@ if(!function_exists('documentation_get_default_options')) {
     function documentation_get_default_options() {
         return [
             'docs_home_layout' => 'default',
+            'single_doc_layout' => 'default',
             'primary_color' => '#31358A',
             'color_primary_dark' => '#6f73cc',
             'default_color_scheme' => 'auto',
