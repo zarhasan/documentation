@@ -234,23 +234,25 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
             <?php echo esc_html($page_title); ?>
         </h1>
 
-        <h2 class="mt-8"><?php esc_html_e('Settings', 'documentation') ?></h2>
-        
-        <form class="fast-fuzzy-search-settings" method="post" action="options.php" x-data="optionsForm" x-bind:data-state="state">
-            <div x-cloak x-show="state === 'saved'" class="notice notice-success is-dismissible !fixed z-[1000] bottom-4 right-4">
-                <p><?php esc_html_e('Successfully saved the settings.', 'documentation') ?></p>
-            </div>
+        <div class="bg-white p-8 my-8 border border-gray-300 border-solid">
+            <h2 class="mt-0 mb-4"><?php esc_html_e('Settings', 'documentation') ?></h2>
+            
+            <form class="fast-fuzzy-search-settings" method="post" action="options.php" x-data="optionsForm" x-bind:data-state="state">
+                <div x-cloak x-show="state === 'saved'" class="notice notice-success is-dismissible !fixed z-[1000] bottom-4 right-4">
+                    <p><?php esc_html_e('Successfully saved the settings.', 'documentation') ?></p>
+                </div>
 
-            <div x-cloak x-show="state === 'error'" class="notice notice-error">
-                <p><?php esc_html_e('Something went wrong.', 'fast-fuzzy-search') ?></p>
-            </div>
+                <div x-cloak x-show="state === 'error'" class="notice notice-error">
+                    <p><?php esc_html_e('Something went wrong.', 'fast-fuzzy-search') ?></p>
+                </div>
 
-            <?php
-                settings_fields($option_name);
-                do_settings_sections($option_name);
-                submit_button();
-            ?>
-        </form>
+                <?php
+                    settings_fields($option_name);
+                    do_settings_sections($option_name);
+                    submit_button();
+                ?>
+            </form>
+        </div>
 
         <?php get_template_part('template-parts/admin/plugins'); ?>
         <?php get_template_part('template-parts/admin/pricing'); ?>

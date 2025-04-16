@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 ?>
 
 <!--...::: Pricing Section Start :::... -->
-<section id="pricing" class="bg-gray-50 py-16">
+<section id="pricing" class="bg-gray-50 py-16 border border-gray-300 border-solid">
     <!-- Section Background -->
     <div class="container">
         <!-- Section Space -->
@@ -17,10 +17,10 @@ if (!defined('ABSPATH')) {
                 <div class="jos">
                     <!-- Section Content Block -->
                     <div class="mx-auto max-w-4xl text-center mb-16 xl:mb-20">
-                        <h2 class="mb-3 text-3xl !xl:text-5xl font-secondary text-center">
+                        <h2 class="mb-3 mt-0 text-3xl font-secondary text-center">
                             Upgrade to Documentation Pro
                         </h2>
-                        <p class="text-xl font-medium mt-4">Unlock advanced layouts, multiple docs support, and a better writing experience — all with a one-time purchase.</p>
+                        <p class="text-base font-medium mt-4">Unlock advanced layouts, multiple docs support, and a better writing experience — all with a one-time purchase.</p>
                     </div>
                     <!-- Section Content Block -->
                 </div>
