@@ -1,3 +1,10 @@
+<?php
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
+?>
+
 <!--...::: Pricing Section Start :::... -->
 <section id="pricing" class="bg-gray-50 py-16">
     <!-- Section Background -->

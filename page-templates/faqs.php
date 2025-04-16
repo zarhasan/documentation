@@ -43,7 +43,7 @@ if (is_tax('faq_category')) {
                 <?php if(!is_tax('faq_category')): ?>
                     aria-current="page"
                 <?php endif; ?>>
-                <?php esc_html_e('All', 'documentation') ?>
+                <?php esc_html_e('All', 'documentation'); ?>
             </a>
 
             <?php if(!empty($categories)): ?>

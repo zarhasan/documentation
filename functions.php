@@ -380,6 +380,11 @@ add_action('admin_enqueue_scripts', function() {
 function documentation_register_required_plugins() {
     $plugins = array(
         array(
+            'name'      => 'Fast Fuzzy Search - WordPress & WooCommerce Search Plugin',
+            'slug'      => 'fast-fuzzy-search',
+            'required'  => false,
+        ),
+        array(
             'name'      => 'Advanced Custom Fields (ACF)',
             'slug'      => 'advanced-custom-fields',
             'required'  => false,
@@ -394,11 +399,6 @@ function documentation_register_required_plugins() {
             'slug'      => 'code-block-pro',
             'required'  => false,
         ),
-        array(
-            'name'      => 'Fast Fuzzy Search - WordPress & WooCommerce Search Plugin',
-            'slug'      => 'fast-fuzzy-search',
-            'required'  => false,
-        )
     );
 
     $config = array(
@@ -736,4 +736,39 @@ function documentation_recursive_array_search($needle, $haystack, $keyToSearch) 
         }
     }
     return false;
+}
+
+function documentation_get_plugin_state_by_slug( $slug ) {
+    // Load plugin-related functions if not already available
+    if ( ! function_exists( 'get_plugins' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    $plugins = get_plugins();
+    $plugin_path = '';
+
+    // Match plugin path using slug
+    foreach ( $plugins as $path => $details ) {
+        if ( strpos( $path, $slug . '/' ) === 0 || $path === $slug . '.php' ) {
+            $plugin_path = $path;
+            break;
+        }
+    }
+
+    // Not installed
+    if ( empty( $plugin_path ) ) {
+        return 'not installed';
+    }
+
+    // Load is_plugin_active() if needed
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    // Check if active
+    if ( is_plugin_active( $plugin_path ) ) {
+        return 'active';
+    }
+
+    return 'inactive';
 }

@@ -252,6 +252,7 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
             ?>
         </form>
 
+        <?php get_template_part('template-parts/admin/plugins'); ?>
         <?php get_template_part('template-parts/admin/pricing'); ?>
 
     </div>
