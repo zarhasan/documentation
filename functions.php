@@ -101,12 +101,16 @@ add_action('init', function() {
                 'label' => 'Default',
                 'template' => '',
             ],
-            'quick_links' => [
-                'label' => 'Quick Links',
+            'simple' => [
+                'label' => 'Simple',
                 'template' => '',
             ],
-            'search_bar' => [
-                'label' => 'Search Bar',
+            'list' => [
+                'label' => 'List',
+                'template' => '',
+            ],
+            'simple_list' => [
+                'label' => 'Simple List',
                 'template' => '',
             ]
         ],

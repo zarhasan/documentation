@@ -12,70 +12,36 @@ if ($args) {
 }
 
 $author_id = get_the_author_meta('ID');
+$theme_options = get_option('documentation_options', documentation_get_default_options());
+
+$isToc = true;
+$isSidebar = true;
+
+if(empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layout'] === 'minimal') {
+	$isToc = false;
+	$isSidebar = false;
+}
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(''); ?> >
+<article id="post-<?php the_ID(); ?>" <?php post_class(''); ?>>
 
-	<div x-data="docsOverlays" class="!lg:hidden mt-8 flex justify-between items-center">
+	<div x-data="docsOverlays" class="flex justify-between items-center">
 		<button 
-			class="origin-left flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all"
+			class="origin-left flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all mt-8 <?php echo esc_attr($isSidebar ? '!lg:hidden' : ''); ?>"
 			x-on:click="toggleSidebar">
 			<span x-show="isNotSidebar" class="w-5 h-5 inline-flex justify-center items-center"><?php echo documentation_svg('layout-sidebar-left-expand'); ?></span>
-			<span><?php esc_html_e('All Pages', 'documentation') ?></span>
+			<span><?php esc_html_e('All Pages', 'documentation'); ?></span>
 		</button>
-
-		<div 
-			x-show="showSidebar" 
-			x-cloak 
-			x-on:click.away="hideSidebar"
-			x-on:keydown.escape="hideSidebar"
-			xyz="fade left-5 duration-2"
-			x-transition:enter="xyz-in"
-			x-transition:leave="xyz-out"
-			data-simplebar
-			class="!fixed z-[1500] bg-frost-50 px-6 py-8 top-0 left-0 w-96 bottom-0 h-screen border border-frost-300">
-			<div class="w-full flex justify-end items-center mb-4">
-				<button 
-					x-on:click.prevent="hideSidebar"
-					class="w-6 h-6 inline-flex justify-center items-center text-frost-600 !lg:hidden">
-					<span x-cloak>
-						<?php echo documentation_svg('x'); ?>
-					</span>
-				</button>
-			</div>
-			<?php get_template_part('template-parts/docs', 'sidebar', ['documents' => $documents, 'class' => 'w-full shrink-0 overflow-y-scroll lg:pr-10 lg:hidden']); ?>
-		</div>
 
 		<button 
 			x-on:click="toggleToc"
-			class="flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all">
+			class="flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all mt-8 <?php echo esc_attr($isToc ? '!lg:hidden' : ''); ?>">
 			<span x-show="isNotToc" class="w-5 h-5 inline-flex justify-center items-center"><?php echo documentation_svg('list'); ?></span>
-			<span><?php esc_html_e('On This Page', 'documentation') ?></span>
+			<span><?php esc_html_e('On This Page', 'documentation'); ?></span>
 		</button>
 
-		<div 
-			data-simplebar
-			x-cloak 
-			x-show="showToc"
-			x-on:click.away="hideToc"
-			x-on:keydown.escape="hideToc"
-			x-on:hashchange.window="hideToc"
-			xyz="fade right-5 duration-2"
-			x-transition:enter="xyz-in"
-			x-transition:leave="xyz-out"
-			class="documentation_toc !fixed z-[1500] bg-frost-50 px-6 py-8 top-0 w-96 right-0 bottom-0 h-screen overflow-y-scroll border border-frost-300">
-			<div class="w-full flex justify-end items-center mb-4">
-				<button 
-					x-on:click.prevent="hideToc"
-					class="w-6 h-6 inline-flex justify-center items-center text-frost-600 !lg:hidden">
-					<span x-cloak>
-						<?php echo documentation_svg('x'); ?>
-					</span>
-				</button>
-			</div>
-			<?php echo wp_kses_post($toc); ?>
-		</div>
+		<?php get_template_part('template-parts/docs-content', 'overlays', ['documents' => $documents, 'toc' => $toc]); ?>
 	</div>
 
 	<div class="mt-8">
@@ -85,9 +51,11 @@ $author_id = get_the_author_meta('ID');
 	<div class="w-full mt-8 mb-8 pb-6 border-b-1 border-frost-300 border-dashed">
 		<div class="text-sm">
 			<a class="inline-flex justify-start items-center" href="<?php echo esc_url(get_author_posts_url($author_id)); ?>">
-				<span class="w-4 h-4 inline-flex justify-center items-center mr-2"><?php echo documentation_svg('edit'); ?></span>
+				<span class="w-4 h-4 inline-flex justify-center items-center mr-2">
+					<?php echo documentation_svg('edit'); ?>
+				</span>
 				<?php echo sprintf(__('Updated on %s', 'documentation'), get_the_modified_date()); ?>
-			</a>	
+			</a>
 		</div>
 	</div>
 
