@@ -21,6 +21,12 @@ $plugins = [
         'name' => 'Nested Pages',
         'description' => 'Used for the documentation page tree and drag-and-drop functionality',
         'status' => documentation_get_plugin_state_by_slug('wp-nested-pages'),
+        'links' => [
+            [
+                'text' => 'Enable Nested Pages For Docs',
+                'url' => admin_url('options-general.php?page=nested-pages-settings&tab=posttypes'),
+            ]
+        ]
     ],
     [
         'icon' => documentation_assets('images/icon-code-block-pro.png'),
@@ -33,7 +39,7 @@ $plugins = [
 ?>
 
 <section class="bg-white p-8 mb-8 border border-gray-300 border-solid">
-    <h2 class="mb-6 mt-0"><?php esc_html_e('Essential Plugins') ?></h2>
+    <h2 class="mb-6 mt-0"><?php esc_html_e('Essential Plugins', 'documentation') ?></h2>
 
     <ul role="list" class="divide-y divide-gray-100 flex flex-col gap-4">
         <?php foreach ($plugins as $index => $plugin): ?>
@@ -61,11 +67,22 @@ $plugins = [
                     <?php endif; ?>
                 </div>
 
-                <div class="mt-2 flex items-center gap-x-2 text-xs/5 text-gray-500">
+                <div class="mt-2 flex flex-col items-start justify-start gap-x-2 text-xs/5 text-gray-500">
                     <p class="m-0">
                         <?php echo esc_html($plugin['description']); ?>
                     </p>
+
+                    <ul class="flex flex-wrap items-center justify-start gap-x-2 gap-y-1 mt-2">
+                        <?php if(isset($plugin['links'])): ?>
+                            <?php foreach($plugin['links'] as $link): ?>
+                                <li class="m-0">
+                                    <a href="<?php echo esc_url($link['url']); ?>" class="text-blue-500 hover:text-blue-700 underline" target="_blank" rel="noopener noreferrer"><?php echo esc_html($link['text']); ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
                 </div>
+
                 </div>
 
                 <div class="flex flex-none items-center gap-x-4 ml-auto">

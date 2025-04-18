@@ -26,7 +26,7 @@ function documentation_add_settings_page($page_title, $menu_title, $option_name,
         function() use ($page_title, $option_name, &$fields) {
             documentation_render_settings_page($page_title, $option_name, $fields);
         },
-        'data:image/svg+xml;base64,' . base64_encode(documentation_svg('custom/file-text')),
+        'dashicons-media-document',
     );
 }
 
@@ -247,7 +247,7 @@ function documentation_render_settings_page($page_title, $option_name, &$fields)
                 </div>
 
                 <div x-cloak x-show="state === 'error'" class="notice notice-error">
-                    <p><?php esc_html_e('Something went wrong.', 'fast-fuzzy-search') ?></p>
+                    <p><?php esc_html_e('Something went wrong.', 'documentation') ?></p>
                 </div>
 
                 <?php
