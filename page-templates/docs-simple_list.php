@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Docs (List)
+ * Template Name: Docs (Simple List)
  *
  */
 

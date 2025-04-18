@@ -112,8 +112,27 @@ add_action('init', function() {
             'simple_list' => [
                 'label' => 'Simple List',
                 'template' => '',
+            ],
+            'only_searchbar' => [
+                'label' => 'Only Search Bar',
+                'template' => '',
             ]
         ],
+    ]);
+
+
+    $add_field([
+        'id' => 'docs_page_title',
+        'label' => 'Docs Page Title',
+        'type' => 'text',
+        'default' => __('Documentation', 'documentation'),
+    ]);
+
+    $add_field([
+        'id' => 'docs_page_description',
+        'label' => 'Docs Page Description',
+        'type' => 'textarea',
+        'default' => __('The fastest way to build documentaion for products', 'documentation'),
     ]);
 
     $add_field([
@@ -129,25 +148,15 @@ add_action('init', function() {
                 'label' => 'Minimal',
                 'template' => '',
             ],
-            'no_toc' => [
-                'label' => 'No TOC',
+            'hide_sidebar' => [
+                'label' => 'Hide Sidebar',
+                'template' => '',
+            ],
+            'hide_toc' => [
+                'label' => 'Hide TOC',
                 'template' => '',
             ]
         ],
-    ]);
-
-    $add_field([
-        'id' => 'docs_page_title',
-        'label' => 'Docs Page Title',
-        'type' => 'text',
-        'default' => __('Documentation', 'documentation'),
-    ]);
-
-    $add_field([
-        'id' => 'docs_page_description',
-        'label' => 'Docs Page Description',
-        'type' => 'textarea',
-        'default' => __('The fastest way to build documentaion for products', 'documentation'),
     ]);
 
     $add_field([

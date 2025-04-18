@@ -17,10 +17,20 @@ $theme_options = get_option('documentation_options', documentation_get_default_o
 $isToc = true;
 $isSidebar = true;
 
-if(empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layout'] === 'minimal') {
+if(!empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layout'] === 'minimal') {
 	$isToc = false;
 	$isSidebar = false;
-}
+};
+
+if(!empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layout'] === 'hide_sidebar') {
+	$isToc = true;
+	$isSidebar = false;
+};
+
+if(!empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layout'] === 'hide_toc') {
+	$isToc = false;
+	$isSidebar = true;
+};
 
 ?>
 
@@ -28,7 +38,7 @@ if(empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layo
 
 	<div x-data="docsOverlays" class="flex justify-between items-center">
 		<button 
-			class="origin-left flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all mt-8 <?php echo esc_attr($isSidebar ? '!lg:hidden' : ''); ?>"
+			class="origin-left flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all mt-8 mr-auto <?php echo esc_attr($isSidebar ? '!lg:hidden' : ''); ?>"
 			x-on:click="toggleSidebar">
 			<span x-show="isNotSidebar" class="w-5 h-5 inline-flex justify-center items-center"><?php echo documentation_svg('layout-sidebar-left-expand'); ?></span>
 			<span><?php esc_html_e('All Pages', 'documentation'); ?></span>
@@ -36,7 +46,7 @@ if(empty($theme_options['single_doc_layout']) && $theme_options['single_doc_layo
 
 		<button 
 			x-on:click="toggleToc"
-			class="flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all mt-8 <?php echo esc_attr($isToc ? '!lg:hidden' : ''); ?>">
+			class="flex justify-end items-center gap-2 text-sm font-semibold text-right transition-all mt-8 ml-auto <?php echo esc_attr($isToc ? '!lg:hidden' : ''); ?>">
 			<span x-show="isNotToc" class="w-5 h-5 inline-flex justify-center items-center"><?php echo documentation_svg('list'); ?></span>
 			<span><?php esc_html_e('On This Page', 'documentation'); ?></span>
 		</button>
