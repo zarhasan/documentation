@@ -1,8 +1,4 @@
 <?php
-/**
- * Template Name: Docs (Simple)
- *
- */
 
 get_header(); 
 
@@ -18,7 +14,7 @@ $faqs_query = new WP_Query([
 
 ?>
 
-<section class="container mt-8"> 
+<section class="x-container mt-8"> 
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): $color = $colors[$index % count($colors)]; ?>
       <?php get_template_part('template-parts/docs-card', null, ['document' => $document, 'color' => $color]); ?>

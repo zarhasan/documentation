@@ -419,8 +419,8 @@ function documentation_register_required_plugins() {
             'required'  => false,
         ),
         array(
-            'name'      => 'Advanced Custom Fields (ACF)',
-            'slug'      => 'advanced-custom-fields',
+            'name'      => 'Secure Custom Fields',
+            'slug'      => 'secure-custom-fields',
             'required'  => false,
         ),
         array(

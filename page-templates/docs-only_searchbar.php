@@ -1,8 +1,4 @@
 <?php
-/**
- * Template Name: Docs (Default)
- *
- */
 
 get_header(); 
 
@@ -11,7 +7,7 @@ $theme_options = get_option('documentation_options', documentation_get_default_o
 ?>
 
 <section class="py-40 mt-0">
-  <div class="container flex flex-col items-center justify-center gap-4">
+  <div class="x-container flex flex-col items-center justify-center gap-4">
     <h1 class="text-5xl font-medium text-frost-900 text-center">
       <?php echo !empty($theme_options['docs_page_title']) ? esc_html( $theme_options['docs_page_title'] ) : esc_html__('Documentation', 'documentation'); ?>
     </h1>

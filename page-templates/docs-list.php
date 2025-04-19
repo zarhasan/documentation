@@ -1,8 +1,4 @@
 <?php
-/**
- * Template Name: Docs (List)
- *
- */
 
 get_header(); 
 
@@ -19,7 +15,7 @@ $faqs_query = new WP_Query([
 ?>
 
 <section class="bg-frost-100 py-16 mt-0 border-y border-frost-300">
-  <div class="container flex flex-col items-center justify-center gap-4">
+  <div class="x-container flex flex-col items-center justify-center gap-4">
     <h1 class="text-5xl font-medium text-frost-900 text-center">
       <?php echo !empty($theme_options['docs_page_title']) ? esc_html( $theme_options['docs_page_title'] ) : esc_html__('Documentation', 'documentation'); ?>
     </h1>

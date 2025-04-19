@@ -11,10 +11,10 @@ $plugins = [
         'status' => documentation_get_plugin_state_by_slug('fast-fuzzy-search'),
     ],
     [
-        'icon' => documentation_assets('images/icon-acf.svg'),
-        'name' => 'Advanced Custom Fields (ACF)',
-        'description' => 'ACF is a WordPress plugin that allows you to add custom fields to your posts, pages, and custom post types. It is used to create custom fields for the documentation.',
-        'status' => documentation_get_plugin_state_by_slug('advanced-custom-fields'),
+        'icon' => documentation_assets('images/icon-scf.svg'),
+        'name' => 'Secure Custom Fields',
+        'description' => 'Secure Custom Fields is a WordPress plugin that allows you to add custom fields to your posts, pages, and custom post types. It is used to create custom fields for the documentation.',
+        'status' => documentation_get_plugin_state_by_slug('secure-custom-fields'),
     ],
     [
         'icon' => documentation_assets('images/icon-nested-pages.png'),

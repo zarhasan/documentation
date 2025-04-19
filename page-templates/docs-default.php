@@ -1,8 +1,4 @@
 <?php
-/**
- * Template Name: Docs (Default)
- *
- */
 
 get_header(); 
 
@@ -19,7 +15,7 @@ $faqs_query = new WP_Query([
 ?>
 
 <section class="bg-frost-100 py-16 mt-0 border-y border-frost-300">
-  <div class="container flex flex-col items-center justify-center gap-4">
+  <div class="x-container flex flex-col items-center justify-center gap-4">
     <h1 class="text-5xl font-medium text-frost-900 text-center">
       <?php echo !empty($theme_options['docs_page_title']) ? esc_html( $theme_options['docs_page_title'] ) : esc_html__('Documentation', 'documentation'); ?>
     </h1>
@@ -47,7 +43,7 @@ $faqs_query = new WP_Query([
   </div>
 </section>
 
-<section class="container mt-16"> 
+<section class="x-container mt-16"> 
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
     <?php foreach ($documents as $index => $document): $color = $colors[$index % count($colors)]; ?>
       <?php get_template_part('template-parts/docs-card', null, ['document' => $document, 'color' => $color]); ?>
@@ -56,7 +52,7 @@ $faqs_query = new WP_Query([
 </section>
 
 
-<div class="container">
+<div class="x-container">
   <div class="max-w-4xl mx-auto my-16 sm:my-24">
     <div class="">
         <h2 class="text-4xl text-center tracking-tight text-frost-900 sm:text-5xl">Frequently asked questions</h2>
